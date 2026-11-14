@@ -1,0 +1,39 @@
+Third-party software used by this website, and the terms it is used under.
+
+1. three.js r170 (three.module.min.js)
+   https://threejs.org
+   MIT License. Copyright (c) 2010-2024 three.js authors.
+
+2. Lenis (lenis.min.js)
+   https://github.com/darkroomengineering/lenis
+   MIT License. Copyright (c) 2024 darkroom.engineering.
+
+3. GSAP 3.13.0 with ScrollTrigger, SplitText, DrawSVGPlugin, ScrambleTextPlugin and CustomEase
+   https://gsap.com
+   Copyright 2025, GreenSock. All rights reserved.
+   Used under GSAP's standard "no charge" licence: https://gsap.com/standard-license
+
+The typefaces (assets/fonts) are under the SIL Open Font License 1.1; see OFL-Inter.txt and
+OFL-Freckle-Face.txt in that folder.
+
+------------------------------------------------------------------------------
+The MIT License (applies to items 1 and 2, each with its own copyright line above)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
