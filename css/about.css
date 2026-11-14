@@ -1,0 +1,246 @@
+/* ------------------------------------------------------------------ About
+   The firm told through the idea in its name, metamorphosis (about.html, js/about-way.js), with
+   the way in's butterfly as the one thing that moves through the page: met small by the name, held
+   beside the four stages, gone again at the end. Night screens for the butterfly and the thread,
+   paper for the screens that are read. The story comes at three lengths (js/about.js). */
+
+.ab-page {
+  --ab-night: #050709;
+  --ab-silver: #dfe3e8;
+  --ab-max: 1440px;
+}
+.ab-page, .ab-page body { background: var(--paper); }
+.ab-arriving .about { visibility: hidden; }
+
+/* the butterfly's canvas lies over the page; the words lie over it */
+.ab-fly { position: fixed; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity .2s linear; }
+.about > * { position: relative; }
+/* (each screen's words, by name, so the held screens keep their sticky place) */
+:is(.ab-open-words, .ab-story-main, .ab-decide > *, .ab-who-words, .ab-coins, .ab-end-line, .ab-end-ways) { position: relative; z-index: 2; }
+:is(.ab-cue, .ab-story-side, .ab-stages-pin, .ab-thread-pin) { z-index: 2; }
+.ab-slot { display: block; background: none; border: 0; padding: 0; }
+.ab-slot-open { cursor: pointer; }
+
+/* the thread of life (js/about-life.js): one line down the page, an svg laid over each part, under
+   the words and under the butterfly; silver on night, the pearls' grey on paper */
+.ab-life { position: absolute; inset: 0; z-index: 0; display: block; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+.ab-life-line { fill: none; stroke: var(--ab-silver); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.ab-life-tip { fill: #fff; opacity: 0; filter: drop-shadow(0 0 3px rgba(255, 255, 255, .9)); }
+.ab-story .ab-life-line { stroke: #8f99a2; stroke-width: 1.5; }
+.ab-story .ab-life-tip { fill: #5d666f; filter: none; }
+.ab-life-into { transition: opacity .3s linear; }
+
+.ab-night { background: var(--ab-night); color: #ece7dc; --fg: #ece7dc; --fg-soft: #9ca29c; --line: rgba(236, 231, 220, .14); --line-strong: rgba(236, 231, 220, .3); }
+
+/* the silk (js/about-silk.js): one ground behind the whole page, night and paper changing along its
+   folds, so no part has an edge. The parts lay their own grounds down while it runs; the nav's
+   pills take the tone of the ground under them. */
+.ab-silk { position: fixed; left: 0; top: 0; z-index: -1; display: block; width: 100%; height: 100lvh; pointer-events: none; }
+.has-silk.ab-page { background: var(--ab-night); }
+.has-silk.ab-page body, .has-silk .ab-night { background: transparent; }
+.has-silk.ab-page .nav { transition: color .7s var(--ease-out), opacity 1.2s var(--ease-out); }
+.about { color: var(--fg); }
+.about > section, .about > header { padding-inline: var(--gutter); }
+.ab-k { display: flex; gap: 14px; align-items: baseline; font-size: 14px; font-weight: 500; color: var(--fg-soft); }
+.ab-k span { font-family: var(--mono); font-size: 12px; font-weight: 400; }
+.ab-h { font-family: var(--head); font-stretch: 70%; font-weight: 500; font-size: clamp(64px, 9vw, 150px); line-height: .88; letter-spacing: var(--t-d); }
+.ab-h em, .ab-end-line em, .ab-q-t em { font-stretch: 80%; font-weight: var(--accent-weight); }
+
+/* ---- 01 the name: the butterfly met small, and the name made out of Mother map */
+.ab-open { min-height: 100svh; display: grid; grid-template-columns: minmax(220px, 26vw) minmax(0, 1fr); column-gap: clamp(24px, 3vw, 56px); align-items: center; align-content: center; padding-top: var(--nav-h); padding-bottom: 72px; }
+.ab-slot-open { align-self: center; width: 100%; aspect-ratio: 1.45; }
+.ab-open-words { min-width: 0; }
+.ab-word-wrap { margin: 6px 0 clamp(28px, 5vh, 52px); }
+/* (sized to its column: Mother map, its widest form, is about five of these wide) */
+.ab-word { position: relative; margin-left: -.03em; font-family: var(--head); font-stretch: 74%; font-weight: 500; font-size: clamp(56px, calc((100vw - 2 * var(--gutter) - 26vw - 3vw) / 5.1), 240px); line-height: .84; letter-spacing: var(--t-d); white-space: nowrap; user-select: none; }
+.ab-l { display: inline-block; }
+.ab-word-ghost { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; }
+.ab-word-ghost span { display: inline-block; }
+.ab-word-note { margin-top: clamp(14px, 2.4vh, 24px); font-family: var(--accent); font-style: italic; font-stretch: 80%; font-weight: var(--accent-weight); font-size: clamp(17px, 1.4vw, 22px); color: var(--fg-soft); opacity: 0; translate: 0 8px; transition: opacity 1s var(--ease-out), translate 1s var(--ease-out); font-size-adjust: var(--accent-adjust); }
+.ab-word-note.is-on { opacity: 1; translate: 0 0; }
+.ab-word-from { color: var(--fg); }
+.ab-lead { max-width: 17em; font-family: var(--head); font-stretch: 76%; font-weight: 460; font-size: clamp(28px, 3vw, 50px); line-height: 1.06; letter-spacing: var(--t-l); }
+.ab-lead .g { display: inline-block; }
+.ab-lead .ab-run { white-space: nowrap; }
+.ab-cue { position: absolute; right: var(--gutter); bottom: 36px; font-size: 13px; color: var(--fg-soft); }
+
+/* ---- 02 our story: pale until it is reached, then inked */
+.ab-story { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 2.2fr); column-gap: clamp(28px, 5vw, 96px); max-width: var(--ab-max); margin-inline: auto; padding-top: clamp(96px, 16vh, 180px); padding-bottom: clamp(96px, 16vh, 180px); }
+.ab-story-side { align-self: start; position: sticky; top: calc(var(--nav-h) + 40px); display: grid; gap: 28px; }
+.ab-dial { display: grid; gap: 10px; opacity: 0; translate: 0 10px; transition: opacity 1s var(--ease-out), translate 1s var(--ease-out); }
+.ab-dial.is-in { opacity: 1; translate: 0 0; }
+.ab-dial-q { font-family: var(--accent); font-style: italic; font-stretch: 80%; font-size: 22px; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.ab-dial-opts { position: relative; display: flex; gap: 22px; }
+.ab-dial-opts button, .ab-bar button { position: relative; padding: 6px 0; font-size: 14px; color: var(--fg-soft); transition: color .4s var(--ease-out); }
+.ab-dial-opts button:hover, .ab-bar button:hover, .ab-dial-opts button[aria-pressed="true"], .ab-bar button[aria-pressed="true"] { color: var(--fg); }
+.ab-dial-mark { position: absolute; left: 0; bottom: 2px; width: 0; height: 1px; background: var(--fg); pointer-events: none; }
+.ab-dial-n { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); font-variant-numeric: tabular-nums; }
+.ab-story-main .ab-h { margin-bottom: clamp(32px, 6vh, 64px); }
+/* (in the text face, over the display face the headings block gives every .ab-sec .ab-text) */
+.ab-story .ab-story-text { max-width: 30em; font-family: var(--serif); font-stretch: 100%; font-weight: 400; letter-spacing: 0; }
+.ab-story .ab-story-text[data-d="1"] { font-size: clamp(24px, 2.2vw, 36px); line-height: 1.3; letter-spacing: -.008em; }
+.ab-story .ab-story-text[data-d="2"] { font-size: clamp(20px, 1.7vw, 28px); line-height: 1.4; }
+.ab-story .ab-story-text[data-d="3"] { font-size: clamp(18px, 1.35vw, 22px); line-height: 1.55; }
+.ab-text .g { display: inline-block; }
+.ab-text .ab-run { white-space: nowrap; }
+/* unread words are the ink, faint (not a fixed pale grey), so they hold on any light of the silk */
+.ab-story-text .g { color: rgba(22, 32, 27, .2); transition: color .45s var(--ease-out); }
+.ab-story-text .g.is-read { color: var(--fg); }
+.ab-story-text .g.l2.is-read { color: #46504a; }
+.ab-story-text .g.l3.is-read { color: #5d6660; }
+.ab-story-text .it { font-style: italic; }
+.ab-more { margin-top: 36px; display: inline-flex; align-items: baseline; gap: 10px; padding-bottom: 5px; font-size: 14px; border-bottom: 1px solid var(--line-strong); transition: border-color .4s var(--ease-out); }
+.ab-more:hover { border-color: var(--fg); }
+.ab-more-n { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+
+/* ---- 03 the four stages: held still while the butterfly goes through its own */
+.ab-stages { height: 420svh; }
+.ab-stages-pin { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-rows: auto 1fr auto; column-gap: clamp(24px, 4vw, 72px); max-width: var(--ab-max); margin-inline: auto; padding: calc(var(--nav-h) + 40px) 0 52px; }
+.ab-stages-pin > .ab-k { grid-column: 1; }
+.ab-stage-list { grid-column: 1; grid-row: 2; position: relative; list-style: none; align-self: center; }
+.ab-stage { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; opacity: 0; visibility: hidden; transition: opacity .6s var(--ease-out), visibility 0s .6s; }
+.ab-stage.is-on { opacity: 1; visibility: visible; transition: opacity .7s var(--ease-out) .05s, visibility 0s; }
+.ab-stage-no { font-family: var(--mono); font-size: 13px; color: var(--fg-soft); }
+.ab-stage-name { margin-top: 10px; font-family: var(--head); font-stretch: 70%; font-weight: 500; font-size: clamp(72px, 8.6vw, 140px); line-height: .9; letter-spacing: var(--t-d); }
+.ab-stage-prac { margin-top: 26px; font-size: 16px; font-weight: 500; }
+.ab-stage-line { max-width: 17em; margin-top: 10px; font-family: var(--head); font-stretch: 78%; font-weight: 460; font-size: clamp(24px, 2.2vw, 36px); line-height: 1.12; letter-spacing: var(--t-l); }
+.ab-stage .ab-stage-name, .ab-stage .ab-stage-line { translate: 0 18px; transition: translate .9s var(--ease-out); }
+.ab-stage.is-on .ab-stage-name, .ab-stage.is-on .ab-stage-line { translate: 0 0; }
+.ab-stage-idx { grid-column: 1; grid-row: 3; display: flex; border-top: 1px solid var(--line-strong); }
+.ab-stage-idx button { position: relative; flex: 1; padding: 14px 10px 0 0; text-align: left; font-size: 14px; color: var(--fg-soft); transition: color .4s var(--ease-out); }
+.ab-stage-idx button i { display: block; margin-bottom: 4px; font-family: var(--mono); font-style: normal; font-size: 11.5px; }
+.ab-stage-idx button::before { content: ""; position: absolute; left: 0; right: 18px; top: -1px; height: 2px; background: var(--fg); transform: scaleX(var(--p, 0)); transform-origin: 0 50%; }
+.ab-stage-idx button:hover, .ab-stage-idx button.is-on { color: var(--fg); }
+.ab-slot-stages { grid-column: 2; grid-row: 1 / -1; align-self: stretch; }
+
+/* ---- 04 the practice: the thread it is all spun from, wound into the cocoon a turn a year
+   (js/about-life.js), the count beside it */
+.ab-thread { height: 240svh; }
+.ab-thread-pin { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; column-gap: clamp(24px, 4vw, 72px); max-width: var(--ab-max); margin-inline: auto; padding-top: var(--nav-h); }
+.ab-thread-words .ab-h { margin: 18px 0 30px; font-size: clamp(56px, 7vw, 116px); }
+.ab-thread-text { max-width: 28em; font-family: var(--serif); font-size: clamp(17px, 1.3vw, 21px); line-height: 1.55; color: #cfcac0; letter-spacing: var(--t-m); }
+.ab-spool { position: relative; width: min(74vh, 100%); aspect-ratio: 1; justify-self: center; margin: 0; }
+.ab-spool-svg { width: 100%; height: 100%; overflow: visible; }
+.ab-spool-ghost { fill: none; stroke: rgba(223, 227, 232, .09); stroke-width: .28; }
+.ab-spool-line { fill: none; stroke: var(--ab-silver); stroke-width: .42; stroke-linecap: round; }
+.ab-spool-tip { fill: #fff; filter: drop-shadow(0 0 2px rgba(255, 255, 255, .9)); }
+.ab-spool-c { position: absolute; left: 66%; top: 50%; translate: 0 -50%; display: grid; justify-items: start; text-align: left; pointer-events: none; }
+.ab-spool-c span { max-width: 9em; }
+.ab-spool-n { font-family: var(--head); font-stretch: 70%; font-weight: 500; font-size: clamp(64px, 7vw, 120px); line-height: .9; font-variant-numeric: tabular-nums; letter-spacing: var(--t-d); }
+.ab-spool-c span { margin-top: 6px; font-size: 13px; color: var(--fg-soft); }
+
+/* ---- 05 how we decide: one sentence on the thread, a pearl per clause */
+.ab-decide { max-width: var(--ab-max); margin-inline: auto; padding-top: clamp(96px, 16vh, 170px); padding-bottom: clamp(96px, 16vh, 170px); }
+.ab-decide-in { position: relative; margin-top: clamp(32px, 6vh, 64px); }
+.ab-decide-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+.ab-decide-ghost { fill: none; stroke: rgba(22, 32, 27, .1); stroke-width: 1.2; }
+.ab-decide-line { fill: none; stroke: #8f99a2; stroke-width: 1.6; stroke-linecap: round; }
+.ab-pearl { fill: url(#ab-pearl-g); stroke: #59616a; stroke-width: 1.2; transition: r .5s var(--ease-out); }
+.ab-pearl.is-off { fill: var(--paper); stroke: rgba(22, 32, 27, .2); }
+.ab-pearl.is-lit { r: 14; }
+.ab-clauses { position: relative; z-index: 1; list-style: none; display: grid; gap: clamp(22px, 4vh, 44px); }
+.ab-clause { width: calc(50% - 64px); cursor: default; opacity: .18; translate: 0 14px; transition: opacity .7s var(--ease-out), translate .8s var(--ease-out); }
+.ab-clause[data-side="l"] { text-align: right; }
+.ab-clause[data-side="r"] { margin-left: calc(50% + 64px); }
+.ab-clause.is-on { opacity: 1; translate: 0 0; }
+.ab-clause b { display: block; font-family: var(--head); font-stretch: 72%; font-weight: 500; font-size: clamp(36px, 4vw, 64px); line-height: 1; letter-spacing: var(--t-d); transition: color .4s var(--ease-out); }
+.ab-clause span { display: block; margin-top: 10px; font-size: 15.5px; line-height: 1.45; color: var(--fg-soft); }
+.ab-decide-in.has-lit .ab-clause.is-on:not(.is-lit) b { color: #a9b0ab; }
+
+/* ---- 06 who: the two questions, and the founders' coins */
+.ab-who { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(24px, 4vw, 72px); align-items: center; max-width: none; padding-top: clamp(110px, 18vh, 200px); padding-bottom: clamp(110px, 18vh, 200px); }
+.ab-who-words, .ab-coins { max-width: 680px; }
+.ab-who-words { justify-self: end; width: 100%; }
+.ab-qs { list-style: none; display: grid; gap: clamp(26px, 5vh, 48px); margin-top: 28px; }
+.ab-q { display: grid; gap: 8px; opacity: 0; translate: 0 22px; transition: opacity 1.1s var(--ease-out), translate 1.2s var(--ease-out); }
+.ab-q.is-in { opacity: 1; translate: 0 0; }
+.ab-q-n { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.ab-q-t { max-width: 12em; font-family: var(--head); font-stretch: 72%; font-weight: 500; font-size: clamp(38px, 4.2vw, 70px); line-height: .98; letter-spacing: var(--t-d); text-wrap: balance; }
+.ab-who-text { max-width: 30em; margin-top: 40px; font-family: var(--serif); font-size: 17px; line-height: 1.55; color: #cfcac0; letter-spacing: var(--t-s); }
+.ab-who-team { display: inline-block; margin-top: 22px; padding-bottom: 4px; font-size: 14px; border-bottom: 1px solid var(--line-strong); }
+.ab-who-team::after { content: " →"; }
+.ab-coins { display: flex; flex-wrap: wrap; align-items: flex-start; gap: clamp(20px, 3vw, 44px); justify-content: center; }
+.ab-coin { width: clamp(180px, 17vw, 280px); aspect-ratio: 1; perspective: 900px; }
+.ab-coin:nth-child(2) { margin-top: clamp(40px, 9vh, 110px); }
+.ab-coin-in { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 1.1s var(--ease-out); }
+.ab-coin[aria-pressed="true"] .ab-coin-in { transform: rotateY(180deg); }
+.ab-coin:hover .ab-coin-in { transform: rotateY(14deg) rotateX(-6deg); }
+.ab-coin[aria-pressed="true"]:hover .ab-coin-in { transform: rotateY(194deg) rotateX(-6deg); }
+.ab-coin-face { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 6px; border-radius: 50%; backface-visibility: hidden; color: #26292d; background: radial-gradient(circle at 34% 28%, #fbfbfc 0%, #d9dde2 30%, #9aa1a8 70%, #5d646b 100%); box-shadow: inset 0 0 0 7px rgba(255, 255, 255, .28), inset 0 0 0 9px rgba(0, 0, 0, .22), inset 0 -18px 40px rgba(0, 0, 0, .22), 0 36px 60px -30px rgba(0, 0, 0, .85); overflow: hidden; }
+.ab-coin-back { transform: rotateY(180deg); }
+.ab-coin-rings { position: absolute; inset: 7%; width: 86%; height: 86%; opacity: .5; }
+.ab-coin-rings path { fill: none; stroke: #4b5158; stroke-width: .5; }
+.ab-coin-face b { position: relative; font-family: 'Ibarra Real Nova', var(--head); font-weight: 600; font-size: clamp(28px, 2.6vw, 42px); line-height: 1; }
+.ab-coin-face i { position: relative; font-style: normal; font-size: 12px; color: #464b51; }
+/* struck as the team's coins are (js/coin.js): a canvas a little larger than the coin, for its tilt and shadow */
+.ab-coin.is-struck { position: relative; width: clamp(200px, 18vw, 300px); aspect-ratio: 1; perspective: none; }
+.ab-coin-gl { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+.ab-coin-cap { position: absolute; left: 0; right: 0; top: 92%; display: grid; justify-items: center; gap: 3px; text-align: center; pointer-events: none; }
+.ab-coin-name { font-family: var(--serif); font-size: 19px; color: var(--fg); letter-spacing: var(--t-m); }
+.ab-coin-role { font-size: 12.5px; color: var(--fg-soft); }
+.ab-coin-gl:focus-visible { outline: 2px solid var(--fg); outline-offset: -6%; border-radius: 50%; }
+
+/* ---- 07 the end */
+.ab-end { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-rows: 1fr auto auto 1fr; column-gap: 40px; padding-top: var(--nav-h); padding-bottom: 72px; }
+.ab-slot-end { grid-column: 2; grid-row: 1 / span 3; align-self: center; aspect-ratio: 1.45; }
+.ab-end-line { grid-column: 1; grid-row: 2; max-width: 10em; text-wrap: balance; font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 6vw, 108px); line-height: .98; letter-spacing: var(--t-d); }
+.ab-end-ways { grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+.ab-night .btn-solid { background: #ece7dc; color: var(--ab-night); }
+.ab-night .btn-line { border-color: rgba(236, 231, 220, .35); color: #ece7dc; }
+
+/* the length bar the old page kept at the foot of the screen: the lengths now apply only to the
+   story, whose own question stays beside it while it is read, so the bar is not shown */
+.ab-bar { display: none !important; }
+.ab-bar { position: fixed; left: var(--gutter); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 15; display: flex; align-items: center; gap: 22px; padding: 4px 22px; background: var(--paper); color: #16201b; --fg: #16201b; --fg-soft: #56615b; border: 1px solid rgba(22, 32, 27, .2); border-radius: 2px; box-shadow: 0 12px 32px rgba(0, 0, 0, .18); translate: 0 16px; opacity: 0; visibility: hidden; transition: opacity .5s var(--ease-out), translate .6s var(--ease-out), visibility 0s .6s; }
+.ab-bar.is-on { opacity: 1; visibility: visible; translate: 0 0; transition: opacity .5s var(--ease-out), translate .6s var(--ease-out), visibility 0s; }
+.ab-bar-q { font-size: 13px; color: var(--fg-soft); }
+.ab-bar button { font-size: 14px; }
+.ab-bar button[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; background: currentColor; }
+
+/* words leaving a shorter version, fading where they stood */
+.ab-ghosts { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.ab-ghost { position: absolute; font-family: var(--serif); white-space: nowrap; }
+
+/* ------------------------------------------------------------------ phones and tablets upright */
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .ab-open { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; row-gap: 12px; padding-bottom: 80px; }
+  .ab-slot-open { width: min(78vw, 360px); justify-self: center; }
+  .ab-word { font-size: calc((100vw - 2 * var(--gutter)) / 5.02); }
+  .ab-lead { font-size: clamp(24px, 6.6vw, 34px); }
+  .ab-story { grid-template-columns: 1fr; row-gap: 32px; }
+  .ab-story-side { position: static; }
+  .ab-stages { height: 400svh; }
+  .ab-stages-pin { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto auto; padding-top: calc(var(--nav-h) + 20px); padding-bottom: 32px; }
+  .ab-slot-stages { grid-column: 1; grid-row: 2; }
+  .ab-stage-list { grid-row: 3; align-self: start; min-height: 230px; margin-top: 8px; }
+  .ab-stage { top: 0; translate: 0 0; }
+  .ab-stage-name { font-size: clamp(54px, 15vw, 80px); }
+  .ab-stage-prac { margin-top: 14px; }
+  .ab-stage-line { font-size: clamp(20px, 5.4vw, 26px); }
+  .ab-stage-idx { grid-row: 4; }
+  .ab-stage-idx button { font-size: 12px; padding-right: 4px; }
+  .ab-thread { height: 200svh; }
+  .ab-thread-pin { grid-template-columns: 1fr; align-content: center; row-gap: 20px; padding-top: calc(var(--nav-h) + 12px); }
+  .ab-spool { width: min(64vw, 40vh); grid-row: 1; }
+  .ab-thread-words .ab-h { margin: 12px 0 16px; font-size: clamp(44px, 11vw, 64px); }
+  .ab-thread-text { font-size: 16px; }
+  .ab-clause, .ab-clause[data-side="r"] { width: auto; margin-left: 44px; text-align: left; }
+  .ab-clause[data-side="l"] { text-align: left; }
+  .ab-clause b { font-size: clamp(30px, 8.4vw, 42px); }
+  .ab-who { grid-template-columns: 1fr; row-gap: 56px; }
+  .ab-who-words { justify-self: start; }
+  .ab-coin { width: min(40vw, 190px); }
+  .ab-coin.is-struck { width: min(42vw, 190px); }
+  .ab-coins:has(.is-struck) { gap: 10px; flex-wrap: nowrap; }
+  .ab-coin-name { font-size: 17px; }
+  .ab-end { grid-template-columns: 1fr; grid-template-rows: auto auto auto; align-content: center; row-gap: 20px; }
+  .ab-slot-end { grid-column: 1; grid-row: 1; width: min(70vw, 320px); justify-self: end; }
+  .ab-end-line { grid-row: 2; }
+  .ab-end-ways { grid-row: 3; margin-top: 12px; }
+  .ab-bar { left: 12px; right: 12px; justify-content: space-between; gap: 12px; padding: 4px 16px; }
+  .ab-bar button { font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ab-stage, .ab-stage .ab-stage-name, .ab-stage .ab-stage-line, .ab-clause, .ab-coin-in, .ab-story-text .g { transition: none; }
+}
