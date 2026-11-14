@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" class="ab-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>About · Metamorph Capital</title>
+  <meta name="description" content="Metamorph is an investment banking and advisory firm for founders in the middle of becoming, backed by a chartered accountancy practice with thirty years of signed accounts.">
+  <meta name="theme-color" content="#06070a">
+  <link rel="icon" href="data:,">
+  <script>
+    // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
+    if (/[?&]type=old\b/.test(location.search)) {
+      document.documentElement.classList.add('type-old');
+      document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&family=Noto+Serif:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&display=swap">');
+    }
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is
+    // hidden and stops drawing frames.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+    // the page is set at the length last chosen before it paints (js/about.js); without the
+    // script every word shows
+    document.documentElement.classList.add('ab-arriving');
+    setTimeout(() => document.documentElement.classList.remove('ab-arriving'), 3000);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="modulepreload" href="assets/vendor/three.module.min.js">
+</head>
+<body>
+  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
+       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
+  <header class="nav" data-tone="ink">
+    <div class="nav-pill">
+      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+      <a class="wordmark" href="index.html">Metamorph</a>
+      <nav class="links" aria-label="Main">
+        <a href="about.html" aria-current="page">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="sectors.html">Sectors</a>
+        <a href="index.html#team">Team</a>
+        <a href="creative.html">Creative corner</a>
+        <a href="#investors" data-soon>Investor corner</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+    </div>
+  </header>
+
+  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
+  <nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="about.html" aria-current="page">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="sectors.html">Sectors</a>
+    <a href="index.html#team">Team</a>
+    <a href="creative.html">Creative corner</a>
+    <a href="#investors" data-soon>Investor corner</a>
+    <a href="#contact" data-soon>Contact</a>
+  </nav>
+
+  <!-- About (js/about-page.js, js/about.js, js/about-way.js): the firm told through the one idea in
+       its name, metamorphosis, with the butterfly from the way in (js/emerge-scene.js) as the thing
+       that moves through the page. Every screen is there for a reason:
+       - The name: the butterfly met small, and Metamorph made out of Mother map.
+       - Our story: the founders' conviction, inked word by word as it is read, at three lengths.
+       - What we do: the four stages of a metamorphosis, a practice for each; the butterfly is held
+         beside them and goes through its own stages as you scroll.
+       - The practice behind us: the thread it is all spun from, wound into a cocoon a turn for each
+         of thirty years. That thread runs down the whole page (js/about-life.js): an egg by the
+         name, the caterpillar beside the story, the cocoon here, a pair of wings at the end.
+       - How we decide: the values as one sentence strung on that thread, a pearl per clause.
+       - Who we are: the founders' two questions, and their coins.
+       - The end: the butterfly takes off.
+       The copy is written here. Inside each .ab-text, <span data-l="2"> is what the middle length
+       adds and <span data-l="3"> what the longest adds; everything outside them is the short one. -->
+
+  <!-- the butterfly: one canvas over the page, placed by js/about-way.js -->
+  <canvas class="ab-fly" aria-hidden="true"></canvas>
+
+  <main class="about" id="top">
+
+    <!-- 01 the name -->
+    <header class="ab-open ab-night" data-sky="night">
+      <button class="ab-slot ab-slot-open" type="button" aria-label="The butterfly: tap it and it beats its wings"></button>
+      <div class="ab-open-words">
+        <p class="eyebrow">About Metamorph</p>
+        <div class="ab-word-wrap">
+          <p class="ab-word" aria-label="Metamorph"></p>
+          <p class="ab-word-note"><span class="ab-word-from">Mother map,</span> rearranged. The same nine letters, in a new form.</p>
+        </div>
+        <h1 class="ab-text ab-lead">A living thing that has gone through a complete change. We work with companies in the middle of theirs.</h1>
+      </div>
+      <p class="ab-cue" aria-hidden="true">Scroll</p>
+    </header>
+
+    <!-- 02 our story: inked as it is read -->
+    <section class="ab-sec ab-story" aria-labelledby="ab-s-story">
+      <div class="ab-story-side">
+        <p class="ab-k">02</p>
+        <div class="ab-dial" role="group" aria-labelledby="ab-dial-q">
+          <p class="ab-dial-q" id="ab-dial-q">How long have you got?</p>
+          <div class="ab-dial-opts">
+            <button type="button" data-depth="1" aria-pressed="true">20 seconds</button>
+            <button type="button" data-depth="2" aria-pressed="false">1 minute</button>
+            <button type="button" data-depth="3" aria-pressed="false">3 minutes</button>
+            <span class="ab-dial-mark" aria-hidden="true"></span>
+          </div>
+          <p class="ab-dial-n"><span class="ab-words">70</span> words</p>
+        </div>
+      </div>
+      <div class="ab-story-main">
+        <h2 class="ab-h" id="ab-s-story">Our story</h2>
+        <p class="ab-text ab-story-text">Capital, debt and taxes have stayed with people since time immemorial. Wars have been won on them, families broken and societies structured by how they were handled. It is far easier to make wealth than to keep it.<span data-l="2"> Our parents’ generation was mostly not born with wealth. They built it as the economy opened, and kept it with sanskaar, the values you are raised inside.</span> Metamorph grew out of a chartered accountancy practice with thirty years of signed accounts<span data-l="2">, and was founded by Ritvik and Gurleen to stand beside founders who are driven, hungry and growing</span>.<span data-l="3"> Money is a double-edged sword: it builds, and it brings out greed. We believe in wealth and despise the unhinged chase for it. Every empire that stops growing starts declining, so we work where there is growth, ambition and a right conscience, and we would rather advise fewer companies well than many quickly.</span></p>
+        <button class="ab-more" type="button"><span class="ab-more-t">More on this</span> <span class="ab-more-n"></span></button>
+      </div>
+    </section>
+
+    <!-- 03 what we do, in four stages; the butterfly is held beside them -->
+    <section class="ab-stages ab-night" aria-labelledby="ab-s-do" data-sky="night">
+      <div class="ab-stages-pin">
+        <p class="ab-k" id="ab-s-do"><span>03</span> What we do, in four stages</p>
+        <ol class="ab-stage-list">
+          <li class="ab-stage" data-stage="0">
+            <p class="ab-stage-no">01 of 04</p>
+            <h3 class="ab-stage-name">Spun</h3>
+            <p class="ab-stage-prac">Fundraising and investor readiness</p>
+            <p class="ab-stage-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread.</p>
+          </li>
+          <li class="ab-stage" data-stage="1">
+            <p class="ab-stage-no">02 of 04</p>
+            <h3 class="ab-stage-name">The cocoon</h3>
+            <p class="ab-stage-prac">Strategic consulting</p>
+            <p class="ab-stage-line">We sharpen strategy for founders growing faster than their plans: the few decisions made inside, before the change shows.</p>
+          </li>
+          <li class="ab-stage" data-stage="2">
+            <p class="ab-stage-no">03 of 04</p>
+            <h3 class="ab-stage-name">The change</h3>
+            <p class="ab-stage-prac">Financial services</p>
+            <p class="ab-stage-line">We keep the numbers honest while everything changes: accounts, tax, compliance, and a structure that still makes sense at ten times the size.</p>
+          </li>
+          <li class="ab-stage" data-stage="3">
+            <p class="ab-stage-no">04 of 04</p>
+            <h3 class="ab-stage-name">Flight</h3>
+            <p class="ab-stage-prac">Wealth management</p>
+            <p class="ab-stage-line">We help wealth last, through a multi-family office for founders and their families, planned for the generation after this one.</p>
+          </li>
+        </ol>
+        <div class="ab-stage-idx" role="group" aria-label="The four stages">
+          <button type="button" data-go="0"><i>01</i>Spun</button>
+          <button type="button" data-go="1"><i>02</i>The cocoon</button>
+          <button type="button" data-go="2"><i>03</i>The change</button>
+          <button type="button" data-go="3"><i>04</i>Flight</button>
+        </div>
+        <div class="ab-slot ab-slot-stages" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 04 the practice behind us: the thread it is all spun from -->
+    <section class="ab-thread ab-night" aria-labelledby="ab-s-thread" data-sky="night">
+      <div class="ab-thread-pin">
+        <div class="ab-thread-words">
+          <p class="ab-k"><span>04</span> The practice behind us</p>
+          <h2 class="ab-h" id="ab-s-thread">The thread it is all <em>spun from.</em></h2>
+          <p class="ab-thread-text">Behind every number we give you is a chartered accountancy practice with thirty years of signed accounts. Metamorph grew out of it: three decades of audits, tax and balance sheets for Indian businesses, the exact work that shows what a company is really worth.</p>
+        </div>
+        <figure class="ab-spool" aria-hidden="true">
+          <svg class="ab-spool-svg" viewBox="-100 -100 200 200"><path class="ab-spool-ghost"/><path class="ab-spool-line"/><circle class="ab-spool-tip" r="1.4"/></svg>
+          <figcaption class="ab-spool-c"><b class="ab-spool-n">0</b><span>years of signed accounts</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 05 how we decide: one sentence on the thread -->
+    <section class="ab-decide" aria-labelledby="ab-s-decide">
+      <p class="ab-k" id="ab-s-decide"><span>05</span> How we decide</p>
+      <div class="ab-decide-in">
+        <svg class="ab-decide-svg" aria-hidden="true"><path class="ab-decide-ghost"/><path class="ab-decide-line"/><g class="ab-pearls"></g></svg>
+        <ol class="ab-clauses">
+          <li class="ab-clause" data-side="l"><b>We take it on</b><span>only when every condition below is met.</span></li>
+          <li class="ab-clause" data-side="r"><b>if we can add what no one else brings,</b><span>the first of the founders’ two questions, asked before anything begins;</span></li>
+          <li class="ab-clause" data-side="l"><b>if it pulls at us, like a calling,</b><span>the second. Without both, we say no;</span></li>
+          <li class="ab-clause" data-side="r"><b>with a greed-less conscience,</b><span>saying no when the fee is the only reason to say yes;</span></li>
+          <li class="ab-clause" data-side="l"><b>after reading the business, not the deck,</b><span>an in-depth evaluation, the books before the pitch;</span></li>
+          <li class="ab-clause" data-side="r"><b>for the generation after this one.</b><span>It is far easier to make wealth than to keep it.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 06 who we are: the two questions, and the founders' coins -->
+    <section class="ab-who ab-night" aria-labelledby="ab-s-who" data-sky="night">
+      <div class="ab-who-words">
+        <p class="ab-k" id="ab-s-who"><span>06</span> Who we are</p>
+        <ol class="ab-qs">
+          <li class="ab-q"><span class="ab-q-n">The first question</span><span class="ab-q-t">What can we add that no one else <em>brings?</em></span></li>
+          <li class="ab-q"><span class="ab-q-n">The second</span><span class="ab-q-t">Does it pull at us, like a <em>calling?</em></span></li>
+        </ol>
+        <p class="ab-who-text">Metamorph was founded by Ritvik and Gurleen, who ask both before they begin anything. Their own reasons for starting it, and the fear they started it against, are theirs to tell, and will be here in their words.</p>
+        <a class="ab-who-team" href="index.html#team">Meet the whole team</a>
+      </div>
+      <div class="ab-coins">
+        <button class="ab-coin" type="button" aria-pressed="false" aria-label="Ritvik, founder. Turn the coin over">
+          <span class="ab-coin-in">
+            <span class="ab-coin-face"><svg class="ab-coin-rings" viewBox="-100 -100 200 200" aria-hidden="true"></svg><b>Ritvik</b><i>Founder</i></span>
+            <span class="ab-coin-face ab-coin-back"><svg class="ab-coin-rings" viewBox="-100 -100 200 200" aria-hidden="true"></svg><i>In his own words</i><b>To come</b></span>
+          </span>
+        </button>
+        <button class="ab-coin" type="button" aria-pressed="false" aria-label="Gurleen, founder. Turn the coin over">
+          <span class="ab-coin-in">
+            <span class="ab-coin-face"><svg class="ab-coin-rings" viewBox="-100 -100 200 200" aria-hidden="true"></svg><b>Gurleen</b><i>Founder</i></span>
+            <span class="ab-coin-face ab-coin-back"><svg class="ab-coin-rings" viewBox="-100 -100 200 200" aria-hidden="true"></svg><i>In her own words</i><b>To come</b></span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 07 the end: the butterfly takes off -->
+    <section class="ab-end ab-night" aria-labelledby="ab-end" data-sky="night">
+      <div class="ab-slot ab-slot-end" aria-hidden="true"></div>
+      <h2 class="ab-end-line" id="ab-end">In the middle of becoming? <em>Talk to us.</em></h2>
+      <p class="ab-end-ways">
+        <a class="btn btn-solid" href="#contact" data-soon>Start a conversation</a>
+        <a class="btn btn-line" href="#deck" data-soon>Share your pitch deck</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- the length, kept to hand once the page's own question has scrolled away -->
+  <div class="ab-bar" role="group" aria-label="How long have you got?">
+    <span class="ab-bar-q">Length</span>
+    <button type="button" data-depth="1" aria-pressed="true">20 seconds</button>
+    <button type="button" data-depth="2" aria-pressed="false">1 minute</button>
+    <button type="button" data-depth="3" aria-pressed="false">3 minutes</button>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/about-page.js"></script>
+</body>
+</html>

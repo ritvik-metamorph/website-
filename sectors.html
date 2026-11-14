@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" class="sx-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sectors · Metamorph Capital</title>
+  <meta name="description" content="Twenty-seven ways of knowing against forty-eight ways of earning: the disciplines that decide how each sector of the Indian economy behaves, from Metamorph Capital's atlas.">
+  <meta name="theme-color" content="#f2f3ef">
+  <link rel="icon" href="data:,">
+  <script>
+    // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
+    if (/[?&]type=old\b/.test(location.search)) {
+      document.documentElement.classList.add('type-old');
+      document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&family=Noto+Serif:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&display=swap">');
+    }
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is
+    // hidden and stops drawing frames.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/sectors.css">
+</head>
+<body>
+  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
+       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
+  <header class="nav" data-tone="ink">
+    <div class="nav-pill">
+      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+      <a class="wordmark" href="index.html">Metamorph</a>
+      <nav class="links" aria-label="Main">
+        <a href="about.html">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="sectors.html" aria-current="page">Sectors</a>
+        <a href="index.html#team">Team</a>
+        <a href="creative.html">Creative corner</a>
+        <a href="#investors" data-soon>Investor corner</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+    </div>
+  </header>
+
+  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
+  <nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="about.html">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="sectors.html" aria-current="page">Sectors</a>
+    <a href="index.html#team">Team</a>
+    <a href="creative.html">Creative corner</a>
+    <a href="#investors" data-soon>Investor corner</a>
+    <a href="#contact" data-soon>Contact</a>
+  </nav>
+
+  <!-- Sectors (js/sectors-page.js, js/sectors.js; the grid is js/atlas-data.js, the words
+       js/sectors-data.js, the ground js/sectors-silk.js): the founder's grid, "Twenty-Seven into
+       Forty-Eight", woven as a loom on the night silk.
+       - The loom: twenty-seven threads of knowledge across, forty-eight threads of industry down,
+         tied in a knot wherever a discipline decides how a sector behaves, in the ink of the force
+         it exerts. Left alone it reads itself, a sector at a time; under the cursor it shows any
+         knot's use and effect.
+       - Then, by turns on the paper and the night: the forty-eight by family, the founder's
+         findings, where Metamorph has worked (once the client says), and the way to talk.
+       - A sector (sectors.html#banking): its name on the night, then its levers and its thread
+         beside the words, and the rest of the Notion's "Narrative Page" as Metamorph supplies it
+         (NARRATIVE in js/sectors-data.js). -->
+  <main class="sx" id="top">
+
+    <section class="sx-index" aria-labelledby="sx-title">
+      <!-- the night: the opening, and the loom -->
+      <div class="sx-part sx-night sx-loom">
+        <div class="sx-wrap">
+          <header class="sx-open">
+            <p class="eyebrow">Sectors</p>
+            <h1 class="sx-title" id="sx-title">Twenty-seven ways of knowing against <em>forty‑eight</em> ways of earning.</h1>
+            <p class="sx-lead">Woven as the founder reads it: a knot wherever a discipline decides how a sector behaves. Most of the cloth is plain, on purpose: a discipline that touches everything touches nothing.</p>
+          </header>
+
+          <div class="sx-bar">
+            <div class="sx-key" role="group" aria-label="Show one kind of force"></div>
+            <p class="sx-count"></p>
+          </div>
+
+          <figure class="sx-grid" aria-label="The loom: disciplines across, sectors down">
+            <div class="sx-plot"></div>
+            <figcaption class="sx-reading" aria-live="polite"></figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="sx-card" aria-hidden="true"></div>
+
+      <!-- the paper: the forty-eight, by family, each with its own thread -->
+      <section class="sx-part sx-fams" aria-labelledby="sx-fams-h">
+        <div class="sx-wrap">
+          <h2 class="sx-h2" id="sx-fams-h">The forty‑eight, <em>by family</em></h2>
+          <p class="sx-h-note">Each with its own thread from the loom, knotted where it is decided.</p>
+          <div class="sx-fam-list"></div>
+        </div>
+      </section>
+
+      <!-- the night: what falls out of the grid -->
+      <section class="sx-part sx-night sx-finds" aria-labelledby="sx-finds-h">
+        <div class="sx-wrap">
+          <h2 class="sx-h2" id="sx-finds-h">What falls out of <em>the grid</em></h2>
+          <p class="sx-h-note">Read as a whole, from the founder’s atlas.</p>
+          <div class="sx-find-list"></div>
+        </div>
+      </section>
+
+      <!-- the paper: where Metamorph has worked, shown once WORKED in js/sectors-data.js has it -->
+      <section class="sx-part sx-worked" aria-labelledby="sx-worked-h" hidden>
+        <div class="sx-wrap">
+          <h2 class="sx-h2" id="sx-worked-h">Where we have <em>worked</em></h2>
+          <ul class="sx-worked-list"></ul>
+        </div>
+      </section>
+
+      <!-- the night: the way to talk -->
+      <section class="sx-part sx-night sx-end" aria-labelledby="sx-end-h">
+        <div class="sx-wrap">
+          <h2 class="sx-end-line" id="sx-end-h">Building in one of these? <em>Talk to us.</em></h2>
+          <p class="sx-end-ways">
+            <a class="btn btn-solid" href="#contact" data-soon>Start a conversation</a>
+            <a class="btn btn-line" href="#deck" data-soon>Share your pitch deck</a>
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- a sector: its name on the night, then its page with its thread beside it (js/sectors.js) -->
+    <article class="sx-sector" aria-labelledby="sx-s-name" hidden></article>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/sectors-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Metamorph Capital</title>
+  <meta name="description" content="Investment banking and advisory for founders in the middle of becoming.">
+  <meta name="theme-color" content="#050706">
+  <link rel="icon" href="data:,">
+  <script>
+    // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
+    if (/[?&]type=old\b/.test(location.search)) {
+      document.documentElement.classList.add('type-old');
+      document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&family=Noto+Serif:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&display=swap">');
+    }
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is
+    // hidden and stops drawing frames.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+    // the theme: light unless asked (?theme=dark), and remembered. Set before anything paints.
+    (() => {
+      const q = new URLSearchParams(location.search).get('theme');
+      let t = q;
+      try { if (q) localStorage.setItem('mm-theme', q); else t = localStorage.getItem('mm-theme'); } catch (e) {}
+      document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light';
+    })();
+    // the hero's words wait for the orb to open alone (js/orb.js). If that script never runs, they
+    // come anyway.
+    document.documentElement.classList.add('entry');
+    window.wordsFallback = setTimeout(() => document.querySelector('.hero')?.classList.add('is-words'), 9000);
+    // the way in (js/emerge.js): the loading screen and its choice of version, once a visit.
+    // ?intro shows it again. If its script never runs, the page opens by itself.
+    (() => {
+      let seen = false;
+      try { seen = sessionStorage.getItem('mm-entered') === '1'; } catch (e) {}
+      if (seen && !/[?&]intro\b/.test(location.search)) return;
+      document.documentElement.classList.add('gate');
+      setTimeout(() => { if (!window.gateClaimed) document.documentElement.classList.remove('gate'); }, 6000);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="modulepreload" href="assets/vendor/three.module.min.js">
+  <link rel="modulepreload" href="js/orb.js">
+  <link rel="modulepreload" href="js/orb-scene.js">
+  <link rel="modulepreload" href="js/atlas-data.js">
+</head>
+<body>
+  <!-- The way in (js/emerge.js, drawn by js/emerge-scene.js): while the site loads, a cocoon of
+       silver net is spun round its pupa, then it opens and a butterfly unfurls out of the same net.
+       Then two ways in, and where to switch between them later. Once a visit. Its ground is the
+       silk (js/silk.js): light above, falling through a dawn blue into the night. -->
+  <div class="emerge" role="dialog" aria-modal="true" aria-labelledby="em-title" tabindex="-1">
+    <canvas class="em-silk" aria-hidden="true"></canvas>
+    <canvas class="em-gl" aria-hidden="true"></canvas>
+    <p class="em-mark" aria-hidden="true">Metamorph</p>
+    <p class="em-load"><span class="sr-only">Loading </span><span class="em-load-n">0</span><span aria-hidden="true">%</span></p>
+    <p class="em-drag" aria-hidden="true"><span class="for-mouse">Drag to turn it</span><span class="for-touch">Swipe to turn it</span></p>
+    <div class="em-ways">
+      <button class="em-way" type="button" data-way="ink">
+        <span class="em-word">Ink</span>
+        <span class="em-what">The simple version</span>
+        <span class="em-why">For a quick glance. Just the information.</span>
+      </button>
+      <button class="em-way" type="button" data-way="light">
+        <span class="em-word">Light</span>
+        <span class="em-what">The creative version</span>
+        <span class="em-why">For the whole experience. Take your time.</span>
+      </button>
+    </div>
+    <div class="em-foot">
+      <h2 class="em-title" id="em-title">Two ways in.</h2>
+      <p class="em-switch">Change your mind any time with <span class="em-key">Ink · Light</span>, at the top right.</p>
+    </div>
+  </div>
+
+  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
+       the menu (and the links, where they fit), the version switch in a pill of its own, and the one
+       thing to do in a solid pill apart. -->
+  <header class="nav" data-tone="light">
+    <div class="nav-pill">
+      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+      <a class="wordmark" href="#top" data-top>Metamorph</a>
+      <nav class="links" aria-label="Main">
+        <a href="about.html">About</a>
+        <a href="#services" data-services>Services</a>
+        <a href="sectors.html">Sectors</a>
+        <a href="#team" data-team>Team</a>
+        <a href="creative.html">Creative corner</a>
+        <a href="#investors" data-soon>Investor corner</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <div class="mode" role="group" aria-label="Version of this page">
+        <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
+        <span aria-hidden="true">·</span>
+        <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
+      </div>
+      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+    </div>
+  </header>
+
+  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
+  <nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="about.html">About</a>
+    <a href="#services" data-services>Services</a>
+    <a href="sectors.html">Sectors</a>
+    <a href="#team" data-team>Team</a>
+    <a href="creative.html">Creative corner</a>
+    <a href="#investors" data-soon>Investor corner</a>
+    <a href="#contact" data-soon>Contact</a>
+  </nav>
+
+  <main id="top">
+    <!-- The hero, four ways (10 Nov). The client found the light orb blurry and muddy, and somehow
+         not complete, and sent two videos they liked (a sculpture of rings made of thousands of
+         small covers; pictures turned to point clouds with trackers). Four heroes are stacked here
+         so they can be shown in one scroll and one chosen. Each is pinned for its own short story,
+         and each says which it is, top right.
+         1. The horizon (js/orb.js, js/orb-scene.js): the light orb, cut sharp, its centre on the
+            foot of the screen so the upper half of the orbits rises across the whole width.
+         2. The gathering (js/hero-gather.js): after the two videos. Grain gathers into the seven
+            orbits, stacked in the round; threads run from the disciplines up to the sectors.
+         3. The eyespot (js/hero-eyespot.js): the seven orbits as the eyespot on a butterfly's wing,
+            close enough to see every scale; the scroll draws back to the wing.
+         4. The emergence (js/hero-emergence.js): 2's look with 3's thinking, asked for the same day. The
+            orbits as a cocoon of grain on a thread open into a butterfly of the same grain, the
+            orbits settling as its eyespots, the grid's threads as its veins out to the 48 sectors.
+         (Earlier heroes, kept: the light orb as it was, backed up at
+         ~/Desktop/metamorph_backups/before-hero-variants-2026-11-10/; Seven inks in js/inks.js,
+         Layers of a life in js/aura.js, The Note in js/hero.js, the orrery in js/orrery.js.) -->
+    <div class="stage stage-1">
+      <section class="hero hero-horizon" aria-labelledby="hero-title">
+        <canvas class="hero-gl" aria-hidden="true"></canvas>
+        <div class="orb-labels" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h1 id="hero-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h1>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line orbits-btn" type="button">Explore the orbits</button>
+          </div>
+          <p class="proof">Backed by a 30-year chartered accountancy practice.</p>
+        </div>
+        <!-- an orbit, lifted: the left column becomes its caption -->
+        <div class="orbit-card" aria-hidden="true">
+          <p class="oc-ring"></p>
+          <p class="oc-name"></p>
+          <p class="oc-note"></p>
+          <p class="oc-discs"></p>
+          <p class="oc-foot"><span class="oc-hint">Click the orbit to open its metrics</span><button class="oc-open" type="button" tabindex="-1">Open</button></p>
+        </div>
+        <!-- the seven orbits as buttons: a key to the colours, and the way in from a keyboard -->
+        <div class="orb-key" role="group" aria-label="The seven orbits"></div>
+        <p class="orb-hint" aria-hidden="true"><span class="for-mouse">Seven orbits of a life. Hover one to read it.</span><span class="for-touch">Seven orbits of a life. Tap one to read it.</span></p>
+        <!-- what the scroll shows, said once each -->
+        <p class="orb-caption" aria-hidden="true">Seven orbits shape a life, from the ground of being out to the return. <em>Twenty-seven disciplines move within them.</em></p>
+        <p class="orb-caption" aria-hidden="true">Where they meet, an industry takes shape. <em>Forty-eight of them, each moved by its own few.</em></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 1 of 7</span> The horizon</p>
+      </section>
+    </div>
+
+    <!-- Hero 2 of 3, the gathering (js/hero-gather.js) -->
+    <div class="stage stage-v stage-2">
+      <section class="hv hv-gather" aria-labelledby="hg-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="hg-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hv-go" type="button">Follow the threads</button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Seven orbits of a life, gathered out of the dark. <em>Twenty-seven disciplines ride them.</em></p>
+        <p class="hv-caption" aria-hidden="true">From each, threads run up to the industries it moves. <em>Forty-eight sectors, a hundred and fifty-one threads.</em></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 2 of 7</span> The gathering</p>
+      </section>
+    </div>
+
+    <!-- Hero 3 of 3, the eyespot (js/hero-eyespot.js) -->
+    <div class="stage stage-v stage-3">
+      <section class="hv hv-eye" aria-labelledby="he-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="he-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hv-go" type="button">See the whole wing</button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Close up, a wing is thousands of scales, each one colour. <em>Seven rings of them make its eye: the seven orbits of a life.</em></p>
+        <p class="hv-caption" aria-hidden="true">Drawn back, they are the markings of what it becomes.</p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 3 of 7</span> The eyespot</p>
+      </section>
+    </div>
+
+    <!-- Hero 4 of 4, the emergence (js/hero-emergence.js): 2's look with 3's thinking -->
+    <div class="stage stage-v stage-4">
+      <section class="hv hv-emerge" aria-labelledby="hx-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="hx-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hold hx-hold" type="button"><svg class="hold-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="8"/><circle class="fill" cx="10" cy="10" r="8"/></svg><span class="hold-label">Hold to open it</span></button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Seven orbits, wound round a life like a cocoon. <em>Twenty-seven disciplines move within them.</em></p>
+        <p class="hv-caption" aria-hidden="true">Opened, the orbits are on its wings, and veins run out to the industries they move. <em>Forty-eight sectors, a hundred and fifty-one veins.</em></p>
+        <p class="hx-hint" aria-hidden="true"><span class="for-mouse">Brush past it, drag to turn it, hold it to open</span><span class="for-touch">Drag to turn it, hold it to open</span></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 4 of 7</span> The emergence</p>
+      </section>
+    </div>
+
+
+    <!-- Hero 5 of 6, the emergence in rings (js/hero-rings.js): hero 4 as it was first built -->
+    <div class="stage stage-v stage-5">
+      <section class="hv hv-rings" aria-labelledby="hr-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="hr-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hv-go" type="button">Watch it emerge</button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Seven orbits, wound round a life like a cocoon. <em>Twenty-seven disciplines move within them.</em></p>
+        <p class="hv-caption" aria-hidden="true">Opened, the orbits are on its wings, and veins run out to the industries they move. <em>Forty-eight sectors, a hundred and fifty-one veins.</em></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 5 of 7</span> The emergence, in rings</p>
+      </section>
+    </div>
+
+    <!-- Hero 6 of 6, the flight (js/hero-flight.js): the first video's composition, flown through -->
+    <div class="stage stage-v stage-6">
+      <section class="hv hv-flight" aria-labelledby="hf-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="hf-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hv-go" type="button">Take the flight</button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Seven orbits, a turn for each, made of the founder's grid. <em>Every card a discipline, a sector and a force.</em></p>
+        <p class="hv-caption" aria-hidden="true">Where a discipline moves an industry, the card is inked, and a thread runs up to it. <em>Forty-eight sectors, a hundred and fifty-one threads.</em></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 6 of 7</span> The flight</p>
+      </section>
+    </div>
+
+
+    <!-- Hero 7 of 7, the ascent (js/hero-ascent.js): aura rings of particles, a journey from the foot to the top -->
+    <div class="stage stage-v stage-7">
+      <section class="hv hv-ascent" aria-labelledby="ha-title">
+        <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <div class="hv-labels" aria-hidden="true"></div>
+        <div class="hv-copy">
+          <p class="eyebrow">Investment banking and advisory</p>
+          <h2 id="ha-title" class="title">
+            <span class="line"><span>Capital that</span></span>
+            <span class="line"><span><em>transforms.</em></span></span>
+          </h2>
+          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <div class="actions">
+            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
+            <button class="btn btn-line hv-go" type="button">Make the ascent</button>
+          </div>
+        </div>
+        <div class="hv-card" aria-live="polite"></div>
+        <p class="hv-caption" aria-hidden="true">Seven orbits of a life, rising from the ground of being to the return. <em>Twenty-seven disciplines move within them.</em></p>
+        <p class="hv-caption" aria-hidden="true">From each, a stream rises to the industries it moves. <em>Forty-eight sectors, a hundred and fifty-one streams.</em></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 7 of 7</span> The ascent</p>
+      </section>
+    </div>
+
+
+    <!-- What the hero opens onto, until section 2 is designed. The services are the client's own, from the brief. -->
+    <section class="next" id="services" aria-labelledby="next-title">
+        <div class="next-inner">
+          <p class="eyebrow">What we do</p>
+          <h2 id="next-title" class="next-title">Four ways we work <em>with founders.</em></h2>
+          <ol class="services">
+            <li><span class="num">01</span><span class="name">Fundraising and investor readiness</span><span class="what">Investment narrative, pitch deck, financial model, data room.</span></li>
+            <li><span class="num">02</span><span class="name">Strategic consulting</span><span class="what">Product-market fit, capital and runway, team, governance.</span></li>
+            <li><span class="num">03</span><span class="name">Financial services</span><span class="what">MIS, unit economics, cash flow, working capital.</span></li>
+            <li><span class="num">04</span><span class="name">Wealth management</span><span class="what">Complete private portfolio management for family offices.</span></li>
+          </ol>
+        </div>
+    </section>
+
+    <!-- The team: everyone struck on a coin (js/team.js, js/coin.js). The people are js/people.js,
+         placeholders for now. The coins are drawn on .team-gl, each over its button. -->
+    <section class="team" id="team" aria-labelledby="team-title" data-lit="false">
+      <div class="team-room" aria-hidden="true"></div>
+      <canvas class="team-gl" aria-hidden="true"></canvas>
+      <div class="team-inner">
+        <header class="team-head">
+          <div>
+            <p class="eyebrow">The people</p>
+            <h2 id="team-title" class="team-title">Everyone here has changed form <em>at least once.</em></h2>
+          </div>
+          <div class="team-side">
+            <p class="team-note">Each of us is struck on a coin. Turn one over to see who we were before.</p>
+            <button class="btn btn-line hold hold-mark" type="button" aria-describedby="team-hold-hint">
+              <svg class="hold-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="8"/><circle class="fill" cx="10" cy="10" r="8"/></svg>
+              <span class="hold-label">Hold to light</span>
+            </button>
+          </div>
+          <p id="team-hold-hint" class="sr-only">Press and hold to light the room: threads from the disciplines each person brings run down to their coin. With a keyboard, press Enter.</p>
+        </header>
+
+        <div class="coins coins-team">
+          <div class="disc-band" aria-hidden="true"></div>
+        </div>
+        <p class="team-caption" aria-hidden="true"></p>
+
+        <section class="advisors" aria-labelledby="adv-title">
+          <h3 id="adv-title" class="adv-title">Advisory board</h3>
+          <div class="coins coins-adv"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- An orbit, opened: its disciplines, and the sectors each lands in. A stub until the metrics
+       page is designed; the words and the sectors are the founder's own (js/atlas-data.js). -->
+  <div class="disc-panel" role="dialog" aria-modal="true" aria-labelledby="dp-name" hidden>
+    <button class="close" type="button">Close</button>
+    <div class="dp-inner" data-lenis-prevent>
+      <div class="dp-head">
+        <p class="dp-ring"></p>
+        <h2 id="dp-name" class="dp-name"></h2>
+        <p class="dp-gist"></p>
+        <p class="dp-count"></p>
+      </div>
+      <div class="dp-lands"></div>
+      <p class="dp-note">From the Metamorph atlas. The full metrics for each orbit open here soon.</p>
+    </div>
+  </div>
+
+  <!-- A coin, opened: held up on the left, the person beside it. The same facts in Ink and Light;
+       in Light the lamp reads the answers off the coin's rings. -->
+  <div class="coin-view" role="dialog" aria-modal="true" aria-labelledby="cv-name" data-lit="false" hidden>
+    <div class="cv-back" aria-hidden="true"></div>
+    <canvas class="cv-gl" aria-hidden="true"></canvas>
+    <div class="cv-scroll" data-lenis-prevent>
+      <div class="cv-stage" aria-hidden="true"><p class="cv-hint"></p></div>
+      <div class="cv-panel" data-lenis-prevent>
+        <h2 id="cv-name" class="cv-name"></h2>
+        <p class="cv-role"></p>
+        <dl class="cv-change">
+          <div data-face="back"><dt>Before</dt><dd class="cv-before"></dd></div>
+          <div data-face="front" class="is-up"><dt>Now</dt><dd class="cv-now"></dd></div>
+        </dl>
+        <p class="cv-bio"></p>
+        <p class="cv-brings"></p>
+        <div class="cv-actions"><button class="btn btn-line" type="button" data-flip>Turn it over</button></div>
+        <div class="cv-words-wrap">
+          <h3 class="cv-sub">In their words</h3>
+          <p class="cv-sub-note">The same answers are cut round the coin, too fine to see until you hold it to the light.</p>
+          <ol class="cv-words"></ol>
+        </div>
+        <nav class="cv-steps" aria-label="The rest of the team">
+          <button type="button" data-step="-1">Previous</button>
+          <span class="cv-count" aria-hidden="true"></span>
+          <button type="button" data-step="1">Next</button>
+        </nav>
+      </div>
+    </div>
+    <button class="close cv-close" type="button">Close</button>
+  </div>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

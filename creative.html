@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en" class="cc-page">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Creative corner · Metamorph Capital</title>
+  <meta name="description" content="New work from artists in nine domains, chosen every day, week and month. Open any piece to meet the person who made it.">
+  <meta name="theme-color" content="#2456e0">
+  <link rel="icon" href="data:,">
+  <script>
+    // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
+    if (/[?&]type=old\b/.test(location.search)) {
+      document.documentElement.classList.add('type-old');
+      document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&family=Noto+Serif:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&display=swap">');
+    }
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is
+    // hidden and stops drawing frames.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+    // the opening waits for js/corner.js to lay the pile down; if that never runs, the page comes anyway
+    document.documentElement.classList.add('cc-arriving');
+    setTimeout(() => document.documentElement.classList.remove('cc-arriving'), 4000);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
+       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
+  <header class="nav" data-tone="light">
+    <div class="nav-pill">
+      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+      <a class="wordmark" href="index.html">Metamorph</a>
+      <nav class="links" aria-label="Main">
+        <a href="about.html">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="sectors.html">Sectors</a>
+        <a href="index.html#team">Team</a>
+        <a href="creative.html" aria-current="page">Creative corner</a>
+        <a href="#investors" data-soon>Investor corner</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+    </div>
+  </header>
+
+  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
+  <nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="about.html">About</a>
+    <a href="index.html#services">Services</a>
+    <a href="sectors.html">Sectors</a>
+    <a href="index.html#team">Team</a>
+    <a href="creative.html" aria-current="page">Creative corner</a>
+    <a href="#investors" data-soon>Investor corner</a>
+    <a href="#contact" data-soon>Contact</a>
+  </nav>
+
+  <!-- The Creative Corner (js/creative-page.js, js/corner.js), a page of its own, under one sky:
+       a gradient from the top of the page to its foot, near night, the corner's colour, a haze where
+       the opening ends, and a pale morning under it. First the opening: the picks dealt from a pile
+       while the corner's name is written across the sky, then the art of the day, the week and the
+       month fanned like a hand of real cards (js/corner-cards.js), the one in front printed across
+       the sky in halftone, and the six days before along the foot. Then everything: a wall of
+       signed work (or the same as an index), the domains as a pile of sketchbooks, and under it the
+       makers riding the signature. A piece opens to meet who made it, and hire them. The artists
+       are placeholders (js/artists.js). -->
+  <main class="corner" id="top">
+    <!-- the sky, one gradient down the whole page: near night at the top, the corner's colour,
+         a soft haze where the opening ends, and a pale morning under it for everything else -->
+    <div class="cc-sky" aria-hidden="true"></div>
+    <!-- the next domain's colour, bleeding out of its book across the page -->
+    <svg class="cc-bleed" aria-hidden="true"><path/></svg>
+    <!-- the stamp's ink: speckled where the rubber did not quite meet the paper -->
+    <svg class="cc-defs" aria-hidden="true" width="0" height="0">
+      <filter id="cc-ink" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 2.15" result="m"/>
+        <feComposite in="SourceGraphic" in2="m" operator="in"/>
+      </filter>
+    </svg>
+
+    <div class="cp-inner">
+      <!-- the opening: the picks in a gallery (js/corner-museum.js). On a laptop a room you walk
+           round as you scroll; on a phone one long wall you swipe along. A museum label beside
+           each piece, and nothing else. -->
+      <section class="cp-open" aria-labelledby="cp-name">
+        <h1 class="sr-only" id="cp-name">Creative corner</h1>
+      </section>
+      <!-- (11 Nov) the same gallery again, with visitors standing before the work, for the client to
+           choose between the two; on a laptop only (a phone's wall has no visitors) -->
+      <section class="cp-open cp-open-2" aria-label="Creative corner, with visitors"></section>
+      <!-- (14 Nov) a third way: the pedestal, the piece on a carved stone capital before a curtain, the
+           metamorphosis hidden in the stone (js/corner-pedestal.js) -->
+      <section class="cp-open cp-open-3" aria-label="Creative corner, on a pedestal"></section>
+
+      <!-- (14 Nov) everything, as "the works": a stack of pieces under the words, then each domain
+           as a chapter, its work in one strip (js/corner-works.js). The shop wall under it is kept
+           for ?shop=rows. -->
+      <section class="cp-works" aria-labelledby="cw-title"></section>
+
+      <!-- everything, on one wall -->
+      <section class="cp-all" aria-labelledby="corner-title">
+        <header class="corner-head">
+          <div>
+            <p class="eyebrow">Everything</p>
+            <h2 id="corner-title" class="corner-title">Artists in the middle of <em>becoming.</em></h2>
+          </div>
+          <div class="corner-aside">
+            <p class="corner-sub">Every domain, and everyone in it. Choose one to see only its work.</p>
+            <!-- the same work on the wall, or as an index whose print follows the cursor -->
+            <div class="cc-view" role="group" aria-label="See the work as">
+              <button type="button" data-view="wall" aria-pressed="true">Wall</button>
+              <button type="button" data-view="index" aria-pressed="false">Index</button>
+            </div>
+          </div>
+        </header>
+
+        <!-- the domains as tabs, "All" first, each with how many pieces it has; under them, what
+             is on the wall -->
+        <div class="cc-pile">
+          <nav class="cc-index" aria-label="Domains"><ol></ol></nav>
+          <div class="cc-label" aria-live="polite">
+            <p class="cc-no"></p>
+            <h3 class="cc-name"></h3>
+            <p class="cc-note"></p>
+            <button class="cc-all" type="button" hidden>See every domain</button>
+          </div>
+        </div>
+
+        <div class="cc-sheet">
+          <div class="cc-wall">
+            <ul class="cc-tiles" aria-label="Work"></ul>
+            <ol class="cc-list" aria-label="Work" hidden></ol>
+          </div>
+          <!-- the print that follows the cursor down the index -->
+          <div class="cc-peek" aria-hidden="true"><span class="cc-peek-mat"><img alt=""></span></div>
+          <p class="cc-more-row">
+            <button class="cc-more" type="button">More work</button>
+            <span class="cc-shown"></span>
+          </p>
+  
+          <!-- the signature band (hidden since 7 Nov: the signatures are the Easter egg on each
+               piece now) -->
+          <div class="cc-band" hidden>
+            <svg class="cc-sign" aria-hidden="true">
+              <defs><mask id="cc-pen" maskUnits="userSpaceOnUse" x="-4000" y="-4000" width="12000" height="12000"><path class="cc-pen" pathLength="1"/></mask></defs>
+              <rect class="cc-field" rx="14"/>
+              <g class="cc-rules"></g>
+              <text class="cc-x">×</text>
+              <g class="cc-ink-g"><path class="cc-ink" mask="url(#cc-pen)"/><g class="cc-lifts"></g></g>
+            </svg>
+            <p class="cc-under"></p>
+            <ul class="cc-riders" aria-label="The makers"></ul>
+          </div>
+        </div>
+      </section>
+
+      <p class="cc-foot">
+        <a href="#submit" data-soon>Are you an artist? Add your name.</a>
+        <span class="cc-total"></span>
+      </p>
+    </div>
+
+    <!-- a piece, opened, and the person who made it. One room over the page, in the sheet's
+         colour: the piece with its maker and the ways on, or the maker with all their work. -->
+    <div class="cc-room" role="dialog" aria-modal="true" aria-label="Creative corner" hidden>
+      <div class="cc-room-bg" aria-hidden="true"></div>
+      <div class="cc-room-scroll" data-lenis-prevent>
+        <div class="cc-room-bar">
+          <button class="cc-back" type="button" hidden></button>
+          <button class="cc-saved-btn" type="button" hidden>Saved <span class="cc-saved-n"></span></button>
+          <button class="cc-close" type="button">Close</button>
+        </div>
+
+        <!-- the piece: on its mat, with a closer look under it (zoom, and the whole screen); then its
+             maker, with what you can do with it (share, save, like), its title and year, what it is,
+             its price if it is for sale, and the ways on -->
+        <article class="cc-piece" aria-labelledby="cc-pc-title">
+          <div class="cc-pc-fig">
+            <div class="cc-pc-mat">
+              <div class="cc-pc-frame"><img class="cc-pc-img" alt="" draggable="false"></div>
+              <svg class="cc-pc-sig" aria-hidden="true"></svg>
+            </div>
+            <div class="cc-tools" role="group" aria-label="Look closer">
+              <button class="cc-tool" type="button" data-tool="out" aria-label="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5"/></svg></button>
+              <button class="cc-tool" type="button" data-tool="full" aria-label="See it full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-6.5 6.5M10 20H4v-6M4 20l6.5-6.5"/></svg></button>
+              <button class="cc-tool" type="button" data-tool="in" aria-label="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5M8 10.5h5M10.5 8v5"/></svg></button>
+            </div>
+          </div>
+          <div class="cc-pc-text">
+            <div class="cc-pc-head">
+              <button class="cc-maker" type="button">
+                <img class="cc-maker-pic" alt="">
+                <span class="cc-maker-text"><span class="cc-maker-name"></span><span class="cc-maker-role"></span></span>
+              </button>
+              <div class="cc-acts" role="group" aria-label="This piece">
+                <button class="cc-act" type="button" data-act="share" aria-label="Share" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5L10.4 13.6M20.5 3.5l-6.4 17-3.7-6.9-6.9-3.7 17-6.4z"/></svg></button>
+                <button class="cc-act" type="button" data-act="save" aria-label="Save" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h11v17L12 16.6l-5.5 3.9z"/></svg></button>
+                <button class="cc-act" type="button" data-act="like" aria-label="Like" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19.8s-7.6-4.5-7.6-10.2A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 7.6 2.6c0 5.7-7.6 10.2-7.6 10.2z"/></svg></button>
+                <div class="cc-share" role="menu" aria-label="Share this piece" hidden>
+                  <button type="button" role="menuitem" data-share="copy">Copy link</button>
+                  <a role="menuitem" data-share="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+                  <a role="menuitem" data-share="email" href="#">Email</a>
+                </div>
+              </div>
+            </div>
+            <h3 class="cc-pc-title" id="cc-pc-title" tabindex="-1"><span class="cc-pc-name"></span> <span class="cc-pc-year"></span></h3>
+            <p class="cc-pc-tags"></p>
+            <p class="cc-pc-price"></p>
+            <p class="cc-pc-line"></p>
+            <p class="cc-ways">
+              <a class="cc-hire" href="#hire" data-soon></a>
+              <a class="cc-enquire" href="#enquire" data-soon>Enquire about this piece</a>
+              <button class="cc-their-work" type="button"></button>
+            </p>
+            <p class="cc-steps">
+              <button class="cc-prev" type="button">Previous</button>
+              <span class="cc-count"></span>
+              <button class="cc-next" type="button">Next</button>
+            </p>
+          </div>
+        </article>
+
+        <article class="cc-person" aria-labelledby="cc-p-name" hidden>
+          <div class="cc-p-photo"><img alt=""></div>
+          <div class="cc-p-text">
+            <p class="cc-p-meta"></p>
+            <h3 class="cc-p-name" id="cc-p-name" tabindex="-1"></h3>
+            <svg class="cc-p-sign" aria-hidden="true"></svg>
+            <p class="cc-p-line"></p>
+            <p class="cc-p-links">
+              <a class="cc-hire" href="#hire" data-soon></a>
+              <a href="#instagram" data-soon>Instagram</a>
+              <a href="#portfolio" data-soon>Portfolio</a>
+            </p>
+          </div>
+          <div class="cc-works">
+            <h4 class="cc-works-title">Their work</h4>
+            <ul></ul>
+          </div>
+        </article>
+
+        <!-- what you have saved: kept in this browser, since there is no account -->
+        <article class="cc-saved" aria-labelledby="cc-s-title" hidden>
+          <div class="cc-s-text">
+            <p class="cc-s-meta">Kept in this browser</p>
+            <h3 class="cc-s-title" id="cc-s-title" tabindex="-1">Saved</h3>
+            <p class="cc-s-note">The pieces you save stay here, on this device. There is no account, and nothing is sent anywhere.</p>
+          </div>
+          <ul class="cc-s-list"></ul>
+          <p class="cc-s-empty" hidden>Nothing saved yet. Open a piece and save it with the bookmark beside its maker’s name.</p>
+        </article>
+      </div>
+      <img class="cc-flyer" alt="" hidden>
+    </div>
+
+    <!-- the way to what you have saved, once there is something -->
+    <button class="cc-saved-chip" type="button" hidden>Saved <span class="cc-saved-n"></span></button>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/creative-page.js"></script>
+</body>
+</html>
