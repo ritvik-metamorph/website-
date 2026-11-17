@@ -6,8 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Creative corner · Metamorph Capital</title>
   <meta name="description" content="New work from artists in nine domains, chosen every day, week and month. Open any piece to meet the person who made it.">
-  <meta name="theme-color" content="#2456e0">
-  <link rel="icon" href="data:,">
+  <meta name="theme-color" content="#050709">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <!-- (a page-to-page transition the browser skips is not an error: heard here, early, on the page arriving) -->
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
   <script>
     // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
     if (/[?&]type=old\b/.test(location.search)) {
@@ -99,6 +102,9 @@
       <!-- (14 Nov) a third way: the pedestal, the piece on a carved stone capital before a curtain, the
            metamorphosis hidden in the stone (js/corner-pedestal.js) -->
       <section class="cp-open cp-open-3" aria-label="Creative corner, on a pedestal"></section>
+      <!-- (16 Nov) a fourth way: the branch, the picks resting in the boughs of one driftwood branch
+           rising from dark water, milkweed and a monarch's caterpillar on it (js/corner-branch.js) -->
+      <section class="cp-open cp-open-4" aria-label="Creative corner, on a branch"></section>
 
       <!-- (14 Nov) everything, as "the works": a stack of pieces under the words, then each domain
            as a chapter, its work in one strip (js/corner-works.js). The shop wall under it is kept

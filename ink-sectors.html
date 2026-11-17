@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" class="ik-page" data-site="ink" data-twin="sectors.html">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sectors · Metamorph Capital</title>
+  <meta name="description" content="The founder’s grid: twenty-seven disciplines read against forty-eight sectors, and how each one is decided.">
+  <meta name="theme-color" content="#f2f3ef">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
+  <script>
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is hidden.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+    // (the simple site is Ink: arriving here, that is the version this visitor is reading)
+    try { localStorage.setItem('mm-mode', 'ink'); } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/ink.css">
+</head>
+<body>
+<!-- The nav, as on every page: the wordmark and links in one glass pill, the version in its own, and
+     the one thing to do. In the simple site its links stay in the simple site; Light goes to the
+     creative twin of this page (js/site.js). -->
+<header class="nav" data-tone="ink">
+  <div class="nav-pill">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="ink.html">Metamorph</a>
+    <nav class="links" aria-label="Main">
+        <a href="ink-about.html">About</a>
+        <a href="ink.html#services">Services</a>
+        <a href="ink-sectors.html" aria-current="page">Sectors</a>
+        <a href="ink.html#team">Team</a>
+        <a href="creative.html">Creative corner</a>
+      <a href="#investors" data-soon>Investor corner</a>
+    </nav>
+  </div>
+  <div class="nav-right">
+    <div class="mode" role="group" aria-label="Version of the site">
+      <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
+      <span aria-hidden="true">·</span>
+      <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
+    </div>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
+<nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="ink-about.html">About</a>
+    <a href="ink.html#services">Services</a>
+    <a href="ink-sectors.html">Sectors</a>
+    <a href="ink.html#team">Team</a>
+    <a href="creative.html">Creative corner</a>
+  <a href="#investors" data-soon>Investor corner</a>
+  <a href="#contact" data-soon>Contact</a>
+</nav>
+<main id="top" class="iks">
+  <header class="iks-open">
+    <div class="ik-wrap">
+      <div class="iks-open-in">
+        <h1 class="iks-title" data-turn data-chars="hero">Twenty-seven ways of knowing against <em>forty‑eight</em> ways of earning.</h1>
+        <p class="iks-intro ik-rise" style="--d:.6s">The founder’s grid, as an index: every sector we read, what it is, and the disciplines that decide how it behaves. Open one for its own page.</p>
+      </div>
+      <!-- the grid itself, drawn: point at it for what one discipline does to one sector (js/ink-loom.js) -->
+      <figure class="ik-loom iks-loom" data-loom></figure>
+      <div class="iks-tools">
+        <p class="iks-forces" aria-label="What a discipline does to a sector"></p>
+        <label><span class="sr-only">Find a sector</span><input class="iks-find" type="search" placeholder="Find a sector" autocomplete="off"></label>
+      </div>
+    </div>
+  </header>
+  <section class="iks-fams ik-wrap" aria-label="The forty-eight sectors, by family"></section>
+  <!-- the end -->
+  <section class="ik-end ik-night" data-tone="light" aria-labelledby="ik-end-h">
+    <figure class="ik-pic ik-end-pic" data-drift aria-hidden="true"><div class="ik-pic-in"><img src="assets/ink/film-2-cocoon.jpg" alt="" loading="lazy"></div></figure>
+    <div class="ik-wrap ik-end-in">
+      <h2 class="ik-end-line" id="ik-end-h" data-turn data-chars>Building in one of these? <em>Talk to us.</em></h2>
+      <p class="ik-end-ways" data-settle>
+        <a class="btn btn-solid" href="#contact" data-soon data-magnet>Start a conversation</a>
+        <a class="btn btn-line" href="#deck" data-soon data-magnet>Share your pitch deck</a>
+      </p>
+    </div>
+  </section>
+</main>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/ink-sectors.js"></script>
+</body>
+</html>

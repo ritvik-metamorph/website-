@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" class="ik-page" data-site="ink" data-twin="about.html">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>About · Metamorph Capital</title>
+  <meta name="description" content="Metamorph is an investment banking and advisory firm for founders in the middle of becoming, backed by a chartered accountancy practice with thirty years of signed accounts.">
+  <meta name="theme-color" content="#f2f3ef">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
+  <script>
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is hidden.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+    // (the simple site is Ink: arriving here, that is the version this visitor is reading)
+    try { localStorage.setItem('mm-mode', 'ink'); } catch (e) {}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/ink.css">
+</head>
+<body>
+<!-- The nav, as on every page: the wordmark and links in one glass pill, the version in its own, and
+     the one thing to do. In the simple site its links stay in the simple site; Light goes to the
+     creative twin of this page (js/site.js). -->
+<header class="nav" data-tone="ink">
+  <div class="nav-pill">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="ink.html">Metamorph</a>
+    <nav class="links" aria-label="Main">
+        <a href="ink-about.html" aria-current="page">About</a>
+        <a href="ink.html#services">Services</a>
+        <a href="ink-sectors.html">Sectors</a>
+        <a href="ink.html#team">Team</a>
+        <a href="creative.html">Creative corner</a>
+      <a href="#investors" data-soon>Investor corner</a>
+    </nav>
+  </div>
+  <div class="nav-right">
+    <div class="mode" role="group" aria-label="Version of the site">
+      <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
+      <span aria-hidden="true">·</span>
+      <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
+    </div>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
+<nav class="menu" id="menu" aria-label="Site" inert>
+    <a href="ink-about.html">About</a>
+    <a href="ink.html#services">Services</a>
+    <a href="ink-sectors.html">Sectors</a>
+    <a href="ink.html#team">Team</a>
+    <a href="creative.html">Creative corner</a>
+  <a href="#investors" data-soon>Investor corner</a>
+  <a href="#contact" data-soon>Contact</a>
+</nav>
+<main id="top" class="ika">
+  <!-- (16 Nov) The words here are the client's own, from the Notion page (the name, the vision
+       statement, the values, the deal roles, the practice), set plainly for a quick read; tidied
+       for grammar only. The creative About says the same in its own voice. -->
+
+  <!-- the name, set as large as the page allows, and what it means -->
+  <header class="ika-open">
+    <div class="ik-wrap">
+      <p class="ika-word" aria-label="Metamorph" data-lines="hero" data-letters data-anagram="Mother map">Metamorph</p>
+      <p class="ika-note ik-rise" style="--d:.6s"><span><em>Mother map,</em> rearranged. The same nine letters, in a new form.</span><span>Investment banking and advisory</span></p>
+      <div class="ika-open-in">
+        <h1 class="ika-lead" data-read>A metamorph is a living thing that has gone through a complete change. We work with driven, hungry founders in the middle of theirs.</h1>
+        <!-- (the butterfly the way in spins, its wings open: drawn in code, a placeholder) -->
+        <figure class="ik-pic ika-open-pic" data-drift data-arc="68 48 78"><div class="ik-pic-in"><img src="assets/ink/film-4-wings.jpg" alt="" style="object-position:66% 50%"></div></figure>
+      </div>
+    </div>
+  </header>
+
+  <!-- the vision statement -->
+  <section class="ika-story" aria-labelledby="ika-story-h">
+    <div class="ik-wrap ika-story-in">
+      <div>
+        <p class="ik-k"><b data-scramble>01</b> Our vision</p>
+        <h2 class="ik-h2" id="ika-story-h" data-turn data-lines data-engrave>Easier to generate wealth than to <em>maintain it.</em></h2>
+      </div>
+      <div class="ika-story-text" data-read>
+        <p>Capital, debt and taxes have stayed with people since time immemorial. Wars have been won, families broken, rebellions raised and societies structured by how these three were handled.</p>
+        <p>Money can look like the dullest thing there is, changing hands for no purpose but more money. Go deeper, into the international network of money, how it is structured, how it moves human psychology and behaviour, and how its rightful deployment compounds into wealth that can last for generations, and it becomes a calling.</p>
+        <p>Money is also a double-edged sword. It brings out greed, theft and treachery, and everyone wishes to be rich. We agree wealth is important and necessary in life, and we despise the relentless, unhinged chase for it.</p>
+        <p>One of the factors of wealth is society and its teachings, sanskaar. Our parents’ generation was mostly not born with even basic wealth, yet they built it as the economy opened up opportunities for its people.</p>
+        <p>A firm’s aims come from the goals of the people who run it. When earning, spending, investing and saving are decided with clarity and a right conscience, working with driven, venture-loving, enterprising founders follows. Wherever there is growth, ambition, professionalism and a right conscience, we are there to make it happen, as a premium service: aiming for volume would defeat the purpose of serving ambitious, metamorphic, non-greedy owners.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- what we do, as the four stages of the change -->
+  <section class="ika-stages" aria-labelledby="ika-do-h">
+    <div class="ik-wrap">
+      <p class="ik-k"><b data-scramble>02</b> What we do</p>
+      <h2 class="ik-h2" id="ika-do-h" data-turn data-lines>Four stages of one <em>change.</em></h2>
+      <ol class="ika-stage-list">
+        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-spun.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>Spun</h3><p class="ika-stage-no" data-scramble>01</p></div><p class="ika-stage-prac">Fundraising and investor readiness</p><p class="ika-stage-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread.</p></li>
+        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-cocoon.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>The cocoon</h3><p class="ika-stage-no" data-scramble>02</p></div><p class="ika-stage-prac">Strategic consulting</p><p class="ika-stage-line">We sharpen strategy for founders growing faster than their plans: the few decisions made inside, before the change shows.</p></li>
+        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-change.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>The change</h3><p class="ika-stage-no" data-scramble>03</p></div><p class="ika-stage-prac">Financial services</p><p class="ika-stage-line">We keep the numbers honest while everything changes: accounts, tax, compliance, and a structure that still makes sense at ten times the size.</p></li>
+        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-flight.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>Flight</h3><p class="ika-stage-no" data-scramble>04</p></div><p class="ika-stage-prac">Wealth management</p><p class="ika-stage-line">We help wealth last, through a multi-family office for founders and their families, planned for the generation after this one.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- in a deal: the three roles, in the client's words -->
+  <section class="ika-deal" aria-labelledby="ika-deal-h">
+    <div class="ik-wrap">
+      <p class="ik-k"><b data-scramble>03</b> In a deal</p>
+      <h2 class="ik-h2" id="ika-deal-h" data-turn data-lines data-engrave>We create it, negotiate it and <em>close it.</em></h2>
+      <ol class="ika-deal-list" data-settle>
+        <li><h3>Deal creator</h3><p>Investors follow honest intent, promoter clarity and fiscal discipline. We weave the three together for the company, and bring capital together with expertise from our investor network.</p></li>
+        <li><h3>Deal negotiator</h3><p>There are thousands of investors and financiers, each with their own thesis and risk-return profile. Negotiating the best deal with the right investor brings the precision quality business building needs.</p></li>
+        <li><h3>Deal closer</h3><p>End to end: every piece of preparation, presenting the case to investors in our network, and finalising the deal that is best for the company and the investor.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- the practice behind us: thirty years, set as large as the number deserves -->
+  <section class="ika-practice ik-night" data-tone="light" aria-labelledby="ika-pr-h">
+    <div class="ik-wrap ika-practice-in">
+      <p class="ika-thirty" data-settle aria-label="Thirty years of signed accounts">30<small>years of signed accounts</small></p>
+      <div data-settle>
+        <p class="ik-k"><b data-scramble>04</b> The practice behind us</p>
+        <h2 class="ik-h2" id="ika-pr-h" data-turn data-lines data-engrave>The mechanics of finance, backed by <em>thirty years.</em></h2>
+        <p class="ika-practice-text">Behind every number we give you is a practising chartered accountancy firm, thirty years old. Metamorph grew out of it: three decades of audits, tax and balance sheets for Indian businesses, the exact work that shows what a company is really worth.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- the values to uphold, two -->
+  <section class="ika-values" aria-labelledby="ika-val-h">
+    <div class="ik-wrap">
+      <p class="ik-k" id="ika-val-h"><b data-scramble>05</b> Values we uphold</p>
+      <ol class="ika-value-list">
+        <li><b data-turn data-chars>Greed-less <em>conscience.</em></b><span>Saying no when the fee is the only reason to say yes.</span></li>
+        <li><b data-turn data-chars>In-depth <em>evaluation.</em></b><span>Reading the business, not the deck: the books before the pitch.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- who we are: the founders' two questions, and the founders (their real names, nothing invented) -->
+  <section class="ika-who ik-night" data-tone="light" aria-labelledby="ika-who-h">
+    <div class="ik-wrap">
+      <p class="ik-k" id="ika-who-h"><b data-scramble>06</b> Who we are</p>
+      <ol class="ika-qs">
+        <li><span>Before starting anything, the first question</span><b data-turn data-read>What value can we add that no one else <em>brings?</em></b></li>
+        <li><span>The second</span><b data-turn data-read>Does it pull at us, with a sense of <em>calling?</em></b></li>
+      </ol>
+      <div class="ika-founders">
+        <p>Metamorph was founded by Ritvik and Gurleen, who ask both before they begin anything. Their own reasons for starting it are theirs to tell, and will be here in their words. <a class="ik-link" href="ink.html#team">Meet the whole team</a></p>
+        <div class="ika-person"><figure class="ik-pic ika-coin"><div class="ik-pic-in"><img src="assets/ink/coin-ritvik.jpg" alt="Ritvik, struck on a silver coin" loading="lazy"></div></figure><b>Ritvik</b><i>Founder</i></div>
+        <div class="ika-person"><figure class="ik-pic ika-coin"><div class="ik-pic-in"><img src="assets/ink/coin-gurleen.jpg" alt="Gurleen, struck on a silver coin" loading="lazy"></div></figure><b>Gurleen</b><i>Founder</i></div>
+      </div>
+    </div>
+  </section>
+
+<!-- the end: the one thing to do -->
+<section class="ik-end ik-night" data-tone="light" aria-labelledby="ik-end-h">
+  <figure class="ik-pic ik-end-pic" data-drift aria-hidden="true"><div class="ik-pic-in"><img src="assets/ink/film-3-opening.jpg" alt="" loading="lazy"></div></figure>
+  <div class="ik-wrap ik-end-in">
+    <h2 class="ik-end-line" id="ik-end-h" data-turn data-chars>In the middle of becoming? <em>Talk to us.</em></h2>
+    <p class="ik-end-ways" data-settle>
+      <a class="btn btn-solid" href="#contact" data-soon data-magnet>Start a conversation</a>
+      <a class="btn btn-line" href="#deck" data-soon data-magnet>Share your pitch deck</a>
+    </p>
+  </div>
+</section>
+  </main>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/ink-about.js"></script>
+</body>
+</html>

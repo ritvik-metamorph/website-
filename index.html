@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-site="light" data-twin="ink.html">
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex, nofollow">
@@ -7,7 +7,10 @@
   <title>Metamorph Capital</title>
   <meta name="description" content="Investment banking and advisory for founders in the middle of becoming.">
   <meta name="theme-color" content="#050706">
-  <link rel="icon" href="data:,">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <!-- (a page-to-page transition the browser skips is not an error: heard here, early, on the page arriving) -->
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
   <script>
     // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
     if (/[?&]type=old\b/.test(location.search)) {
@@ -36,7 +39,11 @@
     (() => {
       let seen = false;
       try { seen = sessionStorage.getItem('mm-entered') === '1'; } catch (e) {}
-      if (seen && !/[?&]intro\b/.test(location.search)) return;
+      if (seen && !/[?&]intro\b/.test(location.search)) {
+        // (16 Nov) a visitor who chose Ink has a site of its own: the simple home
+        try { if (localStorage.getItem('mm-mode') === 'ink' && !/[?&]light\b/.test(location.search)) location.replace('ink.html' + location.hash); } catch (e) {}
+        return;
+      }
       document.documentElement.classList.add('gate');
       setTimeout(() => { if (!window.gateClaimed) document.documentElement.classList.remove('gate'); }, 6000);
     })();
@@ -97,7 +104,7 @@
       </nav>
     </div>
     <div class="nav-right">
-      <div class="mode" role="group" aria-label="Version of this page">
+      <div class="mode" role="group" aria-label="Version of the site">
         <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
         <span aria-hidden="true">·</span>
         <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
@@ -318,20 +325,25 @@
     </div>
 
 
-    <!-- What the hero opens onto, until section 2 is designed. The services are the client's own, from the brief. -->
-    <section class="next" id="services" aria-labelledby="next-title">
+    <!-- The services, the client's own from the brief. In Ink a plain list on paper. In Light "the note"
+         (js/services.js): a banknote under a desk lamp that folds itself into a butterfly as you read
+         the four, one change of form for each. The words are the same elements in both. -->
+    <section class="next" id="services" aria-labelledby="next-title" data-lit="false">
+      <div class="sv-track">
+        <div class="sv-room" aria-hidden="true"><canvas class="sv-gl"></canvas></div>
         <div class="next-inner">
-          <p class="eyebrow">What we do</p>
-          <h2 id="next-title" class="next-title">Four ways we work <em>with founders.</em></h2>
+          <h2 id="next-title" class="next-title" data-turn>Four ways we work <em>with founders.</em></h2>
           <ol class="services">
             <li><span class="num">01</span><span class="name">Fundraising and investor readiness</span><span class="what">Investment narrative, pitch deck, financial model, data room.</span></li>
             <li><span class="num">02</span><span class="name">Strategic consulting</span><span class="what">Product-market fit, capital and runway, team, governance.</span></li>
             <li><span class="num">03</span><span class="name">Financial services</span><span class="what">MIS, unit economics, cash flow, working capital.</span></li>
             <li><span class="num">04</span><span class="name">Wealth management</span><span class="what">Complete private portfolio management for family offices.</span></li>
           </ol>
+          <p class="sv-sr sr-only"></p>
         </div>
+      </div>
     </section>
-
+    
     <!-- The team: everyone struck on a coin (js/team.js, js/coin.js). The people are js/people.js,
          placeholders for now. The coins are drawn on .team-gl, each over its button. -->
     <section class="team" id="team" aria-labelledby="team-title" data-lit="false">
@@ -341,7 +353,7 @@
         <header class="team-head">
           <div>
             <p class="eyebrow">The people</p>
-            <h2 id="team-title" class="team-title">Everyone here has changed form <em>at least once.</em></h2>
+            <h2 id="team-title" class="team-title" data-turn>Everyone here has changed form <em>at least once.</em></h2>
           </div>
           <div class="team-side">
             <p class="team-note">Each of us is struck on a coin. Turn one over to see who we were before.</p>

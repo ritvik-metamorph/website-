@@ -1,4 +1,4 @@
-// The home page: the hero, the services hand-over and the team. What every page shares (smooth
+// The home page: the hero, the services (the note) and the team. What every page shares (smooth
 // scroll, the nav, Ink and Light) is in js/site.js; the Creative Corner has its own page
 // (creative.html, js/creative-page.js).
 
@@ -12,6 +12,7 @@ import { setupEmergenceRings } from './hero-rings.js';
 import { setupFlight } from './hero-flight.js';
 import { setupAscent } from './hero-ascent.js';
 import { setupTeam } from './team.js';
+import { setupServices } from './services.js';
 
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -28,18 +29,8 @@ $$('[data-team]').forEach((a) => a.addEventListener('click', (e) => { e.preventD
 const arrive = /^#(services|team)$/.test(location.hash) && $(location.hash);
 if (arrive) addEventListener('load', () => setTimeout(() => { lenis.resize?.(); lenis.scrollTo(arrive, { immediate: true, force: true }); }, 120), { once: true });
 
-// The services section has no Light version. In the dark theme its top is still dark where the
-// hero hands over; in the light theme it is paper all the way.
-const darkTheme = document.documentElement.dataset.theme === 'dark';
-const next = $('.next');
-register({
-  name: 'services', commit() {}, revert() {},
-  under: (y) => {
-    const r = next.getBoundingClientRect();
-    if (r.top > y || r.bottom < y) return null;
-    return { tone: darkTheme && y - r.top < innerHeight * 0.16 ? 'light' : 'ink' };
-  },
-});
+// the services: a list on paper in Ink, the note in Light (js/services.js)
+setupServices({ lenis, register, reduced, isTouch, local });
 
 setupOrb({ lenis, register, reduced, isTouch, local });
 // heroes 2, 3 and 4, stacked under the first for the client to choose from (10 Nov); all dark, the last hands over to paper
@@ -55,4 +46,5 @@ register({
 });
 setupTeam({ lenis, register, reduced, isTouch, local });
 // later in the visit, the version chosen on the way in
-if (!gated && savedMode() === 'light') setMode(true, { save: false });
+// (the simple version has its own pages since 16 Nov, so this page is always the creative one)
+if (!gated) setMode(true, { save: false });

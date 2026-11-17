@@ -1,13 +1,18 @@
 <!doctype html>
-<html lang="en" class="ab-page">
+<html lang="en" class="ab-page" data-site="light" data-twin="ink-about.html">
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex, nofollow">
+  <!-- (16 Nov) the simple site has pages of its own: a visitor who chose Ink is taken to this page's twin -->
+  <script>try { if (localStorage.getItem('mm-mode') === 'ink' && !/[?&]light\b/.test(location.search)) location.replace('ink-about.html' + location.search); } catch (e) {}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>About · Metamorph Capital</title>
   <meta name="description" content="Metamorph is an investment banking and advisory firm for founders in the middle of becoming, backed by a chartered accountancy practice with thirty years of signed accounts.">
   <meta name="theme-color" content="#06070a">
-  <link rel="icon" href="data:,">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <!-- (a page-to-page transition the browser skips is not an error: heard here, early, on the page arriving) -->
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
   <script>
     // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
     if (/[?&]type=old\b/.test(location.search)) {
@@ -50,6 +55,11 @@
       </nav>
     </div>
     <div class="nav-right">
+      <div class="mode" role="group" aria-label="Version of the site">
+        <button type="button" data-set-mode="ink" aria-pressed="false">Ink</button>
+        <span aria-hidden="true">·</span>
+        <button type="button" data-set-mode="light" aria-pressed="true">Light</button>
+      </div>
       <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
     </div>
   </header>
@@ -117,7 +127,7 @@
       </div>
       <div class="ab-story-main">
         <h2 class="ab-h" id="ab-s-story">Our story</h2>
-        <p class="ab-text ab-story-text">Capital, debt and taxes have stayed with people since time immemorial. Wars have been won on them, families broken and societies structured by how they were handled. It is far easier to make wealth than to keep it.<span data-l="2"> Our parents’ generation was mostly not born with wealth. They built it as the economy opened, and kept it with sanskaar, the values you are raised inside.</span> Metamorph grew out of a chartered accountancy practice with thirty years of signed accounts<span data-l="2">, and was founded by Ritvik and Gurleen to stand beside founders who are driven, hungry and growing</span>.<span data-l="3"> Money is a double-edged sword: it builds, and it brings out greed. We believe in wealth and despise the unhinged chase for it. Every empire that stops growing starts declining, so we work where there is growth, ambition and a right conscience, and we would rather advise fewer companies well than many quickly.</span></p>
+        <p class="ab-text ab-story-text">Capital, debt and taxes have stayed with people since time immemorial. Wars have been won on them, families broken, rebellions raised and societies shaped by how they were handled. It is far easier to make wealth than to keep it.<span data-l="2"> Money looks like the dullest thing there is: it only changes hands. Follow it further, through the network that carries it round the world and into the minds it moves, and its right use turns into something else: wealth that compounds, and outlives a generation. That change is our work.</span><span data-l="2"> Our parents’ generation was mostly not born with wealth. They built it as the economy opened its doors, and kept it with sanskaar, the values you are raised inside.</span> Metamorph grew out of a chartered accountancy practice with thirty years of signed accounts<span data-l="2">, and was founded by Ritvik and Gurleen to stand beside founders who are driven, hungry and growing</span>.<span data-l="3"> Money is a double-edged sword: it builds, and it brings out greed, theft and treachery. Everyone wants to be rich. We believe in wealth and despise the relentless, unhinged chase for it. A firm becomes what the people who run it want; ours earn, spend, invest and save with clarity and a right conscience, and look for founders who do the same. Every empire that stops growing starts declining, so we work where there is growth, ambition and a right conscience, and only as a premium service: we would rather advise fewer companies well than many quickly.</span></p>
         <button class="ab-more" type="button"><span class="ab-more-t">More on this</span> <span class="ab-more-n"></span></button>
       </div>
     </section>
@@ -131,7 +141,7 @@
             <p class="ab-stage-no">01 of 04</p>
             <h3 class="ab-stage-name">Spun</h3>
             <p class="ab-stage-prac">Fundraising and investor readiness</p>
-            <p class="ab-stage-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread.</p>
+            <p class="ab-stage-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread. Then we create the deal, negotiate it with the right investor, and close it.</p>
           </li>
           <li class="ab-stage" data-stage="1">
             <p class="ab-stage-no">02 of 04</p>
@@ -167,8 +177,8 @@
       <div class="ab-thread-pin">
         <div class="ab-thread-words">
           <p class="ab-k"><span>04</span> The practice behind us</p>
-          <h2 class="ab-h" id="ab-s-thread">The thread it is all <em>spun from.</em></h2>
-          <p class="ab-thread-text">Behind every number we give you is a chartered accountancy practice with thirty years of signed accounts. Metamorph grew out of it: three decades of audits, tax and balance sheets for Indian businesses, the exact work that shows what a company is really worth.</p>
+          <h2 class="ab-h" id="ab-s-thread" data-turn>The thread it is all <em>spun from.</em></h2>
+          <p class="ab-thread-text">Behind every number we give you is a chartered accountancy practice with thirty years of signed accounts: the mechanics of finance, learned from the inside. Metamorph grew out of it: three decades of audits, tax and balance sheets for Indian businesses, the exact work that shows what a company is really worth.</p>
         </div>
         <figure class="ab-spool" aria-hidden="true">
           <svg class="ab-spool-svg" viewBox="-100 -100 200 200"><path class="ab-spool-ghost"/><path class="ab-spool-line"/><circle class="ab-spool-tip" r="1.4"/></svg>
@@ -223,7 +233,7 @@
     <!-- 07 the end: the butterfly takes off -->
     <section class="ab-end ab-night" aria-labelledby="ab-end" data-sky="night">
       <div class="ab-slot ab-slot-end" aria-hidden="true"></div>
-      <h2 class="ab-end-line" id="ab-end">In the middle of becoming? <em>Talk to us.</em></h2>
+      <h2 class="ab-end-line" id="ab-end" data-turn>In the middle of becoming? <em>Talk to us.</em></h2>
       <p class="ab-end-ways">
         <a class="btn btn-solid" href="#contact" data-soon>Start a conversation</a>
         <a class="btn btn-line" href="#deck" data-soon>Share your pitch deck</a>

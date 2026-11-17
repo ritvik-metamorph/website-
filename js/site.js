@@ -1,8 +1,10 @@
-// What every page of the site shares: smooth scroll, the "coming next" message for links with
+// What every page of the site shares: smooth scroll, the word that turns in its headings (js/turn.js), the "coming next" message for links with
 // nowhere to go yet, the nav that takes the tone of whatever is under it (and the Ink and Light
 // registry behind it), and the wordmark's anagram. Each page's own script calls boot() first.
 
 import { setupSignature } from './signature.js';
+import { setupTurn } from './turn.js';
+import { setupKinetic } from './kinetic.js';
 
 const { gsap, ScrollTrigger, CustomEase, Lenis } = window;
 
@@ -105,8 +107,20 @@ export function boot() {
   // next page: savedMode() answers 'ink', 'light' or null.
   const sections = [];
   const register = (s) => sections.push(s);
-  let pageLit = false;
+  // (16 Nov) the two versions are two sites: the simple one (Ink: its own pages, ink*.html, for a quick
+  // read and a decision) and the creative one (Light: these pages, for the vision). A page says which
+  // it is and its twin in the other (data-site, data-twin on <html>); choosing the other version
+  // there goes to the twin, and is remembered. Sections that have both versions on one page (the
+  // team's room, the services' note) still commit and revert as before.
+  const site = document.documentElement.dataset.site || '', twin = document.documentElement.dataset.twin || '';
+  let pageLit = site === 'light';
   const setMode = (light, { save = true } = {}) => {
+    if (site && twin && (light ? 'light' : 'ink') !== site) {
+      try { localStorage.setItem('mm-mode', light ? 'light' : 'ink'); } catch (e) {}
+      const keep = /frames=timer/.test(location.search) ? '?frames=timer' : '';
+      setTimeout(() => location.assign(twin + keep + location.hash), 260);
+      return;
+    }
     pageLit = light;
     sections.forEach((s) => (light ? s.commit() : s.revert()));
     if (save) try { localStorage.setItem('mm-mode', light ? 'light' : 'ink'); } catch (e) {}
@@ -125,7 +139,8 @@ export function boot() {
     if (state.tone !== navTone) navTone = nav.dataset.tone = state.tone;
     const theme = state.theme || (state.tone === 'light' ? '#050706' : '#f2f3ef');
     if (theme !== navTheme) navTheme = themeMeta.content = theme;
-    const lit = state.lit ?? pageLit;
+    // (the switch shows which site this is; where a page has no twin, the section under the nav says)
+    const lit = site ? site === 'light' : (state.lit ?? pageLit);
     if (lit !== navLit) {
       navLit = lit;
       $$('[data-set-mode]').forEach((b) => b.setAttribute('aria-pressed', String((b.dataset.setMode === 'light') === navLit)));
@@ -207,6 +222,21 @@ export function boot() {
   // follows it before any section of the page
   const signature = setupSignature({ register, reduced, isTouch });
 
+  // for whoever opens the console: the name's own secret, set in the site's two faces
+  console.log('%cMetamorph%c  rearranged  %cMother map', 'font: 600 26px/1.3 "Inter Tight", sans-serif; letter-spacing: -.05em', 'font: 11px ui-monospace, monospace; color: #8a93a6', 'font: italic 600 30px/1.3 Cormorant, Georgia, serif');
+
+  // the word that turns, in the headings that ask for it (js/turn.js)
+  setupTurn({ reduced, local });
+  // (a page-to-page transition the browser decides to skip, on a reload say, is not an error to report)
+  const quiet = (e) => { e.viewTransition?.ready?.catch(() => {}); e.viewTransition?.finished?.catch(() => {}); };
+  addEventListener('pageswap', quiet);
+  addEventListener('pagereveal', quiet);
+
+  // living type: the big headings fill out as they arrive, gather weight under the pointer and lean
+  // with the page's speed (js/kinetic.js); a page adds headings it builds later with kinetic.add().
+  // (the simple site has its own motion instead: lines rising out of a mask, js/ink-motion.js)
+  const kinetic = site === 'ink' ? { add() {} } : setupKinetic({ lenis, reduced, isTouch, local });
+
   if (local) { window.__lenis = lenis; window.__sig = signature; }
-  return { lenis, register, setMode, savedMode, reduced, isTouch, local, say };
+  return { lenis, register, setMode, savedMode, reduced, isTouch, local, say, kinetic };
 }

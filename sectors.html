@@ -1,13 +1,18 @@
 <!doctype html>
-<html lang="en" class="sx-page">
+<html lang="en" class="sx-page" data-site="light" data-twin="ink-sectors.html">
 <head>
   <meta charset="utf-8">
   <meta name="robots" content="noindex, nofollow">
+  <!-- (16 Nov) the simple site has pages of its own: a visitor who chose Ink is taken to this page's twin -->
+  <script>try { if (localStorage.getItem('mm-mode') === 'ink' && !/[?&]light\b/.test(location.search) && !location.hash) location.replace('ink-sectors.html' + location.search); } catch (e) {}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sectors · Metamorph Capital</title>
   <meta name="description" content="Twenty-seven ways of knowing against forty-eight ways of earning: the disciplines that decide how each sector of the Indian economy behaves, from Metamorph Capital's atlas.">
   <meta name="theme-color" content="#f2f3ef">
-  <link rel="icon" href="data:,">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <!-- (a page-to-page transition the browser skips is not an error: heard here, early, on the page arriving) -->
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
   <script>
     // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
     if (/[?&]type=old\b/.test(location.search)) {
@@ -45,6 +50,11 @@
       </nav>
     </div>
     <div class="nav-right">
+      <div class="mode" role="group" aria-label="Version of the site">
+        <button type="button" data-set-mode="ink" aria-pressed="false">Ink</button>
+        <span aria-hidden="true">·</span>
+        <button type="button" data-set-mode="light" aria-pressed="true">Light</button>
+      </div>
       <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
     </div>
   </header>
@@ -80,7 +90,7 @@
         <div class="sx-wrap">
           <header class="sx-open">
             <p class="eyebrow">Sectors</p>
-            <h1 class="sx-title" id="sx-title">Twenty-seven ways of knowing against <em>forty‑eight</em> ways of earning.</h1>
+            <h1 class="sx-title" id="sx-title" data-turn>Twenty-seven ways of knowing against <em>forty‑eight</em> ways of earning.</h1>
             <p class="sx-lead">Woven as the founder reads it: a knot wherever a discipline decides how a sector behaves. Most of the cloth is plain, on purpose: a discipline that touches everything touches nothing.</p>
           </header>
 
@@ -100,7 +110,7 @@
       <!-- the paper: the forty-eight, by family, each with its own thread -->
       <section class="sx-part sx-fams" aria-labelledby="sx-fams-h">
         <div class="sx-wrap">
-          <h2 class="sx-h2" id="sx-fams-h">The forty‑eight, <em>by family</em></h2>
+          <h2 class="sx-h2" id="sx-fams-h" data-turn>The forty‑eight, <em>by family</em></h2>
           <p class="sx-h-note">Each with its own thread from the loom, knotted where it is decided.</p>
           <div class="sx-fam-list"></div>
         </div>
@@ -109,7 +119,7 @@
       <!-- the night: what falls out of the grid -->
       <section class="sx-part sx-night sx-finds" aria-labelledby="sx-finds-h">
         <div class="sx-wrap">
-          <h2 class="sx-h2" id="sx-finds-h">What falls out of <em>the grid</em></h2>
+          <h2 class="sx-h2" id="sx-finds-h" data-turn>What falls out of <em>the grid</em></h2>
           <p class="sx-h-note">Read as a whole, from the founder’s atlas.</p>
           <div class="sx-find-list"></div>
         </div>
@@ -118,7 +128,7 @@
       <!-- the paper: where Metamorph has worked, shown once WORKED in js/sectors-data.js has it -->
       <section class="sx-part sx-worked" aria-labelledby="sx-worked-h" hidden>
         <div class="sx-wrap">
-          <h2 class="sx-h2" id="sx-worked-h">Where we have <em>worked</em></h2>
+          <h2 class="sx-h2" id="sx-worked-h" data-turn>Where we have <em>worked</em></h2>
           <ul class="sx-worked-list"></ul>
         </div>
       </section>
@@ -126,7 +136,7 @@
       <!-- the night: the way to talk -->
       <section class="sx-part sx-night sx-end" aria-labelledby="sx-end-h">
         <div class="sx-wrap">
-          <h2 class="sx-end-line" id="sx-end-h">Building in one of these? <em>Talk to us.</em></h2>
+          <h2 class="sx-end-line" id="sx-end-h" data-turn>Building in one of these? <em>Talk to us.</em></h2>
           <p class="sx-end-ways">
             <a class="btn btn-solid" href="#contact" data-soon>Start a conversation</a>
             <a class="btn btn-line" href="#deck" data-soon>Share your pitch deck</a>

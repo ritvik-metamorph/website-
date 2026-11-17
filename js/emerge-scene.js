@@ -536,7 +536,7 @@ export function createEmergeScene(canvas, { onTurn, transparent = false } = {}) 
   // (for checking the render up close while testing: the canvas as it is now, as an image)
   const snap = () => { renderer.render(scene, camera); return canvas.toDataURL('image/png'); };
   return {
-    state, resize, flap, destroy, snap, get narrow() { return narrow; },
+    state, resize, flap, destroy, snap, scene, get narrow() { return narrow; },
     // for a page that holds it (js/about-way.js): where it sits, the cursor's lean (-1 to 1 across
     // and down), and resting while it is out of sight
     place(p) { placed = p; frameIt(); },

@@ -42,6 +42,17 @@ import { createWorks } from './corner-works.js';
 // plinth (js/corner-glass.js) and the three orders (js/corner-orders.js), all kept, unloaded and
 // backed up; on 14 Nov the user asked for the first pedestal back, so it is the pedestal again)
 import { createPedestal } from './corner-pedestal.js';
+// (14 Nov: the split marble, js/corner-marble.js, was tried in the pedestal's place and set aside,
+// the user: "it looks so AI". The file is kept, unloaded.)
+// (14 Nov: the stone on a pin, js/corner-stone.js, was tried the same way and set aside, the user:
+// "I generally don't like this". Kept, unloaded.)
+// (14 Nov, a test: the colossal hand, js/corner-hand.js, in the pedestal's place with ?hand)
+import { createHand } from './corner-hand.js';
+const COLOSSUS = /[?&]hand\b/.test(location.search);
+const GALLERY3 = COLOSSUS ? [createHand, 'the hand'] : [createPedestal, 'the pedestal'];
+// (16 Nov) gallery 4, the branch, js/corner-branch.js: on the page since 16 Nov (a test behind
+// ?branch until then)
+import { createBranch } from './corner-branch.js';
 // (the silk banner, js/corner-silk.js, was a third gallery from 11 Nov; taken off on 12 Nov, the
 // user did not like it. The file is kept, unloaded; backup the-silk-banner-corner-2026-11-12.)
 
@@ -1382,14 +1393,16 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   // (14 Nov) and the pedestal: the piece on a carved Corinthian capital before a curtain, the
   // metamorphosis hidden in the stone (js/corner-pedestal.js)
   const open3 = $('.cp-open-3', section);
-  let picks = [], picked = [], museum = null, museum2 = null, museum3 = null, wide = null, works = null;
+  // (16 Nov) and the branch: the picks resting in the boughs of one driftwood branch (js/corner-branch.js)
+  const open4 = $('.cp-open-4', section);
+  let picks = [], picked = [], museum = null, museum2 = null, museum3 = null, museum4 = null, wide = null, works = null;
   const hand = () => picks.slice(0, 3); // the day's, the week's, the month's
 
   // where a piece lives on the page, to fly from and back to: its place in the gallery, or its
   // tile on the wall, whichever is in view
   function homeOf(pc) {
     const t = tiles.get(pc.key);
-    const all = [museum?.home(pc), museum2?.home(pc), museum3?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
+    const all = [museum?.home(pc), museum2?.home(pc), museum3?.home(pc), museum4?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
     return all.find((h) => onScreen(h.art)) || all[0] || null;
   }
   // a picture whose shape was not given (or not quite), once it is in: fitted by its own shape,
@@ -1432,6 +1445,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     museum?.destroy();
     museum2?.destroy();
     museum3?.destroy();
+    museum4?.destroy();
     wide = !narrow && !isTouch;
     const two = !!open2 && wide;
     open2?.classList.toggle('is-off', !two);
@@ -1444,14 +1458,17 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
       hand: { write, inkOutline, HAND, GAP },
       colour: () => getComputedStyle(root).getPropertyValue('--cc').trim() || ALL,
     });
-    // tagged for the client to choose between: three on a laptop, two on a phone (no visitors there)
-    const total = (two ? 2 : 1) + (open3 ? 1 : 0);
+    // tagged for the client to choose between: four on a laptop, three on a phone (no visitors there)
+    const total = (two ? 2 : 1) + (open3 ? 1 : 0) + (open4 ? 1 : 0), n3 = two ? 3 : 2, n4 = n3 + (open3 ? 1 : 0);
     museum = createMuseum(open, opts({ tag: `Gallery 1 of ${total} \u00b7 ${two ? 'without visitors' : 'the gallery'}` }));
     museum2 = two ? createMuseum(open2, opts({ visitors: true, tag: `Gallery 2 of ${total} \u00b7 with visitors` })) : null;
-    museum3 = open3 ? createPedestal(open3, opts({ tag: `Gallery ${total} of ${total} \u00b7 the pedestal` })) : null;
+    museum3 = open3 ? GALLERY3[0](open3, opts({ tag: `Gallery ${n3} of ${total} \u00b7 ${GALLERY3[1]}` })) : null;
     open3?.classList.toggle('is-off', !museum3);
-    // (the pedestal ends in the dark, so the night follows it straight on, with no white haze)
-    root.classList.toggle('cc-hz-night', !!museum3);
+    museum4 = open4 ? createBranch(open4, opts({ tag: `Gallery ${n4} of ${total} \u00b7 the branch` })) : null;
+    open4?.classList.toggle('is-off', !museum4);
+    // (the pedestal and the branch end in the dark, so the night follows them straight on, with no
+    // white haze)
+    root.classList.toggle('cc-hz-night', !!(museum4 || museum3));
     layoutSky();
     refreshSoon();
   }
@@ -1459,6 +1476,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     museum?.layout();
     museum2?.layout();
     museum3?.layout();
+    museum4?.layout();
     layoutSky();
   }
   function opening() {
@@ -1540,7 +1558,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
       // the Easter egg, every signature shown at once
       signAll: () => shown.map((pc) => tiles.get(pc.key)).forEach((t) => { gsap.set(t.sig, { opacity: 1 }); signNow(t.sig); }),
       // the opening: the gallery (window.__museum has its own handles); build() makes it again
-      settleOpen, layoutOpen, build, get museum() { return museum; }, get pedestal() { return museum3; },
+      settleOpen, layoutOpen, build, get museum() { return museum; }, get pedestal() { return museum3; }, get branch() { return museum4; },
       // the works (14 Nov): paintAll(), showAll(), deal(), deck, chapters
       get works() { return works; },
       // a pick's picture swapped for another (a file, or a data address), as an upload would be
