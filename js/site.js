@@ -3,8 +3,11 @@
 // registry behind it), and the wordmark's anagram. Each page's own script calls boot() first.
 
 import { setupSignature } from './signature.js';
+import { setupTransmission } from './transmission.js';
+import { setupMotherMap } from './mothermap.js';
 import { setupTurn } from './turn.js';
 import { setupKinetic } from './kinetic.js';
+import { setupMenu } from './menu.js';
 
 const { gsap, ScrollTrigger, CustomEase, Lenis } = window;
 
@@ -22,6 +25,15 @@ export function boot() {
   const isTouch = matchMedia('(hover: none), (pointer: coarse)').matches;
   const nav = $('.nav');
   const toast = $('.toast');
+  // the nav hangs from the top edge as one tab of smoked glass (18 Nov, the user's drawing; glass since
+  // 19 Nov); ?nav=solid shows the solid tab it was, ?nav=float the floating glass pills, for the visit
+  // (css/main.css)
+  {
+    const q = new URLSearchParams(location.search).get('nav');
+    let kept = null;
+    try { if (q === 'float' || q === 'tab' || q === 'solid') sessionStorage.setItem('mm-nav', q); kept = sessionStorage.getItem('mm-nav'); } catch (e) {}
+    if ((q || kept) === 'float' || (q || kept) === 'solid') document.documentElement.dataset.nav = q || kept;
+  }
 
   // ?accent=<name>: the word that turns in another face, to compare (14 Nov, refs/accent.html, two
   // rounds). Cormorant, semibold, was chosen and is the site's own now (css/main.css --accent,
@@ -38,7 +50,7 @@ export function boot() {
     brygada: { face: "'Brygada 1918'", url: GF('Brygada+1918:ital,wght@1,400..600') },
     zodiak: { face: "'Zodiak'", url: FS('zodiak@400,401') },
     besley: { face: "'Besley'", url: GF('Besley:ital,wght@1,400..600') },
-    grotesk: { face: "'Inter Tight'", adjust: 'none', wordAdjust: 'none', track: 'inherit', weight: 'inherit' },
+    grotesk: { face: "'Open Sauce One'", adjust: 'none', wordAdjust: 'none', track: 'inherit', weight: 'inherit' },
     // the first six
     instrument: { face: "'Instrument Serif'", url: GF('Instrument+Serif:ital@0;1') },
     boska: { face: "'Boska'", url: FS('boska@400,401,500,501') },
@@ -71,6 +83,32 @@ export function boot() {
     set('--accent-track', A.track);
     set('--accent-weight', A.weight ?? (accent === 'cormorant' ? '600' : '400'));
   }
+
+// the sans (19 Nov): Open Sauce One is the site's (the user: "lets go with open sauce one", after refs/type-sauce.html).
+// ?type=inter shows the site in Inter Tight as it was, ?type=sauce-sans in Open Sauce Sans, to compare; kept for the visit;
+// ?type=sauce-one goes back. The lines fitted to their room are refitted once the face has loaded ('mm:type').
+{
+  const SANS = { inter: ["'Inter Tight'", null], 'sauce-sans': ["'Open Sauce Sans'", 'open-sauce-sans'] };
+  let sans = new URLSearchParams(location.search).get('type');
+  try {
+    if (sans && sans !== 'old') sessionStorage.setItem('mm-sans', sans);
+    else if (!sans) sans = sessionStorage.getItem('mm-sans');
+  } catch (e) {}
+  const S = SANS[sans];
+  if (S) {
+    const hrefs = S[1] ? ['300', '400', '500', '600', '700'].map((w) => `https://cdn.jsdelivr.net/npm/@fontsource/${S[1]}@5.2.5/${w}.css`)
+    : ['https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..700;1,300..700&display=swap'];
+  hrefs.forEach((href) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.append(link);
+  });
+    document.documentElement.style.setProperty('--sans', `${S[0]}, 'Helvetica Neue', system-ui, -apple-system, 'Segoe UI', sans-serif`);
+    document.documentElement.dataset.sans = sans;
+    Promise.all(['400', '500'].map((w) => document.fonts.load(`${w} 100px ${S[0]}`))).then(() => dispatchEvent(new Event('mm:type'))).catch(() => {});
+  }
+}
 
   // ---------------------------------------------------------------- smooth scroll
 
@@ -147,31 +185,10 @@ export function boot() {
     }
   });
 
-  // ---------------------------------------------------------------- the menu
-  // (after the Unscene tickets site) On a phone, and wherever the links do not fit in the pill, the
-  // menu button opens the site's pages as a plain list over the page, on the ground of the tone the
-  // nav is in. Choosing one, the button again, or Escape closes it. While it is open the page
-  // under it stands still.
-
-  const menuBtn = $('.nav-menu'), menu = $('.menu');
-  let menuOpen = false, wasStopped = false;
-  const setMenu = (open) => {
-    if (!menu || open === menuOpen) return;
-    menuOpen = open;
-    if (open) menu.dataset.tone = nav.dataset.tone || 'ink';
-    document.documentElement.classList.toggle('menu-open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    menu.inert = !open;
-    // (a page that had already stopped the scroll, for an open coin or piece, keeps it stopped)
-    if (open) { wasStopped = lenis.isStopped; lenis.stop(); } else if (!wasStopped) lenis.start();
-  };
-  menuBtn?.addEventListener('click', () => setMenu(!menuOpen));
-  // (it closes before the link does its work, so a link that scrolls the page finds it moving again)
-  menu?.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); }, true);
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen) { setMenu(false); menuBtn.focus(); } });
-  // grown wide enough for the links, the menu has nothing to do
-  addEventListener('resize', () => { if (menuOpen && getComputedStyle(menuBtn).display === 'none') setMenu(false); });
+// ---------------------------------------------------------------- the menu, and the change of version
+// (18 Nov) Menu opens the whole screen to the site's four places; the version changes from a button of
+// its own. Both in js/menu.js.
+const menu = setupMenu({ lenis, reduced, isTouch, local, setMode, savedMode, site, twin });
 
   // ---------------------------------------------------------------- METAMORPH is MOTHER MAP
   // An Easter egg: rest the cursor on the wordmark and its letters sort themselves into the anagram.
@@ -218,12 +235,20 @@ export function boot() {
     mark.addEventListener('pointerleave', () => { clearTimeout(timer); if (sorted) sort(false); });
   }
 
-  // the signature at the foot of every page (js/signature.js); registered first, so the nav over it
-  // follows it before any section of the page
-  const signature = setupSignature({ register, reduced, isTouch });
+  // the foot of every page, registered first, so the nav over it follows it before any section of the
+  // page: the mother map (js/mothermap.js, 18 Nov, later); with ?foot=transmission the transmission
+  // (js/transmission.js) and with ?foot=signature the signature (js/signature.js) before it, kept for
+  // the visit (?foot=map comes back)
+  const footQ = new URLSearchParams(location.search).get('foot');
+  let footKept = null;
+  try { if (['signature', 'transmission', 'map'].includes(footQ)) sessionStorage.setItem('mm-foot', footQ); footKept = sessionStorage.getItem('mm-foot'); } catch (e) {}
+  const foot = footQ || footKept;
+  const signature = foot === 'signature' ? setupSignature({ register, reduced, isTouch })
+    : foot === 'transmission' ? setupTransmission({ register, reduced, isTouch })
+    : setupMotherMap({ register, reduced, isTouch, lenis, menu, local });
 
   // for whoever opens the console: the name's own secret, set in the site's two faces
-  console.log('%cMetamorph%c  rearranged  %cMother map', 'font: 600 26px/1.3 "Inter Tight", sans-serif; letter-spacing: -.05em', 'font: 11px ui-monospace, monospace; color: #8a93a6', 'font: italic 600 30px/1.3 Cormorant, Georgia, serif');
+  console.log('%cMetamorph%c  rearranged  %cMother map', 'font: 600 26px/1.3 "Open Sauce One", sans-serif; letter-spacing: -.05em', 'font: 11px ui-monospace, monospace; color: #8a93a6', 'font: italic 600 30px/1.3 Cormorant, Georgia, serif');
 
   // the word that turns, in the headings that ask for it (js/turn.js)
   setupTurn({ reduced, local });
@@ -238,5 +263,5 @@ export function boot() {
   const kinetic = site === 'ink' ? { add() {} } : setupKinetic({ lenis, reduced, isTouch, local });
 
   if (local) { window.__lenis = lenis; window.__sig = signature; }
-  return { lenis, register, setMode, savedMode, reduced, isTouch, local, say, kinetic };
+  return { lenis, register, setMode, savedMode, reduced, isTouch, local, say, kinetic, menu };
 }

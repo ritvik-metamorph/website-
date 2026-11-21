@@ -36,23 +36,16 @@
 import { ARTS, ARTISTS, ONE, PICKS, FOR_SALE } from './artists.js';
 import { portrait, workArt, ratioOf } from './corner-parts.js';
 import { write, unitsOf, at, inkOutline } from './hand.js';
-import { createMuseum } from './corner-museum.js';
 import { createWorks } from './corner-works.js';
-// (gallery 3 was the pedestal, then the stone cocoon, the hewn stone (js/corner-block.js), the glass
-// plinth (js/corner-glass.js) and the three orders (js/corner-orders.js), all kept, unloaded and
-// backed up; on 14 Nov the user asked for the first pedestal back, so it is the pedestal again)
-import { createPedestal } from './corner-pedestal.js';
-// (14 Nov: the split marble, js/corner-marble.js, was tried in the pedestal's place and set aside,
-// the user: "it looks so AI". The file is kept, unloaded.)
-// (14 Nov: the stone on a pin, js/corner-stone.js, was tried the same way and set aside, the user:
-// "I generally don't like this". Kept, unloaded.)
-// (14 Nov, a test: the colossal hand, js/corner-hand.js, in the pedestal's place with ?hand)
-import { createHand } from './corner-hand.js';
-const COLOSSUS = /[?&]hand\b/.test(location.search);
-const GALLERY3 = COLOSSUS ? [createHand, 'the hand'] : [createPedestal, 'the pedestal'];
-// (16 Nov) gallery 4, the branch, js/corner-branch.js: on the page since 16 Nov (a test behind
-// ?branch until then)
-import { createBranch } from './corner-branch.js';
+// (20 Nov) the opening since the galleries: the current, every piece drifting up past the three picks (js/corner-current.js)
+import { createCurrent } from './corner-current.js';
+// (20 Nov) the opening's galleries are gone (the user: remove every variant of the top; something new is to come):
+// galleries 1 and 2, the dawn gallery (js/corner-museum.js); 3, the pedestal (js/corner-pedestal.js; ?hand tried
+// js/corner-hand.js); 4, the bough (js/corner-bough.js), with the vertical branch (js/corner-branch.js) and the canopy
+// (js/corner-canopy.js) behind ?gallery4= flags. All kept, unloaded; backup corner-galleries-before-removal-2026-11-20.
+// Before them, gallery 3 was the stone cocoon, the hewn stone (js/corner-block.js), the glass plinth
+// (js/corner-glass.js) and the three orders (js/corner-orders.js); the split marble (js/corner-marble.js) and the
+// stone on a pin (js/corner-stone.js) were tried and set aside. All kept, unloaded.
 // (the silk banner, js/corner-silk.js, was a third gallery from 11 Nov; taken off on 12 Nov, the
 // user did not like it. The file is kept, unloaded; backup the-silk-banner-corner-2026-11-12.)
 
@@ -203,7 +196,17 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   const cross = $('.cc-x', svg);
   const under = $('.cc-under', band);
   const ridersEl = $('.cc-riders', band);
-  const room = $('.cc-room', section);
+const room = $('.cc-room', section);
+// the room's ground: since 19 Nov the split (the default: the art on black, a white card beside it);
+// before it (18 Nov) lamp, own (the piece's own colour), paper, or sky (the sheet's blue, as it was);
+// ?room= chooses one for the visit (css/main.css says what each is)
+const ROOMS = ['split', 'lamp', 'own', 'paper', 'sky'];
+{
+  const q = new URLSearchParams(location.search).get('room');
+  let kept = null;
+  try { if (ROOMS.includes(q)) sessionStorage.setItem('mm-room', q); kept = sessionStorage.getItem('mm-room'); } catch (e) {}
+  room.dataset.room = ROOMS.includes(q) ? q : ROOMS.includes(kept) ? kept : 'split';
+}
   const roomBg = $('.cc-room-bg', room);
   const roomScroll = $('.cc-room-scroll', room);
   const backBtn = $('.cc-back', room);
@@ -212,6 +215,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   const pcFig = $('.cc-pc-fig', pieceEl);
   const pcMat = $('.cc-pc-mat', pieceEl);
   const pcImg = $('.cc-pc-img', pieceEl);
+  const pcText = $('.cc-pc-text', pieceEl);
   const pcSig = $('.cc-pc-sig', pieceEl);
   const makerPic = $('.cc-maker-pic', pieceEl);
   const personEl = $('.cc-person', room);
@@ -249,7 +253,8 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     // (the phone's sky wall ends white at its foot: the haze comes up to meet it there, so the
     // sky under it is already white rather than dipping back into blue)
     const meet = open.classList.contains('is-sky') && open.classList.contains('is-wall') ? -o.height * 0.22 : innerHeight * 0.04;
-    hz = Math.round(o.bottom + scrollY + meet);
+    // (20 Nov: with the opening empty, the night from the very top, with no band of blue over the works)
+    hz = o.height < 1 ? 0 : Math.round(o.bottom + scrollY + meet);
     root.style.setProperty('--hz', `${hz}px`);
     navEl?.style.setProperty('--sky-h', `${skyEl.offsetHeight}px`);
   }
@@ -263,6 +268,8 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   register({
     name: 'creative', commit() {}, revert() {},
     under: (y) => (onPale(y) ? { lit: false, tone: 'ink', theme: getComputedStyle(root).getPropertyValue('--cc-pale').trim() || '#f4f6f9' } : { lit: false, tone: 'light', theme: sheetColour() }),
+    // (with a piece open, the room speaks for the nav: ink over the paper room, light over the others)
+    cover: () => (!roomOn ? null : room.dataset.room === 'paper' ? { lit: false, tone: 'ink', theme: '#f2f3ef' } : { lit: false, tone: 'light', theme: room.dataset.room === 'sky' ? sheetColour() : '#050709' }),
   });
 
   $('.cc-total', section).textContent = `${ARTISTS.length} artists across ${ARTS.length} domains`;
@@ -889,15 +896,24 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   // the room's picture, as large as the room allows, on its mat, with its tools under it (on the
   // whole screen, as large as the screen allows)
   const isFull = () => room.classList.contains('is-full');
+  // the split room (19 Nov): the art on black, a white card beside it (css/main.css)
+  const split = () => room.dataset.room === 'split';
+  // what the room is showing, for the styles: a piece, a maker, what is saved, or a piece on the whole screen
+  const viewAs = () => { room.dataset.view = mode === 'piece' && isFull() ? 'full' : mode || ''; };
   function fitPiece() {
     if (!cur) return;
     const r = cur.ratio, side = narrow ? 9 : 14, foot = narrow ? 38 : 48, tools = 58;
-    const AW = pcFig.clientWidth, AH = narrow && !isFull() ? innerHeight * 0.56 : pcFig.clientHeight - tools;
+    // (inside the room the picture's place may keep a margin of its own: the split's)
+    const cs = getComputedStyle(pcFig), padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight), padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    const AW = pcFig.clientWidth - padX, AH = narrow && !isFull() && !split() ? innerHeight * 0.56 : pcFig.clientHeight - padY - tools;
     const iw = Math.max(80, Math.min(AW - 2 * side, (AH - side - foot) * r));
     pcImg.style.width = `${f1(iw)}px`;
     pcImg.style.height = `${f1(iw / r)}px`;
     $('.cc-tools', pieceEl).style.width = `${pcMat.offsetWidth}px`; // under the piece, to its right edge
     applyZoom(true);
+    // the room's light hangs where the piece hangs
+    const fr = pcFrame.getBoundingClientRect();
+    if (fr.width) { room.style.setProperty('--lx', `${f1(fr.left + fr.width / 2)}px`); room.style.setProperty('--ly', `${f1(fr.top + fr.height * 0.45)}px`); }
   }
   // what a piece is: what kind of thing, in which domain, and whether it can be bought, for how much
   const rupees = (n) => `₹${Math.round(n).toLocaleString('en-IN')}`;
@@ -945,16 +961,88 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
       pcImg.src = url;
       pcImg.alt = `${w.title}, by ${p.name}`;
     });
+    if (split()) fillRecs(pc);
   }
+
+  // ---------------------------------------------------------------- what else to look at (19 Nov, the split)
+  // Under a piece in the card: more of its maker's work, then pieces like it by other makers, one
+  // each, the nearest first: the same domain, then a neighbouring one (moving pictures; still
+  // pictures and things made by hand; words and sound), the same kind of thing, the domains this
+  // visitor has saved or liked, a like shape. Each pair has a little chance of its own in the
+  // reckoning, so the list differs from piece to piece but is the same on a second look. Nobody is
+  // ranked: one piece a maker, ordered only by how near it is to this one.
+  const KIN = { film: 'moving', editing: 'moving', animation: 'moving', graphic: 'still', illustration: 'still', photography: 'still', craft: 'still', music: 'heard', writing: 'heard' };
+  const chance = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return (h >>> 0) / 4294967296; };
+  const LIKE_N = 9;
+  function likeThis(pc) {
+    const taste = new Set([...saved.list, ...liked.list].map((k) => byKey(k)?.p.art).filter(Boolean));
+    const near = (c) => (c.p.art === pc.p.art ? 4 : KIN[c.p.art] === KIN[pc.p.art] ? 2 : 0) + (c.w.kind === pc.w.kind ? 1.5 : 0)
+      + (taste.has(c.p.art) ? 1 : 0) + (Math.abs(Math.log(c.ratio / pc.ratio)) < 0.15 ? 0.5 : 0) + chance(`${pc.key}>${c.key}`) * 1.6;
+    const seen = new Set([pc.p]), out = [];
+    for (const [, c] of ALL_WORK.map((c) => [near(c), c]).sort((a, b) => b[0] - a[0])) {
+      if (seen.has(c.p)) continue;
+      seen.add(c.p);
+      out.push(c);
+      if (out.length === LIKE_N) break;
+    }
+    return out;
+  }
+  // (the wall's middle-sized copies of the studio designs: sharp at this size, light to load)
+  const midOf = (u) => u.replace('/corner/insomniac/', '/corner/insomniac/mid/');
+  function recTile(c, meta) {
+    const li = el('li');
+    li.style.setProperty('--r', c.ratio.toFixed(3));
+    const b = el('button', 'cc-rec-btn');
+    b.type = 'button';
+    b.setAttribute('aria-label', `${c.w.title}, by ${c.p.name}`);
+    const img = el('img');
+    img.alt = '';
+    img.decoding = 'async';
+    img.loading = 'lazy';
+    img.style.aspectRatio = `auto ${c.ratio.toFixed(3)}`; // (its own shape once it is in: never cropped)
+    img.addEventListener('load', () => img.classList.add('is-in'), { once: true }); // (it comes up as it arrives)
+    workArt(c.p, c.i, ART_W).then((u) => { img.src = midOf(u); });
+    b.append(img, el('span', 'cc-rec-t', c.w.title), el('span', 'cc-rec-m', meta));
+    // it opens in the room, flying from the card to where the art hangs; Previous and Next keep the
+    // walk you were on if it is in it, or else walk the maker's work
+    b.addEventListener('click', () => openPiece(c, { seq: seq.includes(c) ? seq : undefined, from: { art: img, img, b } }));
+    li.append(b);
+    return li;
+  }
+  function fillRecs(pc) {
+    const own = theirWork(pc.p).filter((c) => c !== pc);
+    $('.cc-rec-own', pieceEl).hidden = !own.length;
+    $('.cc-rec-own .cc-rec-title', pieceEl).textContent = `More from ${first(pc.p)}`;
+    $('.cc-rec-row', pieceEl).replaceChildren(...own.map((c) => recTile(c, `${c.w.kind} · ${c.w.year}`)));
+    $('.cc-rec-grid', pieceEl).replaceChildren(...likeThis(pc).map((c) => recTile(c, `${c.p.name} · ${domainOf(c.p).name}`)));
+  }
+// the piece's own colour, for the room that takes it: the picture's colours averaged, the vivid ones
+// counting most, so a red poster gives a deep red room and a grey one a near-black
+const toneCv = document.createElement('canvas');
+toneCv.width = toneCv.height = 24;
+pcImg.addEventListener('load', () => {
+  if (room.dataset.room !== 'own' || !pcImg.naturalWidth) return;
+  try {
+    const g = toneCv.getContext('2d', { willReadFrequently: true });
+    g.clearRect(0, 0, 24, 24); g.drawImage(pcImg, 0, 0, 24, 24);
+    const d = g.getImageData(0, 0, 24, 24).data;
+    let r = 0, gr = 0, b = 0, sum = 0;
+    for (let i = 0; i < d.length; i += 4) { const w = 0.12 + ((Math.max(d[i], d[i + 1], d[i + 2]) - Math.min(d[i], d[i + 1], d[i + 2])) / 255) * 2; r += d[i] * w; gr += d[i + 1] * w; b += d[i + 2] * w; sum += w; }
+    room.style.setProperty('--pc', `rgb(${Math.round(r / sum)}, ${Math.round(gr / sum)}, ${Math.round(b / sum)})`);
+  } catch (e) { /* (a picture that cannot be read keeps the last colour) */ }
+});
   // from: where on the page it was opened from (a pick, or its tile on the wall)
   function openPiece(pc, { push = true, seq: within, from } = {}) {
     const fresh = !roomOn;
+    // (opened from the card beside another piece: where it was, taken before the card is refilled)
+    const hop = !fresh && from?.img.src && onScreen(from.art) ? { src: from.img.src, rect: from.art.getBoundingClientRect() } : null;
     if (fresh) enter(`#work/${pc.p.slug}/${pc.i + 1}`, push); else setHash(`#work/${pc.p.slug}/${pc.i + 1}`);
     // what Previous and Next walk through: the picks, the wall, or the maker's own work
     seq = within || (shown.includes(pc) ? shown : theirWork(pc.p));
     const t = from || homeOf(pc);
     if (fresh) returnTo = t?.b || null;
     mode = 'piece';
+    viewAs();
     cur = pc;
     fillPiece(pc);
     personEl.hidden = true;
@@ -962,10 +1050,18 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     savedEl.hidden = true;
     backBtn.hidden = true;
     counts();
+    // (in the split the card starts again at its top for each piece)
+    if (split() && !fresh) roomScroll.scrollTop = 0;
     fitPiece();
     const d = D(), parts = $$('.cc-pc-text > *', pieceEl);
-    gsap.killTweensOf([pcMat, ...parts]);
+    gsap.killTweensOf([pcMat, pcText, ...parts]);
     if (fresh) {
+      // in the split the screen divides: the card comes in from the right edge as the piece comes
+      // forward onto the black (on a phone it rises from below)
+      if (split() && !reduced) {
+        if (narrow) gsap.fromTo(pcText, { y: innerHeight * 0.45 }, { y: 0, duration: 1, ease: 'expo.inOut', clearProps: 'transform' });
+        else gsap.fromTo(pcText, { clipPath: 'inset(0 0 0 100%)' }, { clipPath: 'inset(0 0 0 0%)', duration: 1, ease: 'expo.inOut', clearProps: 'clipPath' });
+      }
       gsap.fromTo(parts, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 * d, ease: 'expo', stagger: 0.05 * d, delay: 0.4 * d });
       // it comes forward off the wall; its mat comes up round it as it lands
       if (t?.img.src && onScreen(t.art) && !reduced) {
@@ -975,6 +1071,14 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
         });
       } else gsap.fromTo(pcMat, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 * d, ease: 'expo' });
       signIt(pcSig, { delay: 1 * d });
+    } else if (hop && !reduced) {
+      // from the card: the piece flies out of the card onto the black, and the card fills again
+      gsap.set(pcMat, { opacity: 0, y: 0 });
+      gsap.fromTo(parts, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.55 * d, ease: 'expo', stagger: 0.03 * d, delay: 0.25 });
+      fly(hop.src, hop.rect, pcImg.getBoundingClientRect(), {
+        onDone: () => gsap.to(pcMat, { opacity: 1, duration: 0.3, onComplete: () => { flyer.hidden = true; } }),
+      });
+      signIt(pcSig, { delay: 0.9 * d });
     } else {
       // from another piece, or from the maker's page: the room stays, what is in it changes
       flyer.hidden = true;
@@ -1079,6 +1183,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   function full(on) {
     if (on === isFull()) return;
     room.classList.toggle('is-full', on);
+    viewAs();
     toolBtn('full').setAttribute('aria-label', on ? 'Leave full screen' : 'See it full screen');
     if (on && room.requestFullscreen && !document.fullscreenElement) room.requestFullscreen().catch(() => {});
     if (!on && document.fullscreenElement) document.exitFullscreen().catch(() => {});
@@ -1207,6 +1312,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     full(false);
     menu(false);
     mode = 'saved';
+    viewAs();
     fillSaved();
     pieceEl.hidden = true;
     personEl.hidden = true;
@@ -1276,6 +1382,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     cameFrom = !fresh && mode === 'piece' ? cur : null;
     cameSeq = cameFrom ? seq : null;
     mode = 'person';
+    viewAs();
     fillPerson(p);
     pieceEl.hidden = true;
     personEl.hidden = false;
@@ -1313,14 +1420,15 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     pushed = false;
     // the piece at its own size, in the room, before it goes
     menu(false);
-    if (isFull()) { room.classList.remove('is-full'); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); fitPiece(); }
+    if (isFull()) { room.classList.remove('is-full'); viewAs(); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); fitPiece(); }
     resetZoom();
     const d = D(), t = mode === 'piece' && cur ? homeOf(cur) : null;
     const done = () => {
       roomOn = false; mode = null; cur = null;
+      viewAs();
       room.hidden = true;
       flyer.hidden = true;
-      gsap.set([pcMat, pPhoto], { clearProps: 'opacity,transform' });
+      gsap.set([pcMat, pPhoto, pcText], { clearProps: 'opacity,transform,clipPath' });
       lenis.start();
       returnTo?.focus({ preventScroll: true });
     };
@@ -1333,6 +1441,8 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
       const from = pcImg.getBoundingClientRect(), to = t.art.getBoundingClientRect();
       gsap.to(parts, { opacity: 0, duration: 0.25, ease: 'power2.in' });
       gsap.to(pcMat, { opacity: 0, duration: 0.2 });
+      // (the split's white card goes with the room's ground, so nothing white is left behind)
+      if (split()) gsap.to(pcText, { opacity: 0, duration: 0.4, delay: 0.1, ease: 'power2.out' });
       gsap.to(roomBg, { opacity: 0, duration: 0.55, delay: 0.2, ease: 'power2.out' });
       flyer.src = pcImg.src;
       flyer.classList.remove('is-round');
@@ -1381,28 +1491,18 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   });
   const openAt = (h) => { if (h.saved) openSaved({ push: false }); else if (h.pc) openPiece(h.pc, { push: false }); else openPerson(h.p, { push: false }); };
 
-  // ---------------------------------------------------------------- the opening: the gallery
-  // The picks hung in a gallery (js/corner-museum.js): on a laptop a room you walk round, on a
-  // phone one long wall you swipe along. The art of the day, the week and the month, and the six
-  // days before, each with a museum label beside it, and nothing else.
-
-  const open = $('.cp-open', section);
-  // (11 Nov) the gallery twice, one after the other, for the client to choose between: without
-  // visitors, then with them standing before the work
-  const open2 = $('.cp-open-2', section);
-  // (14 Nov) and the pedestal: the piece on a carved Corinthian capital before a curtain, the
-  // metamorphosis hidden in the stone (js/corner-pedestal.js)
-  const open3 = $('.cp-open-3', section);
-  // (16 Nov) and the branch: the picks resting in the boughs of one driftwood branch (js/corner-branch.js)
-  const open4 = $('.cp-open-4', section);
-  let picks = [], picked = [], museum = null, museum2 = null, museum3 = null, museum4 = null, wide = null, works = null;
+  // ---------------------------------------------------------------- the opening
+  // Until 20 Nov the picks (the art of the day, the week and the month, and the six days before) hung in four
+  // galleries here for the client to choose from. The user removed them all; the opening's place, .cp-open-slot,
+  // waits for what comes next. The picks are still worked out each day, for whatever shows them.
+  let picks = [], picked = [], wide = null, works = null, current = null, walk = null;
   const hand = () => picks.slice(0, 3); // the day's, the week's, the month's
 
   // where a piece lives on the page, to fly from and back to: its place in the gallery, or its
   // tile on the wall, whichever is in view
   function homeOf(pc) {
     const t = tiles.get(pc.key);
-    const all = [museum?.home(pc), museum2?.home(pc), museum3?.home(pc), museum4?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
+    const all = [walk?.home(pc), current?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
     return all.find((h) => onScreen(h.art)) || all[0] || null;
   }
   // a picture whose shape was not given (or not quite), once it is in: fitted by its own shape,
@@ -1411,7 +1511,6 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     const r = img.naturalWidth / img.naturalHeight;
     if (!r || Math.abs(r - pc.ratio) / pc.ratio < 0.01) return;
     pc.ratio = r;
-    museum?.reshape(pc);
     if (tiles.get(pc.key)?.on) relayout();
   }
 
@@ -1440,49 +1539,17 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     picked = [...new Set(picks.map((k) => k.pc))];
   }
 
-  // the gallery: a room on a laptop, a wall on a phone (and wherever 3D cannot run)
+  // the opening: (20 Nov) no gallery for now, so the sky runs straight into the night the works hang on, with no haze
   function build() {
-    museum?.destroy();
-    museum2?.destroy();
-    museum3?.destroy();
-    museum4?.destroy();
     wide = !narrow && !isTouch;
-    const two = !!open2 && wide;
-    open2?.classList.toggle('is-off', !two);
-    const opts = (more) => ({
-      picks, wide, reduced, local, lenis, ...more,
-      art: (pc, w) => workArt(pc.p, pc.i, w),
-      open: (pc, from) => openPiece(pc, { seq: picked, from }),
-      sigOf, sigColour: (p) => COLOR[p.art],
-      sigInto: (svg, pc, xh) => sigInto(svg, pc.p, xh), egg,
-      hand: { write, inkOutline, HAND, GAP },
-      colour: () => getComputedStyle(root).getPropertyValue('--cc').trim() || ALL,
-    });
-    // tagged for the client to choose between: four on a laptop, three on a phone (no visitors there)
-    const total = (two ? 2 : 1) + (open3 ? 1 : 0) + (open4 ? 1 : 0), n3 = two ? 3 : 2, n4 = n3 + (open3 ? 1 : 0);
-    museum = createMuseum(open, opts({ tag: `Gallery 1 of ${total} \u00b7 ${two ? 'without visitors' : 'the gallery'}` }));
-    museum2 = two ? createMuseum(open2, opts({ visitors: true, tag: `Gallery 2 of ${total} \u00b7 with visitors` })) : null;
-    museum3 = open3 ? GALLERY3[0](open3, opts({ tag: `Gallery ${n3} of ${total} \u00b7 ${GALLERY3[1]}` })) : null;
-    open3?.classList.toggle('is-off', !museum3);
-    museum4 = open4 ? createBranch(open4, opts({ tag: `Gallery ${n4} of ${total} \u00b7 the branch` })) : null;
-    open4?.classList.toggle('is-off', !museum4);
-    // (the pedestal and the branch end in the dark, so the night follows them straight on, with no
-    // white haze)
-    root.classList.toggle('cc-hz-night', !!(museum4 || museum3));
+    root.classList.add('cc-hz-night');
     layoutSky();
     refreshSoon();
   }
-  function layoutOpen() {
-    museum?.layout();
-    museum2?.layout();
-    museum3?.layout();
-    museum4?.layout();
-    layoutSky();
-  }
+  function layoutOpen() { layoutSky(); }
   function opening() {
     build();
     root.classList.remove('cc-arriving');
-    if (!reduced && !parse()) gsap.fromTo(open, { opacity: 0 }, { opacity: 1, duration: 1.4, ease: 'power2.out', clearProps: 'opacity' });
   }
   const settleOpen = () => root.classList.remove('cc-arriving');
 
@@ -1493,12 +1560,13 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
   paintIndex(false);
   hang(EVERY.slice(0, limit));
   buildPicks();
-  // (14 Nov) everything as "the works" (js/corner-works.js): the stack under the words, then each
-  // domain as a chapter, on the night. The shop wall before it stays for ?shop=rows.
+  // (14 Nov) everything as "the works" (js/corner-works.js): the stack under the words, then (18 Nov)
+  // the wall of every piece with a filter by domain, a domain zooming into its strip, on the night.
+  // The shop wall before it stays for ?shop=rows.
   const worksEl = $('.cp-works', section);
   if (worksEl && !/[?&]shop=rows\b/.test(location.search)) {
     works = createWorks(worksEl, {
-      ARTS, COLOR, every: EVERY, ofDomain, reduced, isTouch,
+      ARTS, COLOR, every: EVERY, ofDomain, reduced, isTouch, lenis, refresh: refreshSoon,
       total: `${ARTISTS.length} artists in ${ARTS.length === 9 ? 'nine' : ARTS.length} domains`,
       art: (pc, w) => workArt(pc.p, pc.i, w),
       open: (pc, from, seq) => openPiece(pc, { seq, from }),
@@ -1506,6 +1574,37 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     });
     root.classList.add('cc-works-on');
     $('.cp-all', section).hidden = true;
+    // (20 Nov) the current, the collection itself drifting up past the day's, the week's and the month's pieces: tried
+    // and set aside the same day (the user: "very simple… it kills explorability"; the three should have a space and an
+    // environment of their own, the wall its own). Kept behind ?current.
+    const slot = $('.cp-open-slot', section);
+    if (slot && /[?&]current\b/.test(location.search)) {
+      current = createCurrent(slot, {
+        picks: hand(), order: works.order, head: works.head, sayOf: works.sayOf, reduced,
+        art: (pc, w) => workArt(pc.p, pc.i, w),
+        open: (pc, from, seq) => openPiece(pc, { seq, from }),
+      });
+    }
+    // (21 Nov, a test) the walk: the user's "game sort of experience", entering a museum in first person with your own
+    // gloved hands in view, the art of the day, the week and the month on its walls, a door on into the gallery (the
+    // wall below). Its room is three.js, so it is fetched only here; its place is held from the start so nothing
+    // jumps. ?walk=off leaves the opening empty again.
+    if (slot && !current && !/[?&]walk=off\b/.test(location.search)) {
+      slot.classList.add('is-walk');
+      const seq = hand().map((k) => k.pc);
+      import('./corner-walk.js').then(({ createWalk }) => {
+        walk = createWalk(slot, {
+          picks: hand(), reduced, isTouch, local, lenis,
+          art: (pc, w) => workArt(pc.p, pc.i, w),
+          open: (pc, from) => openPiece(pc, { seq, from }),
+          // (the thumbs up under a piece is the room's like, kept in this browser)
+          react: { has: (pc) => liked.has(pc.key), toggle: (pc) => liked.toggle(pc.key), hireName: (pc) => first(pc.p) },
+        });
+        if (!walk) slot.classList.remove('is-walk');
+        layoutOpen();
+        refreshSoon();
+      }).catch(() => { slot.classList.remove('is-walk'); layoutOpen(); refreshSoon(); });
+    }
   } else worksEl?.remove();
   rewrite(!reduced); // written as the band comes into view
   // the opening begins once the type is in, so nothing it measures moves under it
@@ -1520,9 +1619,10 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
         narrow = wasNarrow;
         tiles.forEach((t) => { sigInto(t.sig, t.pc.p, SIG_XH()); unsign(t.sig); });
       }
-      // a window that crosses between a laptop's size and a phone's changes gallery
-      if (museum && wide !== (!narrow && !isTouch)) build(); else layoutOpen();
+      layoutOpen();
       works?.layout();
+      current?.layout();
+      walk?.layout();
       relayout();
       layoutInk();
       applyDraw();
@@ -1547,6 +1647,7 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
     if (y) addEventListener('load', () => setTimeout(() => { lenis.scrollTo?.(y, { immediate: true, force: true }); scrollTo(0, y); }, 900), { once: true });
     window.__corner = {
       choose, relayout, drawn, lifted, applyDraw, tiles,
+      room: (m) => { room.dataset.room = m; if (cur) { pcImg.dispatchEvent(new Event("load")); fillPiece(cur); fitPiece(); } },
       more: () => moreBtn.click(),
       openPiece: (key) => openPiece(PIECES.get(key) || EVERY[0]),
       openPerson: (slug) => openPerson(ARTISTS.find((p) => p.slug === slug)),
@@ -1557,9 +1658,9 @@ export function setupCorner({ lenis, register, reduced, isTouch, local, say }) {
       paintAll: () => shown.forEach((pc) => paint(tiles.get(pc.key))),
       // the Easter egg, every signature shown at once
       signAll: () => shown.map((pc) => tiles.get(pc.key)).forEach((t) => { gsap.set(t.sig, { opacity: 1 }); signNow(t.sig); }),
-      // the opening: the gallery (window.__museum has its own handles); build() makes it again
-      settleOpen, layoutOpen, build, get museum() { return museum; }, get pedestal() { return museum3; }, get branch() { return museum4; },
-      // the works (14 Nov): paintAll(), showAll(), deal(), deck, chapters
+      // the opening (empty since 20 Nov): build() lays it out again
+      settleOpen, layoutOpen, build, get current() { return current; }, get walk() { return walk; },
+      // the works (14 Nov; the wall 18 Nov): select(id or null), view, paintAll(), deal(), deck, chapters, tiles
       get works() { return works; },
       // a pick's picture swapped for another (a file, or a data address), as an upload would be
       useArt: (i, url) => { picks[i].pc.w.image = url; build(); },

@@ -1,15 +1,21 @@
-// The Creative Corner's works (14 Nov; creative.html, js/corner.js, css/main.css "the works").
-// Everything, laid out after a photographer's portfolio the user sent ("this looks so premium in
-// itself"): its composition, not its parts. On the night, where colour shows best:
-// - The opening: three pieces fanned in a stack, the words set large and tight across them. Every
-//   few seconds the front piece slides away and is dealt again at the back as the next, so the
-//   stack deals through everyone's newest work. The front one opens.
-// - Then each domain as a chapter: its work in one strip at one height, every piece at its own
-//   shape and never cropped, its title and maker under it; the arrows, a swipe, the trackpad or a
-//   drag walk the strip. Under it a hairline, and the chapter's number and name, large.
-// - The Easter egg stays: rest on a piece (or press and hold it) and its maker's name turns into
-//   their signature.
+// The Creative Corner's works (14 Nov; the wall since 18 Nov; creative.html, js/corner.js, css/main.css
+// "the works"). Everything, on the night, where colour shows best:
+// - The heading (since 19 Nov; before it a stack of three pieces dealt behind huge words, a whole screen):
+//   "Artists in the middle of becoming." in one line over the wall, and a quiet line under it.
+// - Then the wall (18 Nov): every piece at once, each at its own shape and never cropped, in columns
+//   like a board of pins. The user: "every artist art should get an equal opportunity in being
+//   displayed", "the art should get the whole importance… not fancy things around it". So no domain
+//   comes first: the order is shuffled once a day, the same for everyone that day, and the domains
+//   above it are in alphabetical order.
+// - Choose a domain and the wall zooms into it: that domain's pieces travel from where they hang on
+//   the wall into one strip at one height (the chapter as it was before), the rest fade away; its
+//   count and name rise under it. All (or the same domain again, or Escape) goes back to the wall.
+//   Kept plain on purpose: the galleries above are the fancy part.
+// - The Easter egg stays in the strip: rest on a piece (or press and hold it) and its maker's name
+//   turns into their signature.
 // Set in the new type: Inter Tight, tight, with Cormorant italic, semibold, for the word that turns.
+// The chapters one after another and the wide view ("See all at once") are in the backup
+// works-chapters-before-wall-2026-11-18.
 
 const NS = 'http://www.w3.org/2000/svg';
 const el = (tag, cls, text) => {
@@ -18,7 +24,6 @@ const el = (tag, cls, text) => {
   if (text != null) e.textContent = text;
   return e;
 };
-const pad2 = (n) => String(n).padStart(2, '0');
 const isNarrow = (W, H) => W <= H || (W < 900 && H > 520);
 // a domain's colour, lifted towards the paper so a signature in it reads on the night
 const lift = (hex, k = 0.5) => {
@@ -27,133 +32,181 @@ const lift = (hex, k = 0.5) => {
   return `rgb(${c.join(',')})`;
 };
 const ARROW = '<svg viewBox="0 0 64 16" aria-hidden="true"><path d="M2 8h58M52 2l8 6-8 6"/></svg>';
+// the day's order: a shuffle seeded by the day, so it is fair over time and steady within a day
+const rng = (s) => () => {
+  s = (s + 0x6d2b79f5) | 0;
+  let t = Math.imul(s ^ (s >>> 15), 1 | s);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+const shuffle = (list, seed) => {
+  const r = rng(seed), a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+};
+const DAY = Math.floor(Date.now() / 864e5);
+// the stand-in designs have lighter copies for the wall (720px wide) and the wide view (360px)
+const mid = (u) => u.replace('/corner/insomniac/', '/corner/insomniac/mid/');
 
 export function createWorks(host, opts) {
-  const { ARTS, COLOR, every, ofDomain, art, open, sigInto, egg, reduced, isTouch, total } = opts;
+  const { ARTS, COLOR, every, ofDomain, art, open, sigInto, egg, reduced, total, lenis, refresh } = opts;
   const { gsap } = window;
-  const cards = new Map(); // a piece's key: where it hangs here (a piece can be in the stack and its chapter)
-  const keep = (pc, c) => { if (!cards.has(pc.key)) cards.set(pc.key, []); cards.get(pc.key).push(c); };
   let narrow = isNarrow(innerWidth, innerHeight);
   const xh = () => (narrow ? 5.6 : 6.6);
   const io = 'IntersectionObserver' in window;
   host.classList.add('is-on');
 
-  // ---------------------------------------------------------------- the opening: the stack
+  // ---------------------------------------------------------------- the heading (19 Nov)
 
-  const opening = el('div', 'cw-open');
-  const stack = el('div', 'cw-stack');
+  // (the user: the opening, a stack of pieces dealt behind the words over a whole screen, cost a screen of scrolling
+  // before the wall, here, near the end of the page, where visitors tire; "the emphasis and the effort should go
+  // towards exploring art, not to reach that page where you can actually see the art". So the words are a short
+  // heading over the wall, one line on a laptop, with the filter and the wall's first row in view under it; nothing
+  // moves behind them. The stack: backup works-stack-before-header-2026-11-19)
+  const head = el('header', 'cw-head');
   const title = el('h2', 'cw-title');
   title.id = 'cw-title';
-  title.innerHTML = '<span class="cw-l1"><span>Artists in the</span></span><span class="cw-l2"><span>middle of</span></span><span class="cw-l3"><span><em>becoming.</em></span></span>';
-  const corner = (cls, html) => { const p = el('p', `cw-corner ${cls}`); p.innerHTML = html; return p; };
-  opening.append(
-    corner('cw-tl', 'Creative corner'),
-    corner('cw-tr', total),
-    stack, title,
-    corner('cw-bl', 'Everything'),
-    corner('cw-bc', 'New work from artists in nine domains.<br>Open any piece to meet the person who made it.'),
-    corner('cw-br', String(new Date().getFullYear())),
-  );
-  host.append(opening);
+  title.innerHTML = '<span class="cw-l1"><span>Artists in the middle of <em>becoming.</em></span></span>';
+  const meta = el('p', 'cw-meta');
+  meta.innerHTML = `<span>${total}</span><span>Open any piece to meet the person who made it.</span>`;
+  head.append(title, meta);
+  host.append(head);
+  const deck = []; // (no stack now; the room's home() still asks)
+  const deal = () => {};
+  const arrive = () => head.classList.add('is-in');
+  if (io && !reduced) new IntersectionObserver(([e], ob) => { if (e.isIntersecting) { arrive(); ob.disconnect(); } }, { threshold: 0.2 }).observe(head);
+  else arrive();
 
-  // the three slots: the front straight, the two behind turned a little more each, up and to the right
-  const SLOT = narrow
-    ? [{ x: 0, y: 0, r: -3 }, { x: 8, y: -4, r: 4 }, { x: 15, y: -8, r: 10 }]
-    : [{ x: 0, y: 0, r: -2.5 }, { x: 10, y: -5, r: 5 }, { x: 19, y: -10, r: 11 }];
-  const deck = [];
-  let dealt = 0;
-  const STACK_W = () => (narrow ? 900 : 1100);
-  function dress(c, pc) {
-    c.pc = pc;
-    c.b.setAttribute('aria-label', `${pc.w.title}, by ${pc.p.name}. Open it`);
-    art(pc, STACK_W()).then((u) => { if (c.pc === pc) c.img.src = u; });
-  }
-  function place(c, s, dur = 0) {
-    c.slot = s;
-    c.b.style.zIndex = String(3 - s);
-    c.b.tabIndex = s ? -1 : 0;
-    c.b.toggleAttribute('inert', !!s);
-    gsap.to(c.b, { xPercent: SLOT[s].x, yPercent: SLOT[s].y, rotation: SLOT[s].r, duration: dur, ease: 'expo', overwrite: 'auto' });
-  }
-  for (let s = 0; s < 3; s++) {
-    const b = el('button', 'cw-card'), img = el('img');
+  // ---------------------------------------------------------------- the wall and its filter (18 Nov)
+
+  // every piece, in the day's order; a domain's pieces keep that order in its strip. (While the studio's
+  // designs stand in, one design hangs on several pieces: the same picture is kept a dozen places from
+  // itself, so it never sits beside or under its twin.)
+  const spaced = (list, k = 12) => {
+    const left = list.slice(), out = [], img = (pc) => pc.w.image || pc.key;
+    while (left.length) {
+      const near = new Set(out.slice(-k).map(img));
+      let i = left.findIndex((pc) => !near.has(img(pc)));
+      // (none far enough: the one whose twin hangs furthest back)
+      if (i < 0) { const last = (pc) => out.map(img).lastIndexOf(img(pc)); i = left.reduce((b, pc, j) => (last(pc) < last(left[b]) ? j : b), 0); }
+      out.push(left.splice(i, 1)[0]);
+    }
+    return out;
+  };
+  const order = spaced(shuffle(ARTS.flatMap((a) => ofDomain(a)), DAY));
+  const doms = ARTS.filter((a) => order.some((pc) => pc.p.art === a.id)).sort((a, b) => a.name.localeCompare(b.name));
+  const nameOf = (pc) => ARTS.find((a) => a.id === pc.p.art)?.name || '';
+
+  const browse = el('div', 'cw-browse');
+  // the filter: All, then the domains A to Z, each with its count; it stays at the top while the wall
+  // is walked
+  const bar = el('div', 'cw-filter');
+  const chipsEl = el('div', 'cw-chips');
+  chipsEl.setAttribute('role', 'group');
+  chipsEl.setAttribute('aria-label', 'Show work from');
+  const chip = (label, n, id) => {
+    const b = el('button', 'cw-chip');
     b.type = 'button';
+    b.setAttribute('aria-pressed', String(id === null));
+    if (id) { const i = el('i'); i.style.background = lift(COLOR[id], 0.35); i.setAttribute('aria-hidden', 'true'); b.append(i); }
+    b.append(el('span', 'cw-chip-t', label), el('span', 'cw-chip-n', String(n)));
+    b.addEventListener('click', () => select(id !== null && view === id ? null : id));
+    chipsEl.append(b);
+    return { b, id };
+  };
+  const chips = [chip('All', order.length, null), ...doms.map((a) => chip(a.name, order.filter((pc) => pc.p.art === a.id).length, a.id))];
+  bar.append(chipsEl);
+  const live = el('p', 'sr-only');
+  live.setAttribute('aria-live', 'polite');
+  const stage = el('div', 'cw-stage');
+  browse.append(bar, live, stage);
+  host.append(browse);
+
+  // the wall: one tile a piece, placed in columns (each into the shortest one, so the reading order is
+  // across and down), every piece at its own shape
+  const wall = el('ul', 'cw-wall');
+  wall.setAttribute('aria-label', `Every piece, ${order.length} in all`);
+  stage.append(wall);
+  const say = el('p', 'cw-say');
+  say.setAttribute('aria-hidden', 'true');
+  document.body.append(say);
+  const sayOf = (pc) => `${pc.w.title} · ${pc.p.name} · ${nameOf(pc)}`;
+  const tiles = order.map((pc) => {
+    const li = el('li', 'cw-tile');
+    const b = el('button', 'cw-tile-b');
+    b.type = 'button';
+    b.setAttribute('aria-label', `${pc.w.title}, ${pc.w.kind.toLowerCase()} by ${pc.p.name}`);
+    const img = el('img');
     img.alt = '';
     img.decoding = 'async';
+    img.loading = 'lazy';
+    img.addEventListener('load', () => li.classList.add('is-loaded'), { once: true });
     b.append(img);
-    stack.append(b);
-    const c = { b, img, slot: s, pc: null };
-    dress(c, every[dealt++ % every.length]);
-    deck.push(c);
-    b.addEventListener('click', () => open(c.pc, { art: b, img, b }, every));
-  }
-  deck.forEach((c, s) => place(c, s));
-  // the front piece slides off and is dealt again at the back as the next one
-  function deal() {
-    const front = deck.find((c) => c.slot === 0);
-    deck.forEach((c) => { if (c !== front) place(c, c.slot - 1, 1.1); });
-    gsap.to(front.b, {
-      xPercent: 80, yPercent: 8, rotation: 14, opacity: 0, duration: 0.75, ease: 'power2.in', overwrite: 'auto',
-      onComplete: () => {
-        dress(front, every[dealt++ % every.length]);
-        place(front, 2);
-        gsap.fromTo(front.b, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: 'power2.out' });
-      },
+    li.append(b);
+    wall.append(li);
+    const t = { li, b, img, pc, asked: 0 };
+    b.addEventListener('click', () => open(pc, { art: b, img, b }, order));
+    // its title, maker and domain beside the pointer, or under it when reached by the keyboard
+    b.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; say.textContent = sayOf(pc); say.classList.add('is-on'); });
+    b.addEventListener('pointermove', (e) => { say.style.transform = `translate(${Math.round(Math.min(e.clientX + 16, innerWidth - say.offsetWidth - 12))}px, ${Math.round(e.clientY + 18)}px)`; });
+    b.addEventListener('pointerleave', () => say.classList.remove('is-on'));
+    b.addEventListener('focus', () => {
+      if (!b.matches(':focus-visible')) return;
+      const r = b.getBoundingClientRect();
+      say.textContent = sayOf(pc);
+      say.style.transform = `translate(${Math.round(Math.min(r.left, innerWidth - say.offsetWidth - 12))}px, ${Math.round(Math.min(r.bottom + 8, innerHeight - 40))}px)`;
+      say.classList.add('is-on');
     });
+    b.addEventListener('blur', () => say.classList.remove('is-on'));
+    return t;
+  });
+  addEventListener('scroll', () => say.classList.remove('is-on'), { passive: true });
+  let eager = false;
+  function layoutWall() {
+    const W = wall.clientWidth;
+    if (!W) return;
+    const n = narrow ? 2 : W >= 1280 ? 6 : W >= 1000 ? 5 : W >= 760 ? 4 : 3;
+    const gap = narrow ? 8 : Math.round(Math.min(18, Math.max(10, W * 0.011)));
+    const cw = (W - gap * (n - 1)) / n;
+    const colH = new Array(n).fill(0);
+    tiles.forEach((t) => {
+      let c = 0;
+      for (let k = 1; k < n; k++) if (colH[k] < colH[c] - 0.5) c = k;
+      const h = cw / (t.pc.ratio || 0.8);
+      Object.assign(t.li.style, { left: `${(c * (cw + gap)).toFixed(1)}px`, top: `${colH[c].toFixed(1)}px`, width: `${cw.toFixed(1)}px`, height: `${h.toFixed(1)}px` });
+      colH[c] += h + gap;
+      // (the picture at about twice the tile's width; the stand-ins' lighter copies)
+      const want = Math.round(cw * 2);
+      if (t.asked < want * 0.8) {
+        t.asked = want;
+        if (eager) t.img.loading = 'eager';
+        art(t.pc, want).then((u) => { t.img.src = mid(u); });
+      }
+    });
+    wall.style.height = `${Math.round(Math.max(...colH) - gap)}px`;
   }
-  let inView = false, resting = false, timer = 0;
-  const loop = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      if (inView && !resting && !document.hidden) deal();
-      loop();
-    }, 3800);
-  };
-  stack.addEventListener('pointerenter', () => { resting = true; });
-  stack.addEventListener('pointerleave', () => { resting = false; });
-  stack.addEventListener('focusin', () => { resting = true; });
-  stack.addEventListener('focusout', () => { resting = false; });
-  // arriving: the stack fans out from a neat pile, and the words rise in
-  let arrived = false;
-  function arrive() {
-    if (arrived) return;
-    arrived = true;
-    if (reduced) { opening.classList.add('is-in'); return; }
-    deck.forEach((c) => gsap.set(c.b, { xPercent: 0, yPercent: 0, rotation: 0 }));
-    deck.forEach((c) => place(c, c.slot, 1.6));
-    opening.classList.add('is-in');
-    loop();
-  }
-  if (io) {
-    new IntersectionObserver(([e]) => {
-      inView = e.isIntersecting;
-      if (inView) arrive();
-    }, { threshold: 0.25 }).observe(opening);
-  } else { inView = true; arrive(); }
 
-  // ---------------------------------------------------------------- the chapters
+  // ---------------------------------------------------------------- a domain, zoomed in
 
-  const chapters = [];
-  ARTS.forEach((a) => {
-    const list = ofDomain(a);
-    if (!list.length) return;
-    const n = chapters.length + 1;
+  // each domain's strip, made once and kept hidden until it is chosen: its work at one height, each
+  // piece's title and maker under it, the arrows, then a hairline and its count and name, large
+  const chapters = doms.map((a) => {
+    const list = order.filter((pc) => pc.p.art === a.id);
     const sec = el('section', 'cw-chapter is-waiting');
+    sec.hidden = true;
     sec.setAttribute('aria-labelledby', `cw-${a.id}`);
     sec.style.setProperty('--dom', COLOR[a.id]);
     const strip = el('ul', 'cw-strip');
     strip.setAttribute('aria-label', `${a.name}: the work`);
-    list.forEach((pc, i) => {
+    const cards = list.map((pc) => {
       const li = el('li', 'cw-piece');
       li.style.setProperty('--r', pc.ratio.toFixed(4));
-      li.style.setProperty('--i', String(Math.min(i, 8)));
       const b = el('button', 'cw-pic');
       b.type = 'button';
       b.setAttribute('aria-label', `${pc.w.title}, ${pc.w.kind.toLowerCase()} by ${pc.p.name}`);
       const img = el('img');
       img.alt = '';
       img.decoding = 'async';
-      img.loading = 'lazy';
       b.append(img);
       const cap = el('p', 'cw-cap');
       const by = el('span', 'cw-by');
@@ -168,8 +221,7 @@ export function createWorks(host, opts) {
       strip.append(li);
       egg(li, sig);
       b.addEventListener('click', (e) => { if (dragged) { e.preventDefault(); return; } open(pc, { art: b, img, b }, list); });
-      const c = { li, b, img, pc, sig, painted: false };
-      keep(pc, c);
+      return { li, b, img, pc, sig, cap, painted: false };
     });
     // the arrows walk the strip by most of a screen
     const steps = el('div', 'cw-steps');
@@ -187,17 +239,28 @@ export function createWorks(host, opts) {
       next.disabled = strip.scrollLeft > strip.scrollWidth - strip.clientWidth - 4;
     };
     strip.addEventListener('scroll', ends, { passive: true });
-    // under it, the chapter's number and its name
+    // under it, how many pieces and the domain's name
     const foot = el('div', 'cw-foot');
     const num = el('span', 'cw-n'), name = el('h3', 'cw-dom');
-    num.append(el('span', '', pad2(n)));
+    num.append(el('span', '', String(list.length)));
+    num.setAttribute('aria-hidden', 'true');
     name.append(el('span', '', a.name));
     name.id = `cw-${a.id}`;
     foot.append(num, name);
     sec.append(strip, steps, foot);
-    host.append(sec);
-    chapters.push({ a, sec, strip, ends });
+    stage.append(sec);
     drag(strip);
+    // its pictures load a screen ahead of where the strip is walked to
+    if (io) {
+      const near = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const c = cards.find((q) => q.li === e.target);
+        if (c) paint(c);
+        near.unobserve(e.target);
+      }), { root: strip, rootMargin: '0px 100% 0px 100%' });
+      cards.forEach((c) => near.observe(c.li));
+    }
+    return { a, sec, strip, steps, foot, cards, list, ends };
   });
 
   // a drag with the mouse walks a strip too; a drag is not a click
@@ -222,212 +285,169 @@ export function createWorks(host, opts) {
     });
   }
 
-  // the pictures, as they come near: a strip loads a screen ahead of where it is walked to
+  // a strip's picture: the wall's lighter copy first (already loaded, so it can travel at once), then the
+  // full one in its place
   const W_OF = (pc) => Math.round((narrow ? 520 : 760) * Math.max(1, pc.ratio));
-  const paint = (c) => {
+  const tileOf = new Map(tiles.map((t) => [t.pc.key, t]));
+  function paint(c) {
     if (c.painted) return;
     c.painted = true;
-    art(c.pc, W_OF(c.pc)).then((u) => { c.img.src = u; });
-    c.img.addEventListener('load', () => c.li.classList.add('is-loaded'), { once: true });
-  };
-  if (io) {
-    chapters.forEach(({ strip }) => {
-      const near = new IntersectionObserver((es) => es.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const c = [...cards.values()].flat().find((q) => q.li === e.target);
-        if (c) paint(c);
-        near.unobserve(e.target);
-      }), { root: strip, rootMargin: '0px 100% 0px 100%' });
-      strip.querySelectorAll('.cw-piece').forEach((li) => near.observe(li));
+    const t = tileOf.get(c.pc.key);
+    if (t?.li.classList.contains('is-loaded') && t.img.currentSrc) { c.img.src = t.img.currentSrc; c.li.classList.add('is-loaded'); }
+    else c.img.addEventListener('load', () => c.li.classList.add('is-loaded'), { once: true });
+    art(c.pc, W_OF(c.pc)).then((u) => {
+      if (c.img.src && c.img.src.endsWith(u)) return;
+      const full = new Image();
+      full.onload = () => { c.img.src = u; };
+      full.src = u;
     });
-    // a chapter's pieces rise in as it comes up, its number and name after them
-    const seen = new IntersectionObserver((es) => es.forEach((e) => {
-      if (!e.isIntersecting) return;
-      e.target.classList.remove('is-waiting');
-      seen.unobserve(e.target);
-    }), { threshold: 0.12 });
-    chapters.forEach(({ sec }) => seen.observe(sec));
-  } else {
-    chapters.forEach(({ sec }) => sec.classList.remove('is-waiting'));
-    cards.forEach((list) => list.forEach(paint));
   }
-  if (reduced) chapters.forEach(({ sec }) => sec.classList.remove('is-waiting'));
-  requestAnimationFrame(() => chapters.forEach(({ ends }) => ends()));
 
-  // ---------------------------------------------------------------- the wide view (14 Nov)
-  // Everything at once: the user asked for "an option which zooms out all the designs and all are
-  // visible at once". A button while the works are in view; it zooms out to every piece, domain by
-  // domain in justified rows, sized so the whole lot fits the screen on a laptop (on a phone, as
-  // small as still reads, and scrolled). Rest on one for its title and maker; click it to open it;
-  // Close (or Escape) zooms back in to where you were.
-  const all = chapters.flatMap(({ a }) => ofDomain(a));
-  const wideBtn = el('button', 'cw-wide-btn');
-  wideBtn.type = 'button';
-  wideBtn.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 1h4v4H1zM6 1h4v4H6zM11 1h4v4h-4zM1 6h4v4H1zM6 6h4v4H6zM11 6h4v4h-4zM1 11h4v4H1zM6 11h4v4H6zM11 11h4v4h-4z"/></svg><span>See all at once</span>';
-  document.body.append(wideBtn);
-  const wide = el('div', 'cw-wide');
-  wide.hidden = true;
-  wide.setAttribute('role', 'dialog');
-  wide.setAttribute('aria-modal', 'true');
-  wide.setAttribute('aria-label', 'Every piece at once');
-  wide.dataset.lenisPrevent = '';
-  const wideBar = el('div', 'cw-wide-bar');
-  const wideClose = el('button', 'cw-wide-close', 'Close');
-  wideClose.type = 'button';
-  // the domains along the top: rest on one (or tap it) and only its pieces stay lit
-  const legend = el('div', 'cw-wide-legend');
-  legend.append(el('span', 'cw-wide-count', `All ${all.length} pieces`));
-  const keys = chapters.map(({ a }) => {
-    const k = el('button', 'cw-wide-key');
-    k.type = 'button';
-    k.style.setProperty('--dom', lift(COLOR[a.id], 0.35));
-    k.append(el('i', ''), el('span', '', a.name), el('em', '', String(ofDomain(a).length)));
-    legend.append(k);
-    return { a, k };
-  });
-  const light = (id) => {
-    wide.classList.toggle('is-picking', !!id);
-    wideTiles.forEach((t) => t.b.classList.toggle('is-lit', t.pc.p.art === id));
-    keys.forEach(({ a, k }) => k.classList.toggle('is-on', a.id === id));
+  // ---------------------------------------------------------------- choosing: the wall to a domain and back
+
+  let view = null; // (null: the wall; else the domain's id)
+  const onScreen = (r) => r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+  const chapterOf = (id) => chapters.find((c) => c.a.id === id);
+  const DUR = 0.8, EASE = 'power3.inOut';
+  // the filter keeps its place: if the wall was walked far down, the page comes back to the top of it
+  const keepTop = () => {
+    const top = Math.round(browse.getBoundingClientRect().top + scrollY);
+    if (scrollY > top + 1) { lenis?.scrollTo?.(top, { immediate: true, force: true }); scrollTo(0, top); }
   };
-  let picked = null;
-  keys.forEach(({ a, k }) => {
-    k.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') light(a.id); });
-    k.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') light(picked); });
-    k.addEventListener('click', () => { picked = picked === a.id ? null : a.id; light(picked); });
-  });
-  wideBar.append(legend, wideClose);
-  const wideBody = el('div', 'cw-wide-body');
-  const wideSay = el('p', 'cw-wide-say');
-  wide.append(wideBar, wideBody, wideSay);
-  document.body.append(wide);
-  const wideTiles = [];
-  let wideOpen = false, wideBuilt = false, returnTo = null;
-  function buildWide() {
-    wideBody.innerHTML = '';
-    wideTiles.length = 0;
-    // (measured from the open view itself: the gutter is a clamp(), not a number)
-    const pad = parseFloat(getComputedStyle(wide).paddingLeft) || 24;
-    const W = Math.min((wide.clientWidth || innerWidth) - 2 * pad, 1560);
-    const GAPX = narrow ? 4 : 6;
-    // every piece in one flow, domain after domain, so the rows use the whole width
-    const groups = [{ list: all }];
-    const LABEL = 0, GROUP = 0;
-    // the rows at a height, and how tall they come to
-    const rowsOf = (list, h) => {
-      const rows = [];
-      let row = [], sum = 0;
-      list.forEach((pc) => {
-        const r = pc.ratio || 0.8;
-        if (row.length && (sum + r) * h + GAPX * row.length > W) { rows.push({ row, h: (W - GAPX * (row.length - 1)) / sum }); row = []; sum = 0; }
-        row.push(pc); sum += r;
+  const settled = () => { refresh?.(); };
+  // (a choice made while another is moving finishes that one first)
+  let moving = [];
+  const finish = () => { moving.forEach((tw) => tw.progress(1)); moving = []; };
+  const tw = (t) => { moving.push(t); return t; };
+  // a piece travels from one place on the screen to its new one: it starts where it was and moves home
+  const travel = (node, from, delay = 0) => {
+    const to = node.getBoundingClientRect();
+    if (!to.width) return;
+    tw(gsap.fromTo(node,
+      { x: from.left - to.left, y: from.top - to.top, scale: from.width / to.width, transformOrigin: '0 0', zIndex: 2 },
+      { x: 0, y: 0, scale: 1, duration: DUR, delay, ease: EASE, clearProps: 'transform,zIndex' }));
+  };
+  const rise = (nodes, delay = 0.15) => nodes.forEach((n, i) => tw(gsap.fromTo(n, { opacity: 0, y: 26 },
+    { opacity: 1, y: 0, duration: 0.7, delay: delay + Math.min(i, 8) * 0.05, ease: 'power3.out', clearProps: 'opacity,transform' })));
+
+  function showChapter(ch, from) {
+    ch.cards.slice(0, 10).forEach(paint);
+    if (from) ch.cards.forEach((c) => { if (from.has(c.pc.key)) paint(c); });
+    ch.strip.scrollLeft = 0;
+    ch.sec.hidden = false;
+    keepTop();
+    settled();
+    ch.ends();
+    if (reduced) { ch.sec.classList.remove('is-waiting'); return; }
+    const flown = [];
+    ch.cards.forEach((c) => {
+      const f = from?.get(c.pc.key);
+      if (f && onScreen(c.b.getBoundingClientRect())) { travel(c.b, f); flown.push(c); }
+    });
+    // (the strip clips what lies outside it, so while its pieces travel in from the wall it does not)
+    if (flown.length) {
+      ch.strip.classList.add('is-flying');
+      tw(gsap.delayedCall(DUR + 0.05, () => ch.strip.classList.remove('is-flying')));
+    }
+    rise(ch.cards.filter((c) => !flown.includes(c) && onScreen(c.li.getBoundingClientRect())).map((c) => c.b), flown.length ? 0.3 : 0.05);
+    tw(gsap.fromTo([...ch.cards.map((c) => c.cap), ch.steps], { opacity: 0 }, { opacity: 1, duration: 0.5, delay: 0.5, ease: 'power2.out', clearProps: 'opacity' }));
+    requestAnimationFrame(() => requestAnimationFrame(() => ch.sec.classList.remove('is-waiting')));
+  }
+  function hideChapter(ch) {
+    ch.sec.hidden = true;
+    ch.sec.classList.add('is-waiting');
+  }
+
+  function select(id) {
+    if (id === view) return;
+    finish();
+    say.classList.remove('is-on');
+    const was = view;
+    view = id;
+    chips.forEach((c) => c.b.setAttribute('aria-pressed', String(c.id === id)));
+    const ch = id && chapterOf(id);
+    live.textContent = ch ? `Showing ${ch.list.length} pieces of ${ch.a.name.toLowerCase()}` : `Showing all ${order.length} pieces`;
+
+    if (was === null) {
+      // the wall to a domain: the others fade, then its pieces travel into the strip
+      const from = new Map(), others = [];
+      tiles.forEach((t) => {
+        const r = t.b.getBoundingClientRect();
+        if (!onScreen(r)) return;
+        if (t.pc.p.art === id) from.set(t.pc.key, r); else others.push(t.li);
       });
-      if (row.length) rows.push({ row, h: Math.min(h, (W - GAPX * (row.length - 1)) / sum) });
-      return rows;
-    };
-    const heightAt = (h) => groups.reduce((t, g) => t + LABEL + rowsOf(g.list, h).reduce((s, r) => s + r.h + GAPX, 0) + GROUP, 0);
-    // as large as lets the whole of it fit the screen, on a phone too (a contact sheet; a tap opens one)
-    const room = innerHeight - (parseFloat(getComputedStyle(wide).paddingTop) || 82) - wideBar.offsetHeight - 40;
-    const least = narrow ? 30 : 40;
-    let lo = least, hi = 220;
-    for (let k = 0; k < 18; k++) { const mid = (lo + hi) / 2; if (heightAt(mid) <= room) lo = mid; else hi = mid; }
-    const h = Math.max(least, lo);
-    groups.forEach(({ list }) => {
-      const g = el('div', 'cw-wide-group');
-      rowsOf(list, h).forEach(({ row, h: rh }) => {
-        const r = el('div', 'cw-wide-row');
-        r.style.gap = `${GAPX}px`;
-        row.forEach((pc) => {
-          const b = el('button', 'cw-wide-tile'), img = el('img');
-          b.type = 'button';
-          b.style.width = `${(rh * (pc.ratio || 0.8)).toFixed(1)}px`;
-          b.style.height = `${rh.toFixed(1)}px`;
-          b.setAttribute('aria-label', `${pc.w.title}, ${pc.w.kind.toLowerCase()} by ${pc.p.name}`);
-          img.alt = ''; img.decoding = 'async';
-          // (the stand-in designs have small copies for this, so a hundred of them load fast)
-          art(pc, Math.round(rh * (pc.ratio || 0.8) * 2.2)).then((u) => { img.src = u.replace('/corner/insomniac/', '/corner/insomniac/thumb/'); });
-          b.append(img);
-          b.addEventListener('click', () => open(pc, { art: b, img, b }, all));
-          b.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; wideSay.textContent = `${pc.w.title} · ${pc.p.name} · ${ARTS.find((q) => q.id === pc.p.art)?.name || ''}`; wideSay.classList.add('is-on'); });
-          b.addEventListener('pointerleave', () => wideSay.classList.remove('is-on'));
-          b.addEventListener('pointermove', (e) => { wideSay.style.transform = `translate(${Math.round(Math.min(e.clientX + 16, innerWidth - 280))}px, ${Math.round(e.clientY + 18)}px)`; });
-          r.append(b);
-          wideTiles.push({ b, img, pc });
+      const go = () => { wall.hidden = true; gsap.set(others, { clearProps: 'opacity' }); showChapter(ch, from); };
+      if (reduced || !others.length) go();
+      else tw(gsap.to(others, { opacity: 0, duration: 0.3, ease: 'power2.out', onComplete: go }));
+    } else if (id === null) {
+      // a domain to the wall: its words fade, its pieces travel back to their places, the rest come back
+      const old = chapterOf(was), from = new Map();
+      old.cards.forEach((c) => { const r = c.b.getBoundingClientRect(); if (onScreen(r)) from.set(c.pc.key, r); });
+      const go = () => {
+        gsap.set([...old.cards.map((c) => c.cap), old.steps, old.foot], { clearProps: 'opacity' });
+        hideChapter(old);
+        wall.hidden = false;
+        layoutWall();
+        keepTop();
+        settled();
+        if (reduced) return;
+        tiles.forEach((t) => {
+          const r = t.b.getBoundingClientRect();
+          if (!onScreen(r)) return;
+          const f = from.get(t.pc.key);
+          if (f) travel(t.li, f);
+          else tw(gsap.fromTo(t.li, { opacity: 0 }, { opacity: 1, duration: 0.55, delay: 0.3, ease: 'power2.out', clearProps: 'opacity' }));
         });
-        g.append(r);
-      });
-      wideBody.append(g);
-    });
-    wideBody.style.maxWidth = `${W}px`;
-    light(picked);
-    wideBuilt = true;
+      };
+      if (reduced) go();
+      else tw(gsap.to([...old.cards.map((c) => c.cap), old.steps, old.foot], { opacity: 0, duration: 0.22, ease: 'power2.out', onComplete: go }));
+    } else {
+      // one domain to another: the strip fades and the next rises in its place
+      const old = chapterOf(was);
+      const go = () => { gsap.set(old.sec, { clearProps: 'opacity' }); hideChapter(old); showChapter(ch, null); };
+      if (reduced) go();
+      else tw(gsap.to(old.sec, { opacity: 0, duration: 0.25, ease: 'power2.out', onComplete: go }));
+    }
   }
-  function openWide() {
-    if (wideOpen) return;
-    wideOpen = true;
-    returnTo = document.activeElement;
-    wide.hidden = false;
-    if (!wideBuilt) buildWide();
-    wideBtn.classList.add('is-hidden');
-    document.documentElement.classList.add('cw-wide-on');
-    wide.scrollTop = 0;
-    wideClose.focus({ preventScroll: true });
-    if (reduced) return;
-    // it zooms out: the room comes up and every piece settles in from a little larger, from the
-    // middle of the screen outwards
-    gsap.fromTo(wide, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power2.out' });
-    const cx = innerWidth / 2, cy = innerHeight / 2;
-    wideTiles.forEach(({ b }) => {
-      const r = b.getBoundingClientRect(), d = Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy) / Math.hypot(cx, cy);
-      gsap.fromTo(b, { opacity: 0, scale: 1.35 }, { opacity: 1, scale: 1, duration: 0.7, delay: 0.05 + d * 0.35, ease: 'expo', clearProps: 'transform,opacity' });
-    });
-  }
-  function closeWide() {
-    if (!wideOpen) return;
-    wideOpen = false;
-    wideSay.classList.remove('is-on');
-    const done = () => { wide.hidden = true; document.documentElement.classList.remove('cw-wide-on'); wideBtn.classList.remove('is-hidden'); returnTo?.focus?.({ preventScroll: true }); };
-    if (reduced) { done(); return; }
-    gsap.to(wide, { opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => { gsap.set(wide, { clearProps: 'opacity' }); done(); } });
-  }
-  wideBtn.addEventListener('click', openWide);
-  wideClose.addEventListener('click', closeWide);
+  // Escape goes back to the wall (a piece open over the page closes first; the room handles that)
   addEventListener('keydown', (e) => {
-    if (!wideOpen || e.key !== 'Escape') return;
-    // (a piece opened from it closes first; the room handles that)
+    if (e.key !== 'Escape' || view === null) return;
     if (document.querySelector('.cc-room:not([hidden])')) return;
-    closeWide();
+    const r = browse.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    select(null);
   });
-  // the button shows while the works are on the screen
-  const worksIn = () => { const r = host.getBoundingClientRect(); return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4; };
-  const showBtn = () => wideBtn.classList.toggle('is-in', worksIn() && !wideOpen);
-  window.gsap?.ticker.add(showBtn);
 
   // ---------------------------------------------------------------- for the room
 
-  const onScreen = (e) => { const r = e.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth; };
+  const homeIn = (list) => list.find((h) => onScreen(h.art.getBoundingClientRect())) || null;
+  layoutWall();
   return {
-    // where a piece hangs here, to fly from and back to: in the wide view if it is open, its card in
-    // view, or the stack's front
+    // where a piece hangs here, to fly from and back to: its tile on the wall or its place in the strip
+    // when in view, or the stack's front
     home(pc) {
-      if (wideOpen) { const t = wideTiles.find((q) => q.pc === pc); if (t) return { art: t.b, img: t.img, b: t.b }; }
-      const all = [...(cards.get(pc.key) || []).map((c) => ({ art: c.b, img: c.img, b: c.b })),
-        ...deck.filter((c) => c.pc === pc && c.slot === 0).map((c) => ({ art: c.b, img: c.img, b: c.b }))];
-      return all.find((h) => onScreen(h.art)) || null;
+      const out = [];
+      if (view === null) { const t = tileOf.get(pc.key); if (t) out.push({ art: t.b, img: t.img, b: t.b }); }
+      else chapterOf(view)?.cards.filter((c) => c.pc === pc).forEach((c) => out.push({ art: c.b, img: c.img, b: c.b }));
+      deck.filter((c) => c.pc === pc && c.slot === 0).forEach((c) => out.push({ art: c.b, img: c.img, b: c.b }));
+      return homeIn(out);
     },
     layout() {
       const was = narrow;
       narrow = isNarrow(innerWidth, innerHeight);
-      if (was !== narrow) cards.forEach((list) => list.forEach((c) => sigInto(c.sig, c.pc.p, xh())));
+      if (was !== narrow) chapters.forEach((ch) => ch.cards.forEach((c) => sigInto(c.sig, c.pc.p, xh())));
       chapters.forEach(({ ends }) => ends());
-      // (rebuilt for the new size: now if it is open, else when it next opens)
-      if (wideOpen) buildWide(); else wideBuilt = false;
+      layoutWall();
     },
-    openWide, closeWide,
-    paintAll: () => cards.forEach((list) => list.forEach(paint)),
+    select,
+    get view() { return view; },
+    // (for testing: every picture now, and the strips' words shown)
+    paintAll: () => { eager = true; tiles.forEach((t) => { t.img.loading = 'eager'; }); chapters.forEach((ch) => ch.cards.forEach(paint)); },
     showAll: () => chapters.forEach(({ sec }) => sec.classList.remove('is-waiting')),
     deal, arrive,
     get deck() { return deck; },
-    chapters,
+    chapters, tiles, order,
+    // (20 Nov) the heading and the words beside the pointer, for the current above the wall (js/corner-current.js)
+    head, sayOf,
   };
 }

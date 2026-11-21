@@ -86,7 +86,7 @@ export function setupServices({ lenis, register, reduced, isTouch, local }) {
     building = (async () => {
       // the note is printed in the site's own type, so wait for it (but never for long)
       await Promise.race([
-        Promise.all(['500 80px "Ibarra Real Nova"', 'italic 400 40px "Ibarra Real Nova"', '24px "Inter Tight"', '24px "Fragment Mono"'].map((f) => document.fonts.load(f))),
+        Promise.all(['500 80px "Ibarra Real Nova"', 'italic 400 40px "Ibarra Real Nova"', '24px "Open Sauce One"', '24px "Fragment Mono"'].map((f) => document.fonts.load(f))),
         wait(2500),
       ]);
       const serial = visitSerial();

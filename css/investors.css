@@ -1,0 +1,264 @@
+/* ------------------------------------------------------------------ the Investor Corner, 17 Nov
+   Both sites (investors.html in Light, ink-investors.html in Ink), from the client's Notion: "Transforming
+   Money into Wealth"; the four parts of wealth as rings of atoms; the three kinds of spending; saving
+   against investing; the Family Wealth Picture; the closing quote. One page of markup in two skins:
+   iv-light (the night, silver, warm light) and iv-ink (paper and ink, inside the simple site's own
+   styles). Prefix iv-. The rings, the house and the arithmetic are js/wealth-*.js. */
+
+.iv-light { background: #0a101c; color: #e9ebe6; --fg: #e9ebe6; --fg-soft: rgba(233, 235, 230, .62); --line: rgba(233, 235, 230, .14); --line-strong: rgba(233, 235, 230, .32); --ground: #0a101c; --gold: #f0c48a; }
+.iv-ink { --gold: #966828; }
+.iv-light body { background: linear-gradient(#131c30, #0a101c 40vh, #070a12); }
+.iv-wrap { max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
+.iv-h2 { font-weight: 500; font-size: clamp(2.3rem, 4.8vw, 5.4rem); line-height: .95; letter-spacing: var(--t-d); max-width: 15ch; text-wrap: balance; }
+.iv-k { display: flex; gap: 14px; align-items: baseline; margin-bottom: 26px; font-size: 14px; color: var(--fg-soft); }
+.iv-k b { font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--fg); }
+
+/* ---- the opening: the line, and the four rings of the parts of wealth */
+.iv-open { padding: calc(var(--nav-h) + clamp(50px, 9vh, 110px)) 0 clamp(60px, 9vh, 110px); }
+.iv-open-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(30px, 4vw, 80px); align-items: center; }
+.iv-title { font-weight: 500; font-size: clamp(2.8rem, 5.7vw, 7rem); line-height: .88; letter-spacing: var(--t-d); }
+.iv-sub { max-width: 30ch; margin-top: clamp(26px, 4vh, 40px); font-size: clamp(17px, 1.3vw, 20px); line-height: 1.45; color: var(--fg-soft); }
+.iv-rings { position: relative; aspect-ratio: 1.45; }
+.iv-rings canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.iv-ring-key { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 18px; border-top: 1px solid var(--line); }
+.iv-ring { display: grid; align-content: start; gap: 4px; margin: 0; padding: 14px 16px 0 0; cursor: default; transition: opacity .5s var(--ease-out); }
+.iv-ring + .iv-ring { padding-left: 16px; border-left: 1px solid var(--line); }
+.iv-ring b { font-weight: 600; font-size: 16px; letter-spacing: var(--t-s); }
+.iv-ring span { font-size: 13px; line-height: 1.4; color: var(--fg-soft); }
+.iv-rings-wrap.is-focus .iv-ring:not(.is-on) { opacity: .32; }
+/* (19 Nov) over a ring, its name and what it is, beside the pointer: flat and square, on the page's own ground */
+.iv-ring-cap { position: absolute; left: 0; top: 0; z-index: 2; display: grid; gap: 4px; width: max-content; max-width: 16.5rem; margin: 0; padding: 11px 13px 12px; background: var(--ground); border: 1px solid var(--line-strong); pointer-events: none; opacity: 0; transition: opacity .25s var(--ease-out); }
+.iv-ring-cap.is-on { opacity: 1; }
+.iv-ring-cap b { font-weight: 600; font-size: 15px; letter-spacing: var(--t-s); }
+.iv-ring-cap span { font-size: 13.5px; line-height: 1.4; color: var(--fg-soft); }
+
+/* ---- a word with us (19 Nov): one quiet link wherever a visitor might want to talk, never a pair of buttons */
+.iv-talk { display: inline-flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line-strong); font-size: 15px; font-weight: 500; color: var(--fg); transition: border-color .4s var(--ease-out); }
+.iv-talk svg { width: 20px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.3; transition: transform .45s var(--ease-out); }
+.iv-talk:hover { border-color: var(--fg); }
+.iv-talk:hover svg { transform: translateX(4px); }
+
+/* ---- earning, said once (19 Nov): the line the other three follow from */
+.iv-earn { padding: clamp(40px, 6vh, 70px) 0 clamp(30px, 6vh, 70px); }
+.iv-earn-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(30px, 5vw, 100px); align-items: end; }
+.iv-earn-line { max-width: 13ch; }
+.iv-earn-side { display: grid; gap: 26px; justify-items: start; }
+.iv-earn-side p { max-width: 34ch; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.5; color: var(--fg-soft); }
+
+/* ---- the three ways money is spent */
+.iv-spend { padding: clamp(90px, 14vh, 160px) 0; }
+.iv-ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: clamp(44px, 7vh, 80px); border-top: 1px solid var(--line-strong); }
+.iv-way { display: grid; align-content: start; gap: 14px; padding: 26px 28px 10px 0; }
+.iv-way + .iv-way { padding-left: 28px; border-left: 1px solid var(--line); }
+.iv-way-n { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.iv-way h3 { font-weight: 500; font-size: clamp(1.8rem, 2.8vw, 3rem); line-height: .96; letter-spacing: var(--t-d); }
+.iv-way p { font-size: 15.5px; line-height: 1.55; color: var(--fg-soft); max-width: 32ch; }
+
+/* ---- worth spending on (19 Nov): a strip of rare things, opened into the whole list when asked */
+.iv-h3 { font-weight: 500; font-size: clamp(1.9rem, 3vw, 3.2rem); line-height: .98; letter-spacing: var(--t-d); }
+.iv-coll { margin-top: clamp(90px, 14vh, 150px); }
+.iv-coll-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) auto; gap: 30px; align-items: end; margin-bottom: clamp(28px, 4vh, 44px); }
+.iv-coll-head p { max-width: 40ch; font-size: 16px; line-height: 1.5; color: var(--fg-soft); }
+.iv-coll-nav { display: flex; gap: 6px; align-items: center; }
+.iv-arrow { display: grid; place-items: center; width: 44px; height: 36px; border: 1px solid var(--line-strong); border-radius: 2px; color: var(--fg); transition: border-color .4s var(--ease-out), opacity .4s; }
+.iv-arrow svg { width: 18px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.iv-arrow[data-dir="-1"] svg { transform: scaleX(-1); }
+.iv-arrow:hover { border-color: var(--fg); }
+.iv-arrow:disabled { opacity: .28; cursor: default; }
+.iv-coll-all { height: 36px; margin-left: 8px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 2px; font-size: 14px; color: var(--fg); transition: border-color .4s var(--ease-out); }
+.iv-coll-all:hover { border-color: var(--fg); }
+.iv-coll-row { display: grid; grid-auto-flow: column; grid-auto-columns: clamp(240px, 21vw, 310px); gap: clamp(16px, 1.6vw, 26px); margin: 0 calc(var(--gutter) * -1) 0 0; padding: 0 var(--gutter) 6px 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; list-style: none; outline: none; cursor: grab; }
+.iv-coll-row::-webkit-scrollbar { display: none; }
+.iv-coll-row.is-drag { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.iv-coll-row:focus-visible { outline: 1px solid var(--fg); outline-offset: 6px; }
+.iv-coll.is-all .iv-coll-row { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); row-gap: 44px; margin-right: 0; padding-right: 0; overflow: visible; cursor: default; }
+.iv-coll.is-all .iv-arrow { visibility: hidden; }
+.iv-piece { display: grid; align-content: start; gap: 10px; scroll-snap-align: start; }
+.iv-piece-pic { position: relative; aspect-ratio: 4 / 5; margin: 0 0 6px; overflow: hidden; background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.iv-piece-pic img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.iv-piece-pic figcaption { display: none; position: absolute; left: 14px; bottom: 12px; font-size: 12.5px; color: var(--fg-soft); }
+.iv-piece-pic.is-empty img { display: none; }
+.iv-piece-pic.is-empty figcaption { display: block; }
+.iv-piece-kind { display: flex; gap: 12px; font-size: 13px; color: var(--fg-soft); }
+.iv-piece-kind i { font-style: normal; color: var(--gold); }
+.iv-piece h4 { font-weight: 500; font-size: clamp(1.15rem, 1.4vw, 1.4rem); line-height: 1.12; letter-spacing: var(--t-l); text-wrap: balance; }
+.iv-piece > p:not(.iv-piece-kind) { font-size: 14px; line-height: 1.5; color: var(--fg-soft); }
+.iv-piece .iv-talk { justify-self: start; margin-top: 4px; font-size: 14px; }
+
+/* ---- saving and investing */
+.iv-keep { padding: clamp(90px, 14vh, 160px) 0; }
+.iv-keep-in { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(30px, 5vw, 100px); align-items: end; }
+.iv-def { font-size: clamp(17px, 1.3vw, 20px); line-height: 1.5; color: var(--fg-soft); max-width: 40ch; }
+/* the line of risk (19 Nov): silver up to the normal level of risk (saving), gold beyond it, deepening (investing) */
+.iv-risk { --risk-v: 0; position: relative; margin-top: clamp(70px, 10vh, 110px); padding-top: 76px; cursor: crosshair; touch-action: pan-y; }
+.iv-risk-items { position: absolute; inset: 0 0 auto; height: 76px; margin: 0; padding: 0; list-style: none; }
+.iv-risk-items li { position: absolute; left: var(--at); bottom: 16px; transform: translateX(-50%); white-space: nowrap; font-size: 13.5px; color: var(--fg-soft); transition: color .3s var(--ease-out); }
+.iv-risk-items li:nth-child(even) { bottom: 44px; }
+.iv-risk-items li::after { content: ''; position: absolute; left: 50%; top: calc(100% + 5px); width: 1px; height: 11px; background: currentColor; opacity: .5; }
+.iv-risk-items li:nth-child(even)::after { height: 39px; }
+.iv-risk-items li.is-near { color: var(--fg); }
+.iv-risk-items li[data-invest].is-near { color: var(--gold); }
+.iv-risk-bar { position: relative; height: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--fg) 42%, transparent) 0 var(--mark), color-mix(in srgb, var(--gold) 45%, transparent) var(--mark), var(--gold)); }
+.iv-risk-mark { position: absolute; left: var(--mark); top: -18px; height: 44px; padding: 30px 0 0 10px; border-left: 1px solid var(--fg); font-size: 13px; white-space: nowrap; color: var(--fg); }
+.iv-risk-at { position: absolute; left: 0; top: -80px; bottom: -12px; width: 1px; background: var(--fg); opacity: 0; transition: opacity .3s; }
+.iv-risk.is-reading .iv-risk-at { opacity: .7; }
+.iv-risk[data-side="invest"] .iv-risk-at { background: var(--gold); }
+.iv-risk-ends { display: flex; justify-content: space-between; gap: 20px; margin-top: 52px; font-size: 13px; color: var(--fg-soft); }
+.iv-risk-read { font-size: 15px; color: var(--fg); text-align: center; }
+/* where to keep it, and a strategy for what is invested */
+.iv-keep-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(30px, 5vw, 100px); align-items: start; margin-top: clamp(80px, 12vh, 130px); }
+.iv-save, .iv-find { display: grid; gap: 18px; justify-items: start; padding-top: 24px; border-top: 1px solid var(--line-strong); }
+.iv-lede { max-width: 38ch; font-size: 16px; line-height: 1.5; color: var(--fg-soft); }
+.iv-table { width: 100%; margin: 4px 0 8px; border-collapse: collapse; font-size: 14.5px; }
+.iv-table th, .iv-table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.4; }
+.iv-table thead th { padding-top: 0; font-weight: 400; font-size: 12.5px; color: var(--fg-soft); }
+.iv-table tbody th { font-weight: 500; white-space: nowrap; }
+.iv-table td { color: var(--fg-soft); }
+.iv-find-q { display: grid; gap: 8px; }
+.iv-find-q > span { font-size: 13px; color: var(--fg-soft); }
+.iv-strat { display: grid; gap: 10px; justify-items: start; width: 100%; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
+.iv-strat > * { transition: opacity .22s var(--ease-out), transform .5s var(--ease-out); }
+.iv-strat.is-swap > :not(.iv-talk) { opacity: 0; transform: translateY(8px); }
+.iv-strat-for { font-size: 13px; color: var(--fg-soft); }
+.iv-strat-name { font-weight: 500; font-size: clamp(1.7rem, 2.5vw, 2.6rem); line-height: 1; letter-spacing: var(--t-d); }
+.iv-strat-body { max-width: 44ch; font-size: 15px; line-height: 1.55; color: var(--fg-soft); }
+.iv-strat .iv-talk { margin-top: 8px; }
+
+/* ---- the Family Wealth Picture: the controls, the house, the answer */
+.iv-tool { padding: clamp(90px, 14vh, 160px) 0; }
+.iv-tool-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 24rem); gap: 40px; align-items: end; margin-bottom: clamp(40px, 6vh, 70px); }
+.iv-tool-head p { font-size: 16px; line-height: 1.5; color: var(--fg-soft); }
+.iv-tool-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(30px, 4vw, 80px); align-items: start; }
+.iv-form { display: grid; gap: 30px; }
+.iv-f { display: grid; gap: 12px; margin: 0; padding: 18px 0 0; border: 0; border-top: 1px solid var(--line-strong); }
+.iv-f legend { float: left; width: 100%; margin-bottom: 4px; padding: 0; font-size: 14px; color: var(--fg-soft); }
+.iv-row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 4.6rem; gap: 14px; align-items: center; font-size: 15px; }
+.iv-row output { font-family: var(--mono); font-size: 13px; text-align: right; }
+.iv-row.is-wide { grid-template-columns: minmax(0, 1fr) 6.4rem; }
+.iv-row.is-wide output { font-size: 15px; }
+.iv-dot { display: inline-block; width: 9px; height: 9px; margin-right: 8px; border-radius: 50%; background: var(--c, var(--fg)); vertical-align: 1px; }
+/* the sliders: a hairline and a small square to move along it */
+.iv-page input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; margin: 0; background: transparent; cursor: pointer; }
+.iv-page input[type="range"]::-webkit-slider-runnable-track { height: 1px; background: var(--line-strong); }
+.iv-page input[type="range"]::-moz-range-track { height: 1px; background: var(--line-strong); }
+.iv-page input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -6.5px; border-radius: 2px; background: var(--fg); transition: transform .3s var(--ease-out); }
+.iv-page input[type="range"]::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 2px; background: var(--fg); }
+.iv-page input[type="range"]:hover::-webkit-slider-thumb, .iv-page input[type="range"]:focus-visible::-webkit-slider-thumb { transform: scale(1.25); }
+.iv-page input[type="range"]:focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+/* choosing one of a few */
+.iv-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.iv-seg button { height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 2px; font-size: 14px; color: var(--fg-soft); transition: background-color .4s var(--ease-out), color .4s var(--ease-out), border-color .4s var(--ease-out); }
+.iv-seg button:hover { color: var(--fg); border-color: var(--fg); }
+.iv-seg button[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--ground); }
+/* the family (19 Nov): how many live there */
+.iv-steps { display: flex; flex-wrap: wrap; gap: 14px 34px; }
+.iv-step { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.iv-step span { min-width: 4.6rem; }
+.iv-step button { width: 32px; height: 32px; border: 1px solid var(--line-strong); border-radius: 2px; font-size: 17px; line-height: 1; color: var(--fg); transition: border-color .4s var(--ease-out), opacity .4s; }
+.iv-step button:hover { border-color: var(--fg); }
+.iv-step button:disabled { opacity: .28; cursor: default; }
+.iv-step output { min-width: 1.4em; font-family: var(--mono); font-size: 14px; text-align: center; }
+/* where each rupee goes, as one bar */
+.iv-rupee { display: flex; height: 10px; gap: 2px; margin: 4px 0 6px; }
+.iv-rupee i { display: block; min-width: 2px; transition: flex-grow .6s var(--ease-out); }
+.iv-c-spend { --c: var(--fg); } .iv-c-save { --c: color-mix(in srgb, var(--fg) 45%, transparent); } .iv-c-invest { --c: var(--gold); } .iv-c-idle { --c: color-mix(in srgb, var(--fg) 18%, transparent); }
+.iv-rupee i { background: var(--c); }
+/* the answer: the house, then what it comes to */
+.iv-out { position: sticky; top: calc(var(--nav-h) + 3vh); display: grid; gap: 18px; }
+.iv-when { justify-self: start; }
+.iv-house { display: block; width: 100%; aspect-ratio: 1.3; background: #1c2b4e; cursor: grab; touch-action: pan-y; }
+.iv-house.is-drag { cursor: grabbing; }
+.iv-house.is-line { background: none; cursor: default; }
+.iv-house.is-painted { aspect-ratio: 1.5; background: #0d1628; cursor: default; touch-action: auto; }
+/* the answer, in words (19 Nov: no rupee figures, the user: "I want to address it pictorially") */
+.iv-say { max-width: 34ch; padding-top: 16px; border-top: 1px solid var(--line-strong); font-weight: 500; font-size: clamp(1.25rem, 1.7vw, 1.75rem); line-height: 1.25; letter-spacing: var(--t-l); text-wrap: pretty; }
+.iv-out .iv-talk { justify-self: start; }
+.iv-note { font-size: 13px; line-height: 1.5; color: var(--fg-soft); }
+/* ---- (19 Nov, the audit) the client's newer calculator's levers, in the page's own manner: flat, square, hairlines */
+.iv-f legend small, .iv-kind-h small { margin-left: 6px; color: var(--fg-soft); font-size: 13px; }
+.iv-sum { float: right; font-family: var(--mono); font-size: 15px; color: var(--fg); }
+.iv-plan { display: grid; gap: 8px; }
+.iv-plan-h { font-size: 14px; color: var(--fg-soft); }
+.iv-c-spend.is-2 { opacity: .66; } .iv-c-spend.is-3 { opacity: .4; }
+.iv-plan-key { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--fg-soft); }
+.iv-balance { font-size: 15px; line-height: 1.4; }
+.has-over .iv-balance { color: var(--gold); }
+.iv-earners { display: grid; gap: 16px; }
+.iv-earner { display: grid; gap: 10px; }
+.iv-earner + .iv-earner { padding-top: 14px; border-top: 1px solid var(--line); }
+.iv-earner-h { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; }
+.iv-earner-h b { font-weight: 500; }
+.iv-rm, .iv-est button { font-size: 13px; color: var(--fg-soft); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.iv-rm:hover, .iv-est button:hover { color: var(--fg); }
+.iv-add { justify-self: start; height: 36px; padding: 0 14px; border: 1px dashed var(--line-strong); border-radius: 2px; font-size: 14px; color: var(--fg-soft); transition: color .3s, border-color .3s; }
+.iv-add:hover { color: var(--fg); border-color: var(--fg); }
+.iv-add::before { content: '+'; margin-right: 8px; }
+.iv-kind { display: grid; gap: 10px; }
+.iv-kind + .iv-kind { padding-top: 16px; border-top: 1px solid var(--line); }
+.iv-kind-h { font-size: 15px; }
+.iv-kind-h b { font-weight: 500; }
+.iv-est { float: right; font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.iv-opt { display: grid; grid-template-columns: 6.4rem minmax(0, 1fr); gap: 12px; align-items: center; font-size: 14px; color: var(--fg-soft); }
+.iv-opt .iv-seg button { height: 32px; padding: 0 11px; font-size: 13px; }
+.iv-hint { font-size: 13px; line-height: 1.45; color: var(--fg-soft); }
+.iv-steps { display: grid; gap: 10px; }
+.iv-step { justify-content: space-between; }
+.iv-step span { min-width: 0; flex: 1; }
+/* the picture's eight things, in the client's words (no figures) */
+.iv-tags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; margin: 0; }
+.iv-tags div { display: grid; grid-template-columns: 6.6rem minmax(0, 1fr); gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; line-height: 1.35; }
+.iv-tags dt { color: var(--fg-soft); }
+.iv-tags dd { margin: 0; }
+.iv-tool-foot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 40px; align-items: start; margin-top: clamp(40px, 6vh, 64px); padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.iv-tool-foot .iv-note { grid-column: 1 / -1; max-width: 72ch; }
+.iv-avg summary { cursor: pointer; font-size: 14px; color: var(--fg-soft); list-style: none; }
+.iv-avg summary::-webkit-details-marker { display: none; }
+.iv-avg summary::before { content: '+'; display: inline-block; width: 1.1em; font-family: var(--mono); }
+.iv-avg[open] summary::before { content: '−'; }
+.iv-avg ul { display: grid; gap: 6px; margin: 12px 0 0; padding-left: 1.1em; font-size: 13.5px; line-height: 1.45; color: var(--fg-soft); max-width: 70ch; }
+
+/* ---- the closing quote */
+.iv-quote { padding: clamp(110px, 18vh, 200px) 0; }
+.iv-quote blockquote { margin: 0; max-width: 24ch; font-weight: 500; font-size: clamp(2rem, 4vw, 4.4rem); line-height: 1.05; letter-spacing: var(--t-l); text-wrap: balance; }
+.iv-quote p { margin-top: 24px; font-size: 14px; color: var(--fg-soft); }
+.iv-light .iv-end { padding: clamp(100px, 16vh, 180px) 0 clamp(80px, 12vh, 140px); border-top: 1px solid var(--line); }
+.iv-light .iv-end-line { max-width: 12ch; font-weight: 500; font-size: clamp(3rem, 7vw, 8rem); line-height: .9; letter-spacing: var(--t-d); }
+.iv-light .iv-end .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(36px, 6vh, 60px); }
+
+/* ------------------------------------------------------------------ phones */
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+.iv-open-in, .iv-keep-in, .iv-tool-head, .iv-tool-in, .iv-earn-in, .iv-keep-cols, .iv-coll-head { grid-template-columns: minmax(0, 1fr); }
+.iv-keep-in { gap: 22px; }
+.iv-coll-head { gap: 18px; }
+.iv-coll-row { grid-auto-columns: 72vw; }
+.iv-coll.is-all .iv-coll-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 14px; }
+.iv-ring-cap { max-width: 13rem; }
+/* the line of risk stands up: no risk at the top, high risk at the foot */
+.iv-risk { --risk-v: 1; height: 440px; margin: 90px 0 70px; padding: 0; cursor: default; }
+.iv-risk-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; height: auto; background: linear-gradient(180deg, color-mix(in srgb, var(--fg) 42%, transparent) 0 var(--mark), color-mix(in srgb, var(--gold) 45%, transparent) var(--mark), var(--gold)); }
+.iv-risk-items { inset: 0; height: auto; }
+.iv-risk-items li, .iv-risk-items li:nth-child(even) { left: 26px; top: var(--at); bottom: auto; transform: translateY(-50%); font-size: 14px; }
+.iv-risk-items li::after, .iv-risk-items li:nth-child(even)::after { left: -26px; top: 50%; width: 14px; height: 1px; }
+/* (the mark and the reading run across the page from the line, which is only 3px wide here) */
+.iv-risk-mark { left: -6px; top: var(--mark); width: calc(100vw - var(--gutter) * 2 + 6px); height: 0; padding: 6px 0 0; border-left: 0; border-top: 1px solid var(--fg); text-align: right; }
+.iv-risk-at { top: 0; bottom: auto; left: -6px; width: calc(100vw - var(--gutter) * 2 + 6px); height: 1px; }
+.iv-risk-ends { position: absolute; inset: -32px 0 -32px 0; display: block; margin: 0; pointer-events: none; }
+.iv-risk-ends span:first-child { position: absolute; left: 0; top: 0; }
+.iv-risk-ends span:last-child { position: absolute; left: 0; bottom: 0; }
+.iv-risk-read { position: absolute; right: 0; bottom: -40px; max-width: 72%; text-align: right; font-size: 14px; }
+  .iv-rings { aspect-ratio: 1.05; margin-top: 10px; }
+  .iv-ring-key { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .iv-ring:nth-child(3) { padding-left: 0; border-left: 0; }
+  .iv-ring { padding-bottom: 12px; }
+  .iv-ways { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 0; margin-right: calc(var(--gutter) * -1); }
+  .iv-way, .iv-way + .iv-way { flex: 0 0 78%; scroll-snap-align: start; padding: 22px 20px 10px 0; border-left: 0; border-right: 1px solid var(--line); }
+  .iv-way + .iv-way { padding-left: 20px; }
+  .iv-out { position: static; }
+  .iv-row { grid-template-columns: 6.6rem minmax(0, 1fr) 3.6rem; }
+  .iv-opt { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .iv-tags { grid-template-columns: minmax(0, 1fr); }
+  .iv-tool-foot { grid-template-columns: minmax(0, 1fr); }
+  .iv-table { font-size: 13.5px; }
+  .iv-table th, .iv-table td { padding-right: 10px; }
+  .iv-table tbody th { white-space: normal; }
+}

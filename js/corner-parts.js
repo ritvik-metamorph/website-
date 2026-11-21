@@ -123,7 +123,7 @@ const PAL = [ // ground, ink, accent, pale
   ['#c2d3ea', '#14274e', '#e4572e', '#eef3fa'], ['#7a2e2a', '#f1dcc3', '#d9a441', '#4a1916'],
 ];
 const SERIF = "'Cormorant', Georgia, serif";
-const SANS = "'Inter Tight', 'Helvetica Neue', Arial, sans-serif";
+const SANS = "'Open Sauce One', 'Helvetica Neue', Arial, sans-serif";
 const MONO = "'Fragment Mono', ui-monospace, monospace";
 
 // what a piece is drawn as, and its shape

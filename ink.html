@@ -21,7 +21,13 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/ink.css">
 </head>
@@ -30,260 +36,72 @@
      the one thing to do. In the simple site its links stay in the simple site; Light goes to the
      creative twin of this page (js/site.js). -->
 <header class="nav" data-tone="light">
-  <div class="nav-pill">
-    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
     <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
     <a class="wordmark" href="ink.html">Metamorph</a>
-    <nav class="links" aria-label="Main">
-        <a href="ink-about.html">About</a>
-        <a href="ink.html#services">Services</a>
-        <a href="ink-sectors.html">Sectors</a>
-        <a href="ink.html#team">Team</a>
-        <a href="creative.html">Creative corner</a>
-      <a href="#investors" data-soon>Investor corner</a>
-    </nav>
-  </div>
-  <div class="nav-right">
-    <div class="mode" role="group" aria-label="Version of the site">
-      <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
-      <span aria-hidden="true">·</span>
-      <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
-    </div>
     <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
   </div>
 </header>
-<nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="ink-about.html">About</a>
-    <a href="ink.html#services">Services</a>
-    <a href="ink-sectors.html">Sectors</a>
-    <a href="ink.html#team">Team</a>
-    <a href="creative.html">Creative corner</a>
-  <a href="#investors" data-soon>Investor corner</a>
-  <a href="#contact" data-soon>Contact</a>
-</nav>
-  <main id="top">
+  <main id="top" class="ik-solo" data-foot="none">
     <!-- The hero: a film, full bleed, the line over it. The film is to be the evolution of people
          (the user's idea, 16 Nov). Until it exists, a reel stands in: the way in's silver cocoon spun,
          closed, opening and flown, drawn in code (assets/ink/film-*.jpg, made on refs/ink-renders.html),
          each frame drifting slowly into the next. Put the film's address in data-src (an MP4, muted,
          about 15 to 30 seconds, made to loop) and it plays over the reel (js/ink-home.js); data-poster
          takes a still for before it starts. -->
+    <!-- (19 Nov, the user's sketch) the film in a frame hanging from the top edge between the margins, on the paper,
+         the nav's tab over its top; the line under it on the paper, as wide as the frame; the sentence, the two ways
+         in and the practice's line on the film's darker foot. The full-bleed film before: backup
+         simple-hero-before-frame-2026-11-19 -->
     <section class="ik-hero" data-tone="light" aria-labelledby="ik-hero-title">
-      <div class="ik-film" aria-hidden="true">
-        <div class="ik-reel">
-          <img src="assets/ink/film-1-spun.jpg" alt="" fetchpriority="high">
-          <img data-src="assets/ink/film-2-cocoon.jpg" alt="">
-          <img data-src="assets/ink/film-3-opening.jpg" alt="">
-          <img data-src="assets/ink/film-4-wings.jpg" alt="">
-          <img data-src="assets/ink/film-5-flight.jpg" alt="">
+      <div class="ik-frame">
+        <div class="ik-film" aria-hidden="true">
+          <div class="ik-film-in">
+            <div class="ik-reel">
+              <img src="assets/ink/film-1-spun.jpg" alt="" fetchpriority="high">
+              <img data-src="assets/ink/film-2-cocoon.jpg" alt="">
+              <img data-src="assets/ink/film-3-opening.jpg" alt="">
+              <img data-src="assets/ink/film-4-wings.jpg" alt="">
+              <img data-src="assets/ink/film-5-flight.jpg" alt="">
+            </div>
+            <video class="ik-film-v" muted loop playsinline preload="none" data-src="" data-poster=""></video>
+          </div>
         </div>
-        <video class="ik-film-v" muted loop playsinline preload="none" data-src="" data-poster=""></video>
       </div>
-      <div class="ik-hero-in">
-        <div>
+      <!-- (19 Nov, later; the user, with a sketch: "instead of putting the text on the video… put the text adjacent to
+           the main heading") the film clear of words; on the paper under it the line, and beside it the firm's sentence,
+           the practice's line and the one link (the film's placeholder tag dropped; README keeps the film as a placeholder). On the film's corners before: backup
+           simple-hero-before-side-words-2026-11-19 -->
+      <div class="ik-hero-foot">
+        <!-- (20 Nov; the user: "a lot of negative space just below the capital that transforms") the practice's line under
+             the headline, so the two sides end together: the line and the practice at the left, the sentence and the two
+             ways on at the right. Before: backup simple-hero-before-even-foot-2026-11-20 -->
+        <div class="ik-hero-line">
           <h1 id="ik-hero-title" class="title" data-turn="letters" data-chars="hero">Capital that <em>transforms.</em></h1>
-          <p class="ik-hero-sub ik-rise" style="--d:.7s">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions ik-rise" style="--d:.85s">
-            <a class="btn btn-solid" href="#contact" data-soon data-magnet>Raise capital</a>
-            <a class="btn btn-line" href="#services" data-magnet>What we do</a>
+          <p class="ik-hero-proof ik-rise" style="--d:.9s">Backed by a 30-year chartered accountancy practice.</p>
+        </div>
+        <div class="ik-hero-in ik-rise" style="--d:.7s">
+          <p class="ik-hero-sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
+          <!-- (20 Nov) the two ways on together: Raise capital, and the change-of-version button seated in the slot beside it
+               (js/ink-home.js), which glides down to its corner as the page is read -->
+          <div class="ik-hero-ways">
+            <a class="ik-raise" href="#contact" data-soon>Raise capital <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+            <span class="ik-vx-slot" aria-hidden="true"></span>
           </div>
         </div>
-        <div class="ik-hero-side ik-rise" style="--d:1.05s">
-          <p class="ik-hero-proof">Backed by a 30-year chartered accountancy practice.</p>
-          <p class="ik-film-tag">Film to come: the evolution of people</p>
-        </div>
       </div>
     </section>
 
-    <!-- the firm in a sentence, with the change itself set into it (the cocoon, then the wings), and
-         the numbers behind it (all true: the practice's thirty years, the four services, the grid) -->
-    <section class="ik-intro" aria-labelledby="ik-intro-h">
-      <div class="ik-wrap">
-        <!-- (16 Nov, the type pass) the firm's sentence set as a dictionary entry for its own name, its
-             words coming up into ink as they are read -->
-        <p class="ik-def" data-settle><span class="ik-def-w">met·a·morph</span><span class="ik-def-p">/ˈmet.ə.mɔːf/</span><span class="ik-def-c">noun</span></p>
-        <h2 class="ik-lede" id="ik-intro-h" data-read><span class="ik-def-n">1</span>A living thing <span class="ik-chip"><img src="assets/ink/film-2-cocoon.jpg" alt="" loading="lazy"></span> that has gone through a complete change.<br><span class="ik-def-n">2</span><span class="ik-chip"><img src="assets/ink/film-4-wings.jpg" alt="" loading="lazy"></span> We work with companies in the middle of theirs.</h2>
-        <dl class="ik-facts">
-          <div class="ik-fact" data-settle><dt data-count>30</dt><dd>Years of signed accounts in the chartered accountancy practice behind us.</dd></div>
-          <div class="ik-fact" data-settle style="--sd:.08s"><dt data-count>04</dt><dd>Ways we work with founders, from the first cheque to the next generation.</dd></div>
-          <div class="ik-fact" data-settle style="--sd:.16s"><dt data-count>27</dt><dd>Disciplines on the founder's grid, each read for how it moves a business.</dd></div>
-          <div class="ik-fact" data-settle style="--sd:.24s"><dt data-count>48</dt><dd>Sectors read against them, with 151 places where one decides another.</dd></div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- The services, the client's own four. Beside them, held while they pass, Metamorph's own
-         banknote (the creative site's "note") in one form for each: flat, creased, winged, in flight.
-         Capital that changes form. The pictures are drawn in code, placeholders like the rest. -->
-    <section class="ik-services" id="services" aria-labelledby="ik-svc-h">
-      <div class="ik-wrap">
-        <div class="ik-services-head">
-          <h2 class="ik-h2" id="ik-svc-h" data-turn data-lines data-engrave>Four ways we work <em>with founders.</em></h2>
-          <p data-settle>From readiness to the raise, through the decisions inside, the numbers that keep up, and the wealth that has to last.</p>
-        </div>
-        <div class="ik-svc-wrap">
-          <div class="ik-svc-stage" aria-hidden="true">
-            <figure class="ik-pic ik-svc-pics" data-arc="63 66 52">
-              <div class="ik-pic-in">
-                <img class="ik-svc-pic is-on" src="assets/ink/note-1-flat.jpg" alt="" loading="lazy">
-                <img class="ik-svc-pic" src="assets/ink/note-2-creased.jpg" alt="" loading="lazy">
-                <img class="ik-svc-pic" src="assets/ink/note-3-wings.jpg" alt="" loading="lazy">
-                <img class="ik-svc-pic" src="assets/ink/note-4-flight.jpg" alt="" loading="lazy">
-              </div>
-              <figcaption class="ik-svc-cap"><b>01</b><span>The note, flat</span></figcaption>
-            </figure>
-          </div>
-          <ol class="ik-svc" data-dim>
-            <li data-form="The note, flat"><figure class="ik-pic ik-svc-m"><div class="ik-pic-in"><img src="assets/ink/note-1-flat.jpg" alt="" loading="lazy"></div></figure><span class="ik-svc-n" data-scramble>01</span><h3 class="ik-svc-name" data-engrave="state">Fundraising and investor readiness</h3><p class="ik-svc-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread.</p><p class="ik-svc-what">Investment narrative · pitch deck · financial model · data room</p></li>
-            <li data-form="Creased"><figure class="ik-pic ik-svc-m"><div class="ik-pic-in"><img src="assets/ink/note-2-creased.jpg" alt="" loading="lazy"></div></figure><span class="ik-svc-n" data-scramble>02</span><h3 class="ik-svc-name" data-engrave="state">Strategic consulting</h3><p class="ik-svc-line">We sharpen strategy for founders growing faster than their plans: the few decisions made inside, before the change shows.</p><p class="ik-svc-what">Product-market fit · capital and runway · team · governance</p></li>
-            <li data-form="Winged"><figure class="ik-pic ik-svc-m"><div class="ik-pic-in"><img src="assets/ink/note-3-wings.jpg" alt="" loading="lazy"></div></figure><span class="ik-svc-n" data-scramble>03</span><h3 class="ik-svc-name" data-engrave="state">Financial services</h3><p class="ik-svc-line">We keep the numbers honest while everything changes: accounts, tax, compliance, and a structure that still makes sense at ten times the size.</p><p class="ik-svc-what">MIS · unit economics · cash flow · working capital</p></li>
-            <li data-form="In flight"><figure class="ik-pic ik-svc-m"><div class="ik-pic-in"><img src="assets/ink/note-4-flight.jpg" alt="" loading="lazy"></div></figure><span class="ik-svc-n" data-scramble>04</span><h3 class="ik-svc-name" data-engrave="state">Wealth management</h3><p class="ik-svc-line">We help wealth last, through a multi-family office for founders and their families, planned for the generation after this one.</p><p class="ik-svc-what">Complete private portfolio management for family offices</p></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- how we decide: the founders' conditions (the About page's, in the same words), beside the
-         name itself, spelled down the butterfly's body -->
-    <section class="ik-decide" aria-labelledby="ik-dec-h">
-      <div class="ik-wrap ik-decide-in">
-        <figure class="ik-pic ik-decide-pic" data-drift data-arc="50 44 74"><div class="ik-pic-in"><img src="assets/ink/name.jpg" alt="" loading="lazy"></div></figure>
-        <div>
-          <h2 class="ik-h2" id="ik-dec-h" data-turn data-lines>We take it on only when every condition is <em>met.</em></h2>
-          <!-- (16 Nov, the type pass) the conditions as the one sentence they are, footnoted the way audited
-               accounts are; each footnote lights when its clause has been read, and with it under the pointer -->
-          <p class="ik-clauses" data-read data-notes="#ik-notes"><span class="ik-cl" data-n="1">If we can add what no one else brings,<sup>1</sup></span> <span class="ik-cl" data-n="2">if it pulls at us, like a calling,<sup>2</sup></span> <span class="ik-cl" data-n="3">with a greed-less conscience,<sup>3</sup></span> <span class="ik-cl" data-n="4">after reading the business, not the deck,<sup>4</sup></span> <span class="ik-cl" data-n="5">for the generation after this one.<sup>5</sup></span></p>
-          <ol class="ik-notes" id="ik-notes">
-            <li data-n="1"><b>1</b>The first of the founders' two questions, asked before anything begins.</li>
-            <li data-n="2"><b>2</b>The second. Without both, we say no.</li>
-            <li data-n="3"><b>3</b>Saying no when the fee is the only reason to say yes.</li>
-            <li data-n="4"><b>4</b>An in-depth evaluation: the books before the pitch.</li>
-            <li data-n="5"><b>5</b>It is far easier to make wealth than to keep it.</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- The team: everyone struck on a coin (js/team.js, js/coin.js). The people are js/people.js,
-         placeholders for now. The coins are drawn on .team-gl, each over its button. -->
-    <section class="team" id="team" aria-labelledby="team-title" data-lit="false">
-      <div class="team-room" aria-hidden="true"></div>
-      <canvas class="team-gl" aria-hidden="true"></canvas>
-      <div class="team-inner">
-        <header class="team-head">
-          <div>
-            <p class="eyebrow">The people</p>
-            <h2 id="team-title" class="team-title" data-turn data-chars>Everyone here has changed form <em>at least once.</em></h2>
-          </div>
-          <div class="team-side">
-            <p class="team-note">Each of us is struck on a coin. Turn one over to see who we were before.</p>
-            <button class="btn btn-line hold hold-mark" type="button" aria-describedby="team-hold-hint">
-              <svg class="hold-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="8"/><circle class="fill" cx="10" cy="10" r="8"/></svg>
-              <span class="hold-label">Hold to light</span>
-            </button>
-          </div>
-          <p id="team-hold-hint" class="sr-only">Press and hold to light the room: threads from the disciplines each person brings run down to their coin. With a keyboard, press Enter.</p>
-        </header>
-
-        <div class="coins coins-team">
-          <div class="disc-band" aria-hidden="true"></div>
-        </div>
-        <p class="team-caption" aria-hidden="true"></p>
-
-        <section class="advisors" aria-labelledby="adv-title">
-          <h3 id="adv-title" class="adv-title">Advisory board</h3>
-          <div class="coins coins-adv"></div>
-        </section>
-      </div>
-    </section>
-
-    <!-- the founder's grid: the forty-eight sectors running past, and the grid itself drawn (the
-         picture is the data, js/ink-loom.js); then the link to the sectors -->
-    <section class="ik-sx" aria-labelledby="ik-sx-h">
-      <div class="ik-marq" aria-hidden="true"><div class="ik-marq-t"></div></div>
-      <div class="ik-wrap ik-sx-in">
-        <div class="ik-sx-text">
-          <h2 class="ik-h2" id="ik-sx-h" data-turn data-lines data-engrave>Twenty-seven ways of knowing against <em>forty-eight</em> ways of earning.</h2>
-          <p class="ik-sx-p" data-settle>The founder's grid: every sector we read, and the disciplines that decide how each one behaves.</p>
-          <p class="ik-on-fams" aria-label="The nine families" data-settle></p>
-          <p data-settle><a class="ik-link" href="ink-sectors.html">See the sectors</a></p>
-        </div>
-        <figure class="ik-loom" data-loom></figure>
-      </div>
-    </section>
-
-    <!-- the Creative Corner (one page for both sites): a run of its work going by with the scroll.
-         The pieces are the studio's stand-ins until real submissions come (STAND_IN, js/artists.js). -->
-    <section class="ik-cc ik-night" data-tone="light" aria-labelledby="ik-cc-h">
-      <div class="ik-wrap ik-cc-head">
-        <h2 class="ik-h2" id="ik-cc-h" data-turn data-gather>Artists in the middle of <em>becoming.</em></h2>
-        <div data-settle>
-          <p>Work from upcoming artists in nine domains. Find a piece, meet the person who made it, and hire them.</p>
-          <a class="ik-link" href="creative.html">Visit the creative corner</a>
-        </div>
-      </div>
-      <div class="ik-cc-strip" aria-hidden="true">
-        <div class="ik-cc-track">
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-01.jpg" alt="" width="576" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-03.jpg" alt="" width="1280" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-05.jpg" alt="" width="405" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-12.jpg" alt="" width="720" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-22.jpg" alt="" width="576" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-16.jpg" alt="" width="1281" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-25.jpg" alt="" width="405" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-28.jpg" alt="" width="720" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-31.jpg" alt="" width="576" height="720" loading="lazy"></a>
-          <a class="ik-cc-w" href="creative.html" tabindex="-1"><img src="assets/ink/works/iw-41.jpg" alt="" width="1280" height="720" loading="lazy"></a>
-        </div>
-      </div>
-    </section>
-
-<!-- the end: the one thing to do, over the butterfly flying off -->
-<section class="ik-end ik-night" data-tone="light" aria-labelledby="ik-end-h">
-  <figure class="ik-pic ik-end-pic" data-drift aria-hidden="true"><div class="ik-pic-in"><img src="assets/ink/film-5-flight.jpg" alt="" loading="lazy"></div></figure>
-  <div class="ik-wrap ik-end-in">
-    <h2 class="ik-end-line" id="ik-end-h" data-turn data-chars>In the middle of becoming? <em>Talk to us.</em></h2>
-    <p class="ik-end-ways" data-settle>
-      <a class="btn btn-solid" href="#contact" data-soon data-magnet>Start a conversation</a>
-      <a class="btn btn-line" href="#deck" data-soon data-magnet>Share your pitch deck</a>
-    </p>
-  </div>
-</section>
+    <!-- (21 Nov, the user: the About content came twice on the simple site, here under the hero and on the simple
+         About; it is to be in About only, and the hero is not to scroll on into it) The home is the hero alone, one
+         screen, with no foot under it (data-foot). What was under it, each already on its own page: the firm's
+         dictionary entry and its four numbers (now the simple About's opening), the four services (About, Services),
+         how we decide (About's values), the team (now on About, #team), the founder's grid (Sectors), the corner's
+         work (the Creative Corner), the end (About). Backup simple-home-before-hero-only-2026-11-21. -->
   </main>
 
-  <!-- A coin, opened: held up on the left, the person beside it. The same facts in Ink and Light;
-       in Light the lamp reads the answers off the coin's rings. -->
-  <div class="coin-view" role="dialog" aria-modal="true" aria-labelledby="cv-name" data-lit="false" hidden>
-    <div class="cv-back" aria-hidden="true"></div>
-    <canvas class="cv-gl" aria-hidden="true"></canvas>
-    <div class="cv-scroll" data-lenis-prevent>
-      <div class="cv-stage" aria-hidden="true"><p class="cv-hint"></p></div>
-      <div class="cv-panel" data-lenis-prevent>
-        <h2 id="cv-name" class="cv-name"></h2>
-        <p class="cv-role"></p>
-        <dl class="cv-change">
-          <div data-face="back"><dt>Before</dt><dd class="cv-before"></dd></div>
-          <div data-face="front" class="is-up"><dt>Now</dt><dd class="cv-now"></dd></div>
-        </dl>
-        <p class="cv-bio"></p>
-        <p class="cv-brings"></p>
-        <div class="cv-actions"><button class="btn btn-line" type="button" data-flip>Turn it over</button></div>
-        <div class="cv-words-wrap">
-          <h3 class="cv-sub">In their words</h3>
-          <p class="cv-sub-note">The same answers are cut round the coin, too fine to see until you hold it to the light.</p>
-          <ol class="cv-words"></ol>
-        </div>
-        <nav class="cv-steps" aria-label="The rest of the team">
-          <button type="button" data-step="-1">Previous</button>
-          <span class="cv-count" aria-hidden="true"></span>
-          <button type="button" data-step="1">Next</button>
-        </nav>
-      </div>
-    </div>
-    <button class="close cv-close" type="button">Close</button>
-  </div>
-
-  
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>

@@ -43,6 +43,16 @@ export function inkPage() {
   });
   const arrive = location.hash.length > 1 && $(location.hash);
   if (arrive) addEventListener('load', () => setTimeout(() => { lenis.resize?.(); lenis.scrollTo(arrive, { immediate: true, force: true }); }, 120), { once: true });
+  // (20 Nov) a link the visitor will come back from (About's four, to the Services page) keeps the place on this page;
+  // coming back with the browser's Back (or the Services page's own), the page opens where they were, even when the
+  // browser had to load it again rather than keep it
+  const placeKey = `mm-place:${location.pathname}`;
+  $$('a[data-keep-place]').forEach((a) => a.addEventListener('click', () => { try { sessionStorage.setItem(placeKey, String(Math.round(scrollY))); } catch (e) {} }));
+  let place = null;
+  try { place = sessionStorage.getItem(placeKey); } catch (e) {}
+  if (place !== null && performance.getEntriesByType?.('navigation')[0]?.type === 'back_forward') {
+    addEventListener('load', () => setTimeout(() => { lenis.resize?.(); lenis.scrollTo(+place, { immediate: true, force: true }); }, 160), { once: true });
+  }
 
   // blocks settle in once, as they come up the screen: a short rise, nothing more
   const blocks = $$('[data-settle]');

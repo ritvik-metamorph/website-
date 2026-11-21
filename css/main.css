@@ -15,19 +15,31 @@
   --white: #fafaf8;
   --night: #0a101c;
   --room: #050706;         /* the hero's dark */
-  --sans: 'Inter Tight', 'Helvetica Neue', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* (19 Nov, the user, after refs/type-sauce.html: "lets go with open sauce one"; Inter Tight before it, ?type=inter) */
+  --sans: 'Open Sauce One', 'Helvetica Neue', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --head: var(--sans);
   --serif: var(--sans);
   --accent: 'Cormorant', Georgia, 'Times New Roman', serif;
   --accent-weight: 600;    /* semibold, so it holds its own beside the grotesk */
   --accent-adjust: .5;     /* the italic's x-height brought up to sit with the grotesk */
   --mono: 'Fragment Mono', ui-monospace, monospace;
+  /* the practice's ink (20 Nov; the client asked for maroon, the user chose it from refs/colour-maroon.html "as an ink of
+     the accountant"): oxblood, only where a chartered accountant's ink would be, the stamp and the signature */
+  --ca-ink: #6b1a29;
   /* tracking by size: display, large, middle, small, and the italic */
-  --t-d: -.056em;
-  --t-l: -.042em;
-  --t-m: -.024em;
-  --t-s: -.01em;
+  /* (19 Nov: set closer for Open Sauce One, wider than Inter Tight; the user: reduce the spacing. They were
+     -.056, -.042, -.024, -.01 for Inter Tight) */
+  --t-d: -.064em;
+  --t-l: -.05em;
+  --t-m: -.03em;
+  --t-s: -.016em;
   --t-a: -.006em;
+  /* the italic set closer (17 Nov, the user: reduce the letter spacing where the italic is used):
+     Cormorant, brought up to the grotesk's size, sits loose beside Inter Tight set tight; the larger
+     it is, the closer it is set */
+  --accent-track: -.042em;   /* in headings and display */
+  --accent-track-m: -.026em; /* titles of 24 to 44px */
+  --accent-track-s: -.014em; /* labels and lines of 13 to 22px */
   --gutter: clamp(16px, 4.4vw, 72px);
   --nav-h: 64px;
   --ease-out: cubic-bezier(.16, 1, .3, 1);
@@ -49,10 +61,10 @@ html[data-theme="dark"] { --hero-paper: #141414; }
 .disc-panel,
 .team[data-lit="true"],
 .nav[data-tone="light"] {
-  --fg: #efe7d6;
+  --fg: #f2f3f1;
   --fg-soft: #a2a89d;
-  --line: rgba(239, 231, 214, .16);
-  --line-strong: rgba(239, 231, 214, .32);
+  --line: rgba(242, 243, 241, .16);
+  --line-strong: rgba(242, 243, 241, .32);
   --ground: var(--room);
 }
 
@@ -71,7 +83,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 /* the word that turns: Cormorant italic, semibold, brought up to the grotesk's size, and never adding
    to the line's height */
-em { font-style: var(--accent-style, italic); font-family: var(--accent-word, var(--accent)); font-weight: var(--accent-weight, 600); font-size-adjust: var(--accent-word-adjust, var(--accent-adjust)); letter-spacing: var(--accent-track, var(--t-a)); line-height: var(--accent-lh, inherit); }
+em { font-style: var(--accent-style, italic); font-family: var(--accent-word, var(--accent)); font-weight: var(--accent-weight, 600); font-size-adjust: var(--accent-word-adjust, var(--accent-adjust)); letter-spacing: var(--accent-track); line-height: var(--accent-lh, inherit); }
 /* selected text takes the dawn blue; whatever the keyboard is on is ringed in its own colour (a
    section's own ring, where it has one, wins) */
 ::selection { background: #26375a; color: #f2f3ef; }
@@ -116,11 +128,11 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 }
 /* the glass over the night */
 .nav[data-tone="light"] {
-  --glass: rgb(236 231 220 / .07);
-  --glass-edge: rgb(236 231 220 / .17);
+  --glass: rgb(242 243 241 / .07);
+  --glass-edge: rgb(242 243 241 / .17);
   --glass-lit: rgb(255 255 255 / .1);
   --glass-shade: rgb(0 0 0 / .3);
-  --cta: #efe7d6;
+  --cta: #f2f3f1;
   --cta-fg: #0b0e12;
 }
 .nav > * { pointer-events: auto; }
@@ -178,6 +190,170 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 .mode-tip::before { content: ""; position: absolute; right: 16px; top: -12px; width: 1px; height: 8px; background: currentColor; opacity: .5; }
 .mode.is-taught .mode-tip { opacity: 1; translate: 0 0; }
 
+/* ---- the nav as two tabs hanging from the top edge (18 Nov, the user's drawing: "make the navbar like
+   this from the top edge instead of a floating thing"). The wordmark and the links in one tab on the
+   left, the version and Talk to us in one on the right, each a solid piece of the deepest night grown
+   down from the top of the screen, square where it meets the edge and rounded where it ends. Being
+   solid, a tab carries its own ground, so it no longer takes the tone of what is under it: light type
+   always. A faint edge keeps its shape over the night. The floating pills it was: ?nav=float. */
+html:not([data-nav="float"]) .nav {
+  align-items: flex-start; padding-top: 0;
+  --tab: #050709; --tab-h: 44px; --tab-r: 20px; /* (18 Nov, later: shorter, the user's ask) */
+  --fg: #f2f3f1; --fg-soft: #a2a89d; --line: rgba(242, 243, 241, .16); --line-strong: rgba(242, 243, 241, .3);
+  --cta: #f2f3f1; --cta-fg: #0b0e12;
+}
+html:not([data-nav="float"]) .nav-pill, html:not([data-nav="float"]) .nav-right {
+  height: calc(var(--tab-h) + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);
+  background: var(--tab); border: 1px solid rgba(242, 243, 241, .08); border-top: 0;
+  border-radius: 0 0 var(--tab-r) var(--tab-r); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+html:not([data-nav="float"]) .nav-pill { padding-left: 30px; padding-right: calc(var(--tab-r) + 8px); }
+html:not([data-nav="float"]) .nav-right { gap: 10px; padding-left: calc(var(--tab-r) * .9); padding-right: 8px; }
+html:not([data-nav="float"]) .nav .mode { height: auto; padding: 0 6px; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* (18 Nov, later; the user: "remove the pill behind the talk to us button... it makes it a bit clutter") plain type.
+   Then (the user: "make talk to us same as menu, no need of underline"): exactly as Menu is set, the same size,
+   weight and spacing, no hairline, and the same faint ground when pointed at. The hairline: backup
+   nav-talk-underline-2026-11-18 */
+html:not([data-nav="float"]) .nav-cta { position: relative; height: 32px; padding: 0 14px; border-radius: 999px; background: none; color: var(--fg); font-size: 14px; font-weight: 500; letter-spacing: var(--t-s); box-shadow: none; transition: background-color .2s; }
+html:not([data-nav="float"]) .nav-cta:hover { background: rgb(128 128 128 / .14); }
+/* (the hint under the switch sits on whatever is below the tab, so it carries a piece of the tab with it) */
+html:not([data-nav="float"]) .mode-tip { padding: 7px 11px; border-radius: 10px; background: var(--tab); }
+html:not([data-nav="float"]) .mode-tip::before { display: none; }
+
+/* ---- (18 Nov, later) the nav: three tabs hanging from the top edge (the user: "the attached version…
+   menu on the left, logo in the center, talk to us in the right"). The same deepest night as before,
+   square at the edge, rounded where it ends. Then (the user: "one single tab… it will sit in the center
+   or the middle of the top edge", and shorter): one tab in the middle of the top edge, Menu at its left
+   end, the name in its middle, Talk to us at its right end, 44px tall (40 on a phone). js/menu.js. */
+html:not([data-nav="float"]) .nav { justify-content: center; }
+.nav-tab {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 24px; width: min(620px, calc(100vw - 24px));
+  height: calc(var(--tab-h) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 6px 0 6px;
+  background: var(--tab, #050709); border: 1px solid rgba(242, 243, 241, .08); border-top: 0; border-radius: 0 0 var(--tab-r, 20px) var(--tab-r, 20px);
+  transition: background-color .7s var(--ease-out), border-color .7s var(--ease-out);
+}
+/* (18 Nov, later; asked whether it should be see-through or stay black, the user: "keep solid but soften") still a
+   solid tab, but softer where it sits on paper or any light ground: a slate ink in place of the deepest night, so it
+   is not a hard black cut-out on the security paper. Over the night it stays the deepest night, one band with what
+   is under it (the Corner's held filter). It eases between the two as the page changes under it. The hard black
+   everywhere: backup nav-tab-solid-night-2026-11-18 */
+html:not([data-nav="float"]) .nav:not([data-tone="light"]) { --tab: #262d39; }
+html:not([data-nav="float"]) .nav:not([data-tone="light"]) .nav-tab { border-color: rgba(242, 243, 241, .05); }
+/* (19 Nov; the user: the faint edge "looks a bit weird when it is on the same black", and "blackish morphism… in the
+   current color, but… a bit translucent") the tab is smoked glass: the same two inks, the deepest night over the night
+   and the slate over paper, let partly through, with what passes under it blurred and its colour kept. No edge: the
+   blur is what tells it from the page now, and on plain night it is a shade darker than the ground. One small blurred
+   strip costs the graphics card little, and it is never animated. Where the browser cannot blur, or the visitor asks
+   for less transparency, it stays solid. The solid tab with its edge: ?nav=solid (backup nav-tab-solid-before-glass-2026-11-19) */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  html:not([data-nav]) .nav-tab {
+    background: rgb(5 7 9 / .6); border-color: transparent;
+    -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
+  }
+  html:not([data-nav]) .nav:not([data-tone="light"]) .nav-tab { background: rgb(38 45 57 / .84); border-color: transparent; }
+  html:not([data-nav]) .mode-tip { background: rgb(5 7 9 / .72); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html:not([data-nav]) .nav-tab, html:not([data-nav]) .nav:not([data-tone="light"]) .nav-tab { background: var(--tab); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+.nav-tab .nav-menu { justify-self: start; }
+.nav-tab .wordmark { justify-self: center; font-size: 19px; }
+.nav-tab .nav-cta { justify-self: end; }
+.nav .nav-menu { display: inline-flex; align-items: center; gap: 10px; width: auto; height: 32px; padding: 0 14px 0 10px; border-radius: 999px; font-size: 14px; font-weight: 500; letter-spacing: var(--t-s); }
+.nav .nav-menu::after { border-radius: 999px; }
+.nav-menu-i { position: relative; display: block; width: 18px; height: 12px; }
+.nav .nav-menu-i i { position: absolute; left: 0; top: auto; height: 1.5px; border-radius: 2px; background: currentColor; transition: transform .45s var(--ease-out), width .45s var(--ease-out); }
+.nav .nav-menu-i i:first-child { top: 3px; width: 18px; }
+.nav .nav-menu-i i:last-child { top: 8px; width: 11px; }
+.menu-open .nav .nav-menu-i i:first-child { transform: translateY(2.5px) rotate(45deg); }
+.menu-open .nav .nav-menu-i i:last-child { transform: translateY(-2.5px) rotate(-45deg); width: 18px; }
+@media (min-width: 1080px) { .nav .nav-menu { display: inline-flex; } }
+
+/* ---- the menu, over the whole screen (js/menu.js): the four places on the left in large type, the one
+   pointed at said in a line on the right with a still of it; Talk to us, home and the year at the foot.
+   The night comes down from the top edge, out of the tabs, and the names rise into it. Choosing one,
+   the rest let go and the chosen name holds while its page comes in. */
+.mn {
+  position: fixed; inset: 0; z-index: 19; background: #050709; color: #f2f3f1;
+  --fg: #f2f3f1; --fg-soft: #a2a89d; --mn-line: rgba(242, 243, 241, .14);
+  clip-path: inset(0 0 100% 0); visibility: hidden;
+  transition: clip-path .42s cubic-bezier(.7, 0, .2, 1), visibility 0s .42s;
+}
+.menu-open .mn { clip-path: inset(0 0 0 0); visibility: visible; transition: clip-path .5s cubic-bezier(.7, 0, .2, 1); }
+.mn.is-instant, .menu-open .mn.is-instant { transition: none; }
+.mn-in { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: 1fr auto; column-gap: 6vw; height: 100%; padding: calc(var(--nav-h) + 5vh) var(--gutter) 26px; }
+.mn-list { list-style: none; margin: 0; padding: 0; align-self: center; }
+.mn-item { opacity: 0; translate: 0 22px; transition: opacity .25s, translate .25s; }
+.menu-open .mn-item { opacity: 1; translate: 0 0; transition: opacity .6s var(--ease-out), translate .7s var(--ease-out); transition-delay: calc(.16s + var(--i) * .05s); }
+.mn.is-instant .mn-item { transition: none; }
+.mn-go { display: inline-flex; align-items: baseline; gap: 18px; padding: .7vh 0; }
+.mn-n { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); translate: 0 -.4em; }
+.mn-name { font-size: clamp(2.6rem, 6vw, 6.2rem); font-weight: 500; line-height: 1; letter-spacing: var(--t-d); transition: opacity .3s var(--ease-out), translate .45s var(--ease-out); }
+.mn.has-on .mn-item:not(.is-on) .mn-name { opacity: .3; }
+.mn-item.is-on .mn-name { translate: 12px 0; }
+.mn-go[aria-current="page"] .mn-n::after { content: " · here"; }
+.mn-go:focus-visible { outline: none; }
+.mn-go:focus-visible .mn-name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
+.mn-line-m, .mn-subs-m { display: none; }
+.mn-side { align-self: center; max-width: 520px; transition: opacity .3s; }
+.mn-pic { position: relative; width: min(100%, 440px); aspect-ratio: 4 / 3; margin-bottom: 28px; overflow: hidden; background: #0a101c; }
+.mn-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s var(--ease-out); }
+.mn-pic img.is-art { object-fit: contain; }
+.mn-pic img.is-on { opacity: 1; }
+.mn-k { margin: 0 0 12px; font-family: var(--mono); font-size: 12px; color: var(--fg-soft); white-space: pre; }
+.mn-line { margin: 0 0 12px; font-size: clamp(20px, 1.75vw, 27px); line-height: 1.22; letter-spacing: var(--t-m); max-width: 28ch; }
+.mn-more { margin: 0 0 18px; font-size: 15px; line-height: 1.5; color: var(--fg-soft); max-width: 44ch; }
+.mn-subs { display: flex; gap: 22px; margin: 0; font-size: 15px; }
+.mn-subs a, .mn-subs-m a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: rgba(242, 243, 241, .4); }
+.mn-subs a:hover { text-decoration-color: currentColor; }
+.mn-swap { transition: opacity .2s var(--ease-out), translate .25s var(--ease-out); }
+.mn-side.is-swapping .mn-swap { opacity: 0; translate: 0 6px; }
+.mn-foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 28px; padding: 18px 0 0 210px; border-top: 1px solid var(--mn-line); font-size: 13.5px; color: var(--fg-soft); } /* (clear of the change-of-version button, which stays over the menu) */
+.mn-talk { color: var(--fg); font-weight: 500; }
+.mn-c { margin-left: auto; }
+/* choosing: the rest let go, the chosen name holds */
+.mn.is-going .mn-item:not(.is-on), .mn.is-going .mn-side, .mn.is-going .mn-foot { opacity: 0; transition: opacity .26s var(--ease-out); }
+.mn.is-going .mn-item.is-on .mn-name { opacity: 1; }
+.menu-open, .menu-open body { overflow: hidden; }
+
+/* ---- the change of version (js/menu.js): a button of its own, bottom left, apart from the nav. It is
+   a piece of the other version: on a simple page the night with its light, on a creative page the paper
+   with its ink; its lens a small window onto that world, fine engraved rings, lit or inked. Pointed at,
+   the lens opens; it shows itself once, a little after the page arrives. Chosen, that world opens out
+   of it over the whole screen while the twin page comes in. Placeholder words: "Enter Light", "Enter Ink". */
+.vx {
+  position: fixed; left: clamp(12px, 2.4vw, 40px); bottom: calc(clamp(14px, 2.4vw, 32px) + env(safe-area-inset-bottom)); z-index: 22;
+  display: inline-flex; align-items: center; gap: 12px; height: 54px; padding: 0 22px 0 7px; border-radius: 999px;
+  font-size: 15px; font-weight: 500; letter-spacing: var(--t-s); cursor: pointer;
+  transition: transform .3s var(--ease-out), box-shadow .5s var(--ease-out), opacity .4s;
+}
+.vx-to-light { background: #050709; color: #f2f3f1; border: 1px solid rgba(242, 243, 241, .16); }
+.vx-to-ink { background: #f2f3ef; color: #121619; border: 1px solid rgba(18, 22, 25, .12); }
+.vx em { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight, 600); font-size: 1.22em; letter-spacing: var(--accent-track-s, -.014em); }
+.vx-lens { position: relative; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex: none; transition: transform .6s var(--ease-out); }
+.vx-to-light .vx-lens { background: repeating-radial-gradient(circle at 50% 50%, rgba(236, 226, 200, .75) 0 .6px, transparent 1px 3.4px), radial-gradient(circle at 50% 50%, #26375a 0%, #0a101c 75%); }
+.vx-to-ink .vx-lens { background: repeating-radial-gradient(circle at 50% 50%, rgba(18, 22, 25, .7) 0 .6px, transparent 1px 3.4px), #e9ebe6; }
+.vx-glow { position: absolute; inset: 0; border-radius: 50%; opacity: .0; transition: opacity .6s var(--ease-out), transform .8s var(--ease-out); transform: scale(.4); }
+.vx-to-light .vx-glow { background: radial-gradient(circle, rgba(255, 244, 214, .95) 0 10%, rgba(255, 238, 200, .25) 32%, transparent 62%); }
+.vx-to-ink .vx-glow { background: radial-gradient(circle, rgba(18, 22, 25, .85) 0 9%, rgba(18, 22, 25, .2) 30%, transparent 60%); }
+.vx:hover .vx-lens, .vx:focus-visible .vx-lens { transform: scale(1.1) rotate(25deg); }
+.vx:hover .vx-glow, .vx:focus-visible .vx-glow, .vx.is-going .vx-glow { opacity: 1; transform: scale(1); }
+.vx:active { transform: scale(.97); }
+.vx:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.vx.is-hello .vx-glow { animation: vx-hello 2.4s var(--ease-out) 1; }
+@keyframes vx-hello { 0% { opacity: 0; transform: scale(.4); } 40% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0; transform: scale(.4); } }
+.vx .mode-tip { left: 0; right: auto; top: auto; bottom: calc(100% + 12px); padding: 7px 11px; border-radius: 10px; background: #050709; color: #f2f3f1; }
+.vx .mode-tip::before { display: none; }
+.vx.is-taught .mode-tip { opacity: 1; translate: 0 0; }
+/* the other world opening out of the button */
+.vx-wipe { position: fixed; inset: 0; z-index: 30; pointer-events: none; clip-path: circle(0 at var(--x, 40px) var(--y, 90%)); visibility: hidden; }
+.vx-wipe-light { background: radial-gradient(circle at var(--x, 40px) var(--y, 90%), #26375a 0%, #0a101c 60%); }
+.vx-wipe-ink { background: #f2f3ef; }
+.vx-wipe.is-on { visibility: visible; clip-path: circle(150vmax at var(--x, 40px) var(--y, 90%)); transition: clip-path .62s cubic-bezier(.7, 0, .2, 1); }
+.menu-open .vx { z-index: 22; }
+.no-gl .vx { display: none; }
+@media (prefers-reduced-motion: reduce) { .vx-wipe.is-on { transition: none; } .vx.is-hello .vx-glow { animation: none; } }
+
 /* the menu: the site's pages as a plain list over the page, on the ground of the tone the nav was
    in when it opened, hairlines between */
 .menu {
@@ -196,7 +372,7 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
   transform: translateY(-12px);
   transition: opacity .25s, transform .35s var(--ease-out), visibility 0s .25s;
 }
-.menu[data-tone="light"] { background: #050709; color: #ece7dc; --menu-line: rgb(236 231 220 / .14); }
+.menu[data-tone="light"] { background: #050709; color: #f2f3f1; --menu-line: rgb(242 243 241 / .14); }
 .menu a { padding: 14px 0; border-bottom: 1px solid var(--menu-line); font-size: clamp(1.15rem, 5vw, 1.4rem); font-weight: 500; line-height: 1.2; letter-spacing: -.015em; }
 .menu a:last-child { border-bottom: 0; }
 .menu a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
@@ -216,11 +392,11 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
   z-index: 60;
   overflow: hidden;
   background: #050709;
-  color: #efe7d6;
-  --fg: #efe7d6;
+  color: #f2f3f1;
+  --fg: #f2f3f1;
   --fg-soft: #a2a89d;
-  --line: rgba(239, 231, 214, .16);
-  --line-strong: rgba(239, 231, 214, .32);
+  --line: rgba(242, 243, 241, .16);
+  --line-strong: rgba(242, 243, 241, .32);
   touch-action: none;
   outline: none;
 }
@@ -279,12 +455,12 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 
 .em-foot { left: 50%; bottom: clamp(28px, 6vh, 56px); translate: -50% 0; width: min(560px, calc(100% - 2 * var(--gutter))); text-align: center; pointer-events: none; opacity: 0; transition: opacity 1.1s var(--ease-out) .4s; }
 .emerge.is-ready .em-foot { opacity: 1; }
-.em-title { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 22px; letter-spacing: var(--t-a); font-size-adjust: var(--accent-adjust); }
+.em-title { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 22px; letter-spacing: var(--accent-track-s); font-size-adjust: var(--accent-adjust); }
 .em-switch { margin-top: 6px; font-size: 13px; color: var(--fg-soft); }
 .em-key { color: var(--fg); white-space: nowrap; }
 
 /* the word you chose, on its way up to the switch */
-.em-flyer { position: fixed; z-index: 70; font-family: var(--serif); font-weight: 400; color: #efe7d6; white-space: nowrap; pointer-events: none; transform-origin: center; }
+.em-flyer { position: fixed; z-index: 70; font-family: var(--serif); font-weight: 400; color: #f2f3f1; white-space: nowrap; pointer-events: none; transform-origin: center; }
 
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
   /* on a phone the butterfly is above, and the two ways in are rows beneath it */
@@ -364,7 +540,7 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
   letter-spacing: var(--t-d);
 }
 .title em { font-weight: var(--accent-weight); }
-.title .line { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+.title .line { display: block; overflow: hidden; padding: .14em 0 .3em; margin: -.14em 0 -.3em; } /* (room for the italic's tails, 18 Nov, and above for the italic f's head, 19 Nov) */
 /* the words come after the orb has opened alone: they wait for .is-words (js/orb.js), then rise in
    as it steps aside. .entry is set in the page head, so they are held back from the first paint. */
 .title .line > span { display: block; animation: rise 1.4s var(--ease-out) both .35s; }
@@ -420,6 +596,7 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
   font-family: var(--accent);
   font-style: italic;
   font-size: 19px;
+  letter-spacing: var(--accent-track-s);
   line-height: 1.35;
   color: var(--fg);
   opacity: 0;
@@ -496,7 +673,7 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 .hero.is-open .orbit-card { opacity: 0; }
 .oc-ring { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--fg-soft); }
 .oc-sw { width: 26px; height: 12px; flex: none; }
-.oc-name { margin-top: 16px; font-family: var(--accent); font-style: italic; font-size: clamp(2.6rem, 4.4vw, 4.6rem); line-height: 1; letter-spacing: var(--t-a); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.oc-name { margin-top: 16px; font-family: var(--accent); font-style: italic; font-size: clamp(2.6rem, 4.4vw, 4.6rem); line-height: 1; letter-spacing: var(--accent-track); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .oc-note { margin-top: 18px; max-width: 36ch; font-size: clamp(16px, 1.2vw, 18px); line-height: 1.5; color: var(--fg-soft); }
 .oc-discs { margin-top: 22px; max-width: 40ch; font-size: 15px; line-height: 1.6; }
 .oc-foot { margin-top: 26px; display: flex; align-items: center; gap: 16px; font-size: 13px; color: var(--fg-soft); }
@@ -504,8 +681,8 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 
 /* the light orb's own words: the names beside their lights, the key, the hint, the captions */
 .orb-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.ol { position: absolute; left: 0; top: 0; white-space: nowrap; font-size: 12.5px; line-height: 1; color: rgba(239, 231, 214, .88); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 12px rgba(5, 7, 9, .95), 0 0 3px rgba(5, 7, 9, .9); }
-.ol-s { font-size: 11.5px; color: rgba(239, 231, 214, .72); }
+.ol { position: absolute; left: 0; top: 0; white-space: nowrap; font-size: 12.5px; line-height: 1; color: rgba(242, 243, 241, .88); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 12px rgba(5, 7, 9, .95), 0 0 3px rgba(5, 7, 9, .9); }
+.ol-s { font-size: 11.5px; color: rgba(242, 243, 241, .72); }
 .orb-key { position: absolute; right: var(--gutter); bottom: 26px; z-index: 3; display: flex; gap: 2px; opacity: var(--copy, 1); animation: fade 1.1s var(--ease-out) both 1.6s; transition: opacity .45s var(--ease-out); }
 .orb-key button { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 6px 7px; }
 .ok-dot { width: 7px; height: 7px; border-radius: 50%; opacity: .7; transition: transform .35s var(--ease-out), opacity .35s var(--ease-out); }
@@ -544,10 +721,10 @@ em { font-style: var(--accent-style, italic); font-family: var(--accent-word, va
 .disc-panel.is-on .dp-inner { opacity: 1; translate: 0 0; transition-delay: .55s; }
 .dp-ring { font-size: 13px; color: var(--fg-soft); }
 .dp-name { margin-top: 10px; font-family: var(--serif); font-weight: 500; font-size: clamp(2.6rem, 4.6vw, 4.8rem); line-height: .98; letter-spacing: var(--t-d); }
-.dp-gist { margin-top: 20px; max-width: 38ch; font-family: var(--accent); font-style: italic; font-size: 20px; line-height: 1.42; opacity: .92; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.dp-gist { margin-top: 20px; max-width: 38ch; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-size: 20px; line-height: 1.42; opacity: .92; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .dp-count { margin-top: 18px; font-size: 14px; color: #e0bd84; }
 .dp-force { margin-top: 8px; font-size: 13px; color: #e0bd84; }
-.dp-eff { margin-top: 8px; max-width: 52ch; font-family: var(--accent); font-style: italic; font-size: 16px; line-height: 1.45; opacity: .9; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.dp-eff { margin-top: 8px; max-width: 52ch; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-size: 16px; line-height: 1.45; opacity: .9; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .dp-lands { margin-top: 6vh; display: grid; gap: 38px; }
 .dp-lands h3 { font-family: var(--serif); font-weight: 500; font-size: 22px; padding-bottom: 8px; border-bottom: 1px solid var(--line-strong); letter-spacing: var(--t-m); }
 .dp-fnote { margin-top: 8px; max-width: 52ch; font-size: 14px; line-height: 1.5; color: var(--fg-soft); }
@@ -649,6 +826,8 @@ html[data-theme="dark"] .next { background: linear-gradient(var(--hero-paper) 0,
 /* the room: each coin's button sits where js/team.js floats it (--x, --y), the coin drawn under it */
 .coins { position: relative; }
 .coins-team { height: max(100svh, 680px); margin-top: 2vh; }
+/* (21 Nov) the crew alone, on the simple About (no placeholder co-founders above them): one arc, a shorter stage */
+.team.is-crew .coins-team { height: max(70svh, 520px); }
 .coin {
   position: absolute;
   left: var(--x);
@@ -678,11 +857,11 @@ html[data-theme="dark"] .next { background: linear-gradient(var(--hero-paper) 0,
 /* Light: the words the threads come down from. One row across the top of the room; on a phone,
    and for the advisory board, each coin's own few words above it. */
 .disc-band { position: absolute; inset: 0; pointer-events: none; }
-.wd, .coin-tag { font-size: 13px; white-space: nowrap; color: rgba(239, 231, 214, .55); opacity: 0; transition: opacity .5s var(--ease-out), color .3s var(--ease-out); }
+.wd, .coin-tag { font-size: 13px; white-space: nowrap; color: rgba(242, 243, 241, .55); opacity: 0; transition: opacity .5s var(--ease-out), color .3s var(--ease-out); }
 .wd { position: absolute; left: var(--x); top: var(--y); translate: -50% -100%; padding: 4px 6px; }
 .team[data-lit="true"] .wd, .team[data-lit="true"] .coin-tag { opacity: 1; transition: opacity .8s var(--ease-out) .5s, color .3s var(--ease-out); }
 .team[data-lit="true"] .wd { pointer-events: auto; cursor: default; }
-.wd.is-on, .coin-tag.is-on { color: #efe7d6; }
+.wd.is-on, .coin-tag.is-on { color: #f2f3f1; }
 .coin-tags { display: none; }
 .coin-advisor .coin-tags { display: flex; position: absolute; left: 50%; bottom: calc(100% + 54px); translate: -50% 0; }
 .team-caption { position: relative; z-index: 1; min-height: 1.4em; margin-top: -5vh; text-align: center; font-family: var(--serif); font-size: 19px; color: var(--fg-soft); opacity: 0; transition: opacity .6s var(--ease-out); letter-spacing: var(--t-m); }
@@ -699,10 +878,10 @@ html[data-theme="dark"] .next { background: linear-gradient(var(--hero-paper) 0,
 
 .coin-view { position: fixed; inset: 0; z-index: 18; color: var(--fg); }
 .coin-view[data-lit="true"] {
-  --fg: #efe7d6;
+  --fg: #f2f3f1;
   --fg-soft: #a2a89d;
-  --line: rgba(239, 231, 214, .16);
-  --line-strong: rgba(239, 231, 214, .32);
+  --line: rgba(242, 243, 241, .16);
+  --line-strong: rgba(242, 243, 241, .32);
 }
 html.cv-open { overflow: hidden; }
 .cv-back { position: absolute; inset: 0; background: var(--paper); opacity: 0; transition: opacity .7s var(--ease-out), background-color 1.2s var(--ease-out); }
@@ -792,9 +971,9 @@ a room of the colour. */
 
 .cc-page {
   --cc: #26375a;           /* the corner's colour: the site's before-dawn blue (11 Nov; it was cobalt) */
-  --cc-fg: #f6f2ea;        /* the hand and the print on it */
-  --cc-soft: rgba(246, 242, 234, .7);
-  --cc-line: rgba(246, 242, 234, .22);
+  --cc-fg: #f2f3f1;        /* the hand and the print on it */
+  --cc-soft: rgba(242, 243, 241, .7);
+  --cc-line: rgba(242, 243, 241, .22);
   --mat: #fdfdfd;          /* a print's mat: paper white */
   --stamp: #c63d2f;        /* the corner's stamp, in a stamp pad's red */
   --display: 'Cormorant', 'Ibarra Real Nova', Georgia, serif; /* (was Instrument Serif, then Baskervville, until 14 Nov) */
@@ -892,8 +1071,8 @@ a room of the colour. */
 .cp-open.is-warm .cp-mu-panel::before { background: radial-gradient(50% 50% at 50% 36%, rgba(255, 196, 150, .26), rgba(255, 196, 150, .08) 46%, transparent 72%); }
 .cp-mu-name::before { opacity: .55; }
 .cp-mu-title { position: relative; display: block; width: 76vw; height: auto; overflow: visible; }
-.cp-mu-ink { fill: #f1ece3; }
-.cp-mu-lift { fill: none; stroke: #f1ece3; stroke-linecap: round; }
+.cp-mu-ink { fill: #f2f3f1; }
+.cp-mu-lift { fill: none; stroke: #f2f3f1; stroke-linecap: round; }
 .cp-mu-piece { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
 .cp-mu-frame { display: block; box-sizing: content-box; width: min(62vw, calc(42svh * var(--r, 1))); aspect-ratio: var(--r, 1); background: #1b1814; }
 .cp-mu-frame img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
@@ -906,10 +1085,10 @@ a room of the colour. */
 .cp-open.is-warm .cp-mu-piece.is-gilt .cp-mu-frame img { box-shadow: 0 0 0 2.5px #b48f4a, 0 0 0 3.5px #4f3a1b; }
 /* the days before: a plain dark frame on a white mat */
 .cp-mu-piece.is-small .cp-mu-frame { width: min(19vw, calc(14svh * var(--r, 1))); padding: 7px; border: 3px solid #14110f; background: #ecebe6; box-shadow: 0 14px 18px -12px rgba(0, 0, 0, .72); }
-.cp-mu-label { display: grid; gap: 2px; min-width: 0; color: #f1ece3; }
-.cp-mu-l-small { font-size: 11.5px; font-weight: 600; color: rgba(241, 236, 227, .7); }
+.cp-mu-label { display: grid; gap: 2px; min-width: 0; color: #f2f3f1; }
+.cp-mu-l-small { font-size: 11.5px; font-weight: 600; color: rgba(242, 243, 241, .7); }
 .cp-mu-l-title { font-family: var(--display); font-style: italic; font-size: 22px; line-height: 1.1; font-weight: var(--accent-weight); }
-.cp-mu-l-maker { font-size: 13px; color: rgba(241, 236, 227, .78); }
+.cp-mu-l-maker { font-size: 13px; color: rgba(242, 243, 241, .78); }
 .cp-mu-sig { margin-top: 4px; opacity: 0; }
 .cp-mu-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 4.5vw 3.5vw; align-items: center; justify-items: center; }
 .cp-mu-group .cp-mu-piece { gap: 20px; }
@@ -975,7 +1154,7 @@ a room of the colour. */
 .cc-row:last-child .cc-row-btn { border-bottom: 1px solid var(--cc-line); }
 .cc-row-n { font-family: var(--mono); font-size: 11.5px; color: var(--cc-soft); }
 .cc-row-pic { display: none; }
-.cc-row-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.05; transition: translate .5s var(--ease-out); font-weight: var(--accent-weight); }
+.cc-row-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-bottom: .2em; margin-bottom: -.2em; font-family: var(--display); font-style: italic; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.05; transition: translate .5s var(--ease-out); font-weight: var(--accent-weight); }
 .cc-row-m { font-size: 14.5px; }
 .cc-row-k { position: relative; padding-left: 16px; font-size: 13.5px; color: var(--cc-soft); }
 .cc-row-k::before { content: ""; position: absolute; left: 0; top: .42em; width: 8px; height: 8px; background: var(--dc); }
@@ -1078,9 +1257,9 @@ a room of the colour. */
 .cc-room { position: fixed; inset: 0; z-index: 18; color: var(--cc-fg); }
 .cc-room[hidden] { display: none; }
 html.cc-open { overflow: hidden; }
-.cc-room-bg { position: absolute; inset: 0; background: var(--cc-room-sky) fixed; }
+.cc-room-bg { position: absolute; inset: 0; background: var(--room-bg, var(--cc-room-sky)); background-attachment: fixed; }
 .cc-room-scroll { position: absolute; top: var(--nav-h); right: 0; bottom: 0; left: 0; overflow-y: auto; overscroll-behavior: contain; }
-.cc-room-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 48px; padding: 0 var(--gutter); background: var(--cc-room-sky) fixed; font-size: 14px; }
+.cc-room-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 48px; padding: 0 var(--gutter); background: var(--room-bg, var(--cc-room-sky)); background-attachment: fixed; font-size: 14px; }
 .cc-close { margin-left: auto; padding: 4px 0; border-bottom: 1px solid var(--cc-line); color: var(--cc-fg); }
 .cc-back, .cc-saved-btn { padding: 4px 0; border-bottom: 1px solid var(--cc-line); color: var(--cc-fg); }
 .cc-back[hidden], .cc-saved-btn[hidden] { display: none; }
@@ -1109,8 +1288,8 @@ html.cc-open { overflow: hidden; }
 .cc-pc-sig path { stroke-width: 1.7; }
 .cc-tools { display: flex; justify-content: flex-end; gap: 8px; }
 .cc-tool, .cc-act { display: grid; place-items: center; border-radius: 2px; color: var(--cc-fg); transition: background-color .3s var(--ease-out), opacity .3s var(--ease-out); }
-.cc-tool { width: 40px; height: 40px; background: rgba(246, 242, 234, .12); }
-.cc-tool:hover:not(:disabled), .cc-act:hover { background: rgba(246, 242, 234, .2); }
+.cc-tool { width: 40px; height: 40px; background: rgba(242, 243, 241, .12); }
+.cc-tool:hover:not(:disabled), .cc-act:hover { background: rgba(242, 243, 241, .2); }
 .cc-tool:disabled { opacity: .35; cursor: default; }
 .cc-tool svg, .cc-act svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .cc-tool:focus-visible, .cc-act:focus-visible { outline: 1px solid var(--cc-fg); outline-offset: 2px; }
@@ -1130,7 +1309,7 @@ html.cc-open { overflow: hidden; }
 .cc-pc-title { margin-top: 30px; font-family: var(--display); font-style: italic; font-weight: var(--accent-weight); font-size: clamp(2.6rem, 4vw, 4.4rem); line-height: .95; letter-spacing: -.01em; outline: none; }
 .cc-pc-year { font-family: var(--sans); font-style: normal; font-size: .36em; letter-spacing: 0; color: var(--cc-soft); white-space: nowrap; }
 .cc-pc-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-.cc-tag { padding: 5px 10px; border-radius: 2px; background: rgba(246, 242, 234, .13); font-size: 13px; font-weight: 500; }
+.cc-tag { padding: 5px 10px; border-radius: 2px; background: rgba(242, 243, 241, .13); font-size: 13px; font-weight: 500; }
 .cc-tag.is-available { background: #dcf3e3; color: #14603a; }
 .cc-tag.is-sold { background: rgba(0, 0, 0, .2); color: var(--cc-soft); }
 .cc-pc-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 18px; }
@@ -1159,6 +1338,75 @@ html.cc-open { overflow: hidden; }
 .cc-steps button:hover { border-color: var(--cc-fg); }
 .cc-count { font-family: var(--mono); font-size: 12px; color: var(--cc-soft); }
 .cc-steps[hidden] { display: none; }
+
+/* the room's ground (18 Nov; the user: "the background of this needs to be better"). js/corner.js sets
+   data-room from ?room= (kept for the visit): lamp, the default: the piece hung in a dark room under one
+   light, the light falling off into the night where its words are; own: the room takes the piece's own
+   colour, deepened (--pc, read off the picture); paper: a page of a printed catalogue, the words in ink;
+   sky: the sheet's blue, as it was. --lx and --ly are where the piece hangs (set in js). */
+@property --pc { syntax: '<color>'; inherits: true; initial-value: #26375a; }
+.cc-room[data-room="lamp"] { --room-bg:
+  radial-gradient(40% 56% at var(--lx, 34%) var(--ly, 44%), rgba(150, 168, 200, .3), rgba(150, 168, 200, .08) 58%, rgba(150, 168, 200, 0) 100%),
+  radial-gradient(30% 16% at var(--lx, 34%) 100%, rgba(205, 214, 225, .07), rgba(205, 214, 225, 0) 100%),
+  radial-gradient(115% 95% at var(--lx, 34%) 38%, #111a2c 0%, #0a101c 46%, #050709 100%); }
+.cc-room[data-room="own"] { transition: --pc 1.1s var(--ease-out); --room-bg:
+  radial-gradient(44% 60% at var(--lx, 34%) var(--ly, 44%), color-mix(in oklab, var(--pc) 40%, #070a12), color-mix(in oklab, var(--pc) 13%, #070a12) 62%, color-mix(in oklab, var(--pc) 4%, #050709) 100%); }
+.cc-room[data-room="paper"] { --room-bg: linear-gradient(180deg, #eceee9 0%, #f2f3ef 38%, #f7f8f4 100%); --cc-fg: #16201b; --cc-soft: #56615b; --cc-line: rgba(22, 32, 27, .22); color: var(--cc-fg); }
+.cc-room[data-room="paper"] .cc-tool, .cc-room[data-room="paper"] .cc-tag:not(.is-available) { background: rgba(22, 32, 27, .06); }
+.cc-room[data-room="paper"] .cc-tool:hover:not(:disabled), .cc-room[data-room="paper"] .cc-act:hover { background: rgba(22, 32, 27, .1); }
+.cc-room[data-room="paper"] .cc-hire, .cc-room[data-room="paper"] .cc-share { color: #f2f3ef; }
+.cc-room[data-room="paper"] .cc-hire:hover { background: #050709; }
+/* in a lit room the piece throws a real shadow on the wall behind it */
+.cc-room:is([data-room="lamp"], [data-room="own"]) .cc-pc-frame { box-shadow: 0 1px 3px rgba(0, 0, 0, .3), 0 30px 64px -24px rgba(0, 0, 0, .62); }
+.cc-room[data-room="paper"] .cc-pc-frame { box-shadow: 0 1px 2px rgba(22, 32, 27, .16), 0 26px 50px -26px rgba(22, 32, 27, .34); }
+
+/* the split (19 Nov, the default; the user: "the art remains in the left and complete black environment, and
+   then there is this white card… in the right… so that will also help us distinguish it"): the screen in two
+   halves, the art apart from what is said about it. On the left the piece alone on black, held still while the
+   card beside it scrolls; on the right a white card with its maker, its words, the ways on, and what else to look
+   at (more of the maker's work, then pieces like it). The nav's tab hangs over the seam. The maker's page and what
+   you have saved stay on the black. On a phone the piece on black at the top, the card rising over it as you
+   scroll. data-view (js/corner.js): piece, person, saved, or full for the whole screen. The rooms before it:
+   ?room=lamp, own, paper, sky; backup room-lamp-before-split-2026-11-19. */
+.cc-room[data-room="split"] { --room-bg: #050709; --card: #f6f7f4; --card-fg: #0a101c; --card-soft: #59616e; --card-line: rgba(10, 16, 28, .16); }
+.cc-room[data-room="split"][data-view="piece"] .cc-room-scroll { top: 0; }
+.cc-room[data-room="split"][data-view="piece"] .cc-room-bar { width: 50%; height: 64px; margin: 0 0 -64px auto; padding: 0 clamp(28px, 3.6vw, 60px); background: var(--card); --cc-fg: var(--card-fg); --cc-line: var(--card-line); color: var(--cc-fg); }
+.cc-room[data-room="split"][data-view="piece"] .cc-piece { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; height: auto; padding: 0; }
+.cc-room[data-room="split"][data-view="piece"] .cc-pc-fig { position: sticky; top: 0; height: 100svh; padding: 76px clamp(28px, 4vw, 72px) 26px; }
+.cc-room[data-room="split"][data-view="piece"] .cc-pc-text { align-self: stretch; min-height: 100svh; padding: 112px clamp(28px, 3.6vw, 60px) 80px; background: var(--card); --cc-fg: var(--card-fg); --cc-soft: var(--card-soft); --cc-line: var(--card-line); color: var(--cc-fg); }
+/* (on the white, the room's light parts in ink: the tags, the buttons, the share menu, the maker without a ring) */
+.cc-room[data-room="split"] .cc-pc-text .cc-tag:not(.is-available) { background: rgba(10, 16, 28, .06); }
+.cc-room[data-room="split"] .cc-pc-text .cc-act:hover { background: rgba(10, 16, 28, .07); }
+.cc-room[data-room="split"] .cc-pc-text .cc-hire { color: var(--card); }
+.cc-room[data-room="split"] .cc-pc-text .cc-hire:hover { background: #26375a; }
+.cc-room[data-room="split"] .cc-pc-text .cc-share { color: var(--card); }
+.cc-room[data-room="split"] .cc-pc-text .cc-share > *:hover, .cc-room[data-room="split"] .cc-pc-text .cc-share > *:focus-visible { background: rgba(246, 247, 244, .1); }
+.cc-room[data-room="split"] .cc-pc-text .cc-maker-pic { box-shadow: none; }
+.cc-room[data-room="split"] .cc-pc-title { margin-top: 34px; }
+/* (while a piece is open the black is the art's alone: the change of version waits until the room shuts) */
+html.cc-open:has(.cc-room[data-room="split"]) .vx { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* what else to look at, under the ways on (the split only): more of the maker's work at one height, then
+   pieces like this one by other makers, each at its own shape, its title and maker under it */
+.cc-recs { display: none; }
+.cc-room[data-room="split"] .cc-recs { display: block; margin-top: 64px; }
+.cc-rec-own, .cc-rec-like { padding-top: 20px; border-top: 1px solid var(--cc-line); }
+.cc-rec-own[hidden] { display: none; }
+.cc-rec-like { margin-top: 48px; }
+.cc-rec-own[hidden] + .cc-rec-like { margin-top: 0; }
+.cc-rec-title { margin-bottom: 18px; font-size: 14px; font-weight: 500; letter-spacing: var(--t-s); }
+.cc-recs ul { list-style: none; }
+.cc-rec-row { display: flex; gap: 14px; }
+.cc-rec-row li { flex: var(--r) 1 0; min-width: 0; max-width: calc(var(--r) * 170px); }
+.cc-rec-grid { columns: 3 150px; column-gap: 18px; }
+.cc-rec-grid li { break-inside: avoid; padding-bottom: 26px; }
+.cc-rec-btn { display: block; width: 100%; text-align: left; color: var(--cc-fg); }
+.cc-rec-btn img { display: block; width: 100%; height: auto; background: rgba(10, 16, 28, .05); opacity: 0; transition: opacity .6s var(--ease-out), translate .5s var(--ease-out); }
+.cc-rec-btn img.is-in { opacity: 1; }
+.cc-rec-btn:hover img { translate: 0 -3px; }
+.cc-rec-btn:focus-visible { outline: 1px solid var(--cc-fg); outline-offset: 4px; }
+.cc-rec-t { display: block; margin-top: 10px; font-family: var(--display); font-style: italic; font-weight: var(--accent-weight); font-size: 17px; line-height: 1.15; letter-spacing: var(--accent-track-s); }
+.cc-rec-m { display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.35; color: var(--cc-soft); }
 
 /* the whole screen: the piece alone in the room, over the nav, with its tools */
 .cc-room.is-full { z-index: 25; }
@@ -1250,6 +1498,18 @@ html.cc-open { overflow: hidden; }
   .cc-works li { flex: none; max-width: none; scroll-snap-align: start; }
   .cc-work-btn img { width: auto; height: 190px; }
 }
+/* the split on a phone: the piece on black under the bar, held there; the white card follows it and rises over
+   it as you scroll, tall enough to cover it */
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .cc-room[data-room="split"][data-view="piece"] .cc-room-scroll { top: var(--nav-h); }
+  .cc-room[data-room="split"][data-view="piece"] .cc-room-bar { width: auto; height: 48px; margin: 0; padding: 0 20px; background: var(--room-bg); --cc-fg: inherit; --cc-line: inherit; color: var(--cc-fg); }
+  .cc-room[data-room="split"][data-view="piece"] .cc-piece { display: block; padding: 0; }
+  .cc-room[data-room="split"][data-view="piece"] .cc-pc-fig { top: 48px; z-index: 0; height: 60svh; margin: 0; padding: 2px 16px 12px; }
+  .cc-room[data-room="split"][data-view="piece"] .cc-pc-text { position: relative; z-index: 1; min-height: calc(100svh - var(--nav-h) - 48px); padding: 30px 20px 56px; }
+  .cc-room[data-room="split"] .cc-pc-title { margin-top: 26px; }
+  .cc-room[data-room="split"] .cc-recs { margin-top: 48px; }
+  .cc-rec-grid { column-gap: 14px; }
+}
 
 /* ------------------------------------------------------------------ narrow: phones, tablets upright
    Keep in step with isNarrow() in js/main.js. */
@@ -1262,8 +1522,36 @@ html.cc-open { overflow: hidden; }
   .nav .mode { padding: 0 13px; font-size: 13px; }
   .nav-cta { padding: 0 15px; font-size: 13px; }
   .wordmark { font-size: 18px; }
+  /* the tabs, smaller on a phone */
+  html:not([data-nav="float"]) .nav { --tab-r: 16px; --tab-h: 40px; padding: 0 12px; }
+  html:not([data-nav="float"]) .nav-pill { padding-left: 8px; padding-right: calc(var(--tab-r) + 4px); }
+  html:not([data-nav="float"]) .nav-right { gap: 6px; padding-left: 16px; padding-right: 8px; }
+  html:not([data-nav="float"]) .nav-cta { height: 30px; padding: 0 12px; }
   /* on the smallest phones the home page's three pills would touch: Talk to us waits in the menu */
   @media (max-width: 400px) { .nav:has(.mode) .nav-cta { display: none; } }
+/* (18 Nov) the three tabs on a phone: Menu as its mark alone, the name, Talk to us */
+.nav-tab { column-gap: 10px; padding: env(safe-area-inset-top) 5px 0 4px; }
+.nav-tab .wordmark { font-size: 17px; }
+.nav .nav-menu-t { display: none; }
+.nav .nav-menu { padding: 0 9px; height: 30px; }
+.nav .nav-cta { height: 30px; padding: 0 12px; font-size: 13px; }
+/* the menu on a phone: one column, each place with its line under it and its pages, one tap goes in */
+.mn-in { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 3vh); }
+.mn-side { display: none; }
+.mn-list { align-self: start; margin-top: 2vh; }
+.mn-item { padding: 1.6vh 0; border-bottom: 1px solid var(--mn-line); }
+.mn-name { font-size: clamp(2.1rem, 9.6vw, 2.9rem); }
+.mn-go { gap: 12px; padding: 0; }
+.mn-item.is-on .mn-name { translate: 0 0; }
+.mn.has-on .mn-item:not(.is-on) .mn-name { opacity: 1; }
+.mn-line-m { display: block; margin: 8px 0 0; font-size: 14.5px; line-height: 1.4; color: var(--fg-soft); max-width: 34ch; }
+.mn-subs-m { display: flex; gap: 18px; margin: 10px 0 0; font-size: 14.5px; }
+.mn-foot { flex-wrap: wrap; gap: 16px 22px; padding: 16px 0 66px; }
+.mn-c { margin-left: 0; width: 100%; }
+.vx { height: 48px; gap: 10px; padding: 0 18px 0 6px; font-size: 14px; }
+/* (18 Nov) on a phone hero 8's hint sits under its tag, clear of the words at the foot */
+.ho-hint { top: calc(var(--nav-h) + 46px); bottom: auto; }
+.vx-lens { width: 36px; height: 36px; }
   .hero-copy {
     top: auto;
     left: var(--gutter);
@@ -1352,7 +1640,8 @@ html.cc-open { overflow: hidden; }
 :is(.title, .next-title, .team-title, .cv-name, .dp-name, .em-word, .ab-end-line) { letter-spacing: var(--t-d); }
 .cv-sub { letter-spacing: var(--t-m); }
 /* the italic lines among them take the accent */
-:is(.oc-name, .em-title, .ab-dial-q) { font-family: var(--accent); font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: var(--t-a); }
+:is(.oc-name, .em-title, .ab-dial-q) { font-family: var(--accent); font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: var(--accent-track-s); }
+.oc-name { letter-spacing: var(--accent-track); }
 .ab-text[data-d="2"] { font-stretch: 80%; font-weight: 460; letter-spacing: var(--t-m); }
 .ab-text[data-d="3"] { font-stretch: 88%; font-weight: 420; letter-spacing: var(--t-s); }
 /* ?type=old: the faces before 14 Nov, to compare (loaded only then, by the page's head) */
@@ -1379,7 +1668,77 @@ html.type-old {
 
 .stage-1 { height: 280svh; background: #050709; }
 .stage-v { position: relative; height: 300svh; background: #030405; }
-.stage-7 { height: 420svh; background: linear-gradient(#030405 0, #030405 88%, var(--hero-paper) 100%); }
+.stage-7 { height: 420svh; background: #030405; } /* (18 Nov: hero 8 follows it now, and hands over to the paper) */
+/* hero 8, the orbits in grain (js/hero-orbits.js) */
+.stage-8 { height: 170svh; background: linear-gradient(#030405 0, #030405 80%, var(--hero-paper) 100%); } /* (19 Nov: a short scroll; it was 360svh) */
+/* ?hero=n (js/main.js): that hero alone, straight after the way in, to show it as it would be once chosen */
+html[data-hero="1"] .stage:not(.stage-1), html[data-hero="2"] .stage:not(.stage-2), html[data-hero="3"] .stage:not(.stage-3), html[data-hero="4"] .stage:not(.stage-4),
+html[data-hero="5"] .stage:not(.stage-5), html[data-hero="6"] .stage:not(.stage-6), html[data-hero="7"] .stage:not(.stage-7), html[data-hero="8"] .stage:not(.stage-8), html[data-hero="9"] .stage:not(.stage-9) { display: none; }
+html[data-hero] .hv-tag { display: none; }
+.hv-orbits .hv-gl { cursor: grab; touch-action: pan-y; }
+/* (20 Nov) hero 9, the ascent in grain (js/hero-rise.js): the climb, the flip, the orbits settling, then the words.
+   At the start nothing but the cue to scroll; the words come up only once the orbits have settled (.is-words): the
+   numbers at the top left, What's Metamorph? at the top right, the name large at the foot with the sentence under it */
+.stage-9 { height: 420svh; background: #030405; }
+.hv-rise .hv-gl { cursor: grab; touch-action: pan-y; }
+.hv-rise.is-turning .hv-gl { cursor: grabbing; }
+.hv-rise .hn-copy { inset: 0; width: auto; padding: 0; opacity: 1; }
+.hv-rise.is-words .ho-mask > * { transform: none; }
+.hv-rise.is-words .hn-sub-m > * { transition-delay: .18s; }
+.hv-rise.is-words .hn-corner .ho-mask > * { transition-delay: .4s; }
+.hv-rise.is-words .hn-what-m > * { transition-delay: .5s; }
+.hn-corner { position: absolute; left: var(--gutter); top: calc(var(--nav-h) + 28px); }
+.hn-what-m { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 50px); }
+.hn-foot { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(clamp(14px, 2.4vw, 32px) + 72px); display: grid; gap: 14px; justify-items: start; }
+/* (the mask takes the name's own size, so its room above and below is measured in the name's em: the italic p's tail) */
+.ho-mask.hn-line-m { font-size: clamp(64px, 10.4vw, 190px); padding: .14em .16em .34em 0; margin: -.14em -.16em -.34em 0; }
+/* (hidden, it sits wholly below its mask's room, which reaches a third of an em under the line) */
+.hn-line-m > .hn-line { transform: translateY(170%); }
+.hv-rise.is-words .hn-line-m > .hn-line { transform: none; }
+.hn-line { margin: 0; font-size: 1em; font-weight: 500; line-height: .92; letter-spacing: var(--t-d); white-space: nowrap; color: var(--fg); }
+.hn-line em { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight, 600); letter-spacing: var(--accent-track, -.042em); }
+.hn-sub { max-width: 46ch; font-size: 17px; line-height: 1.45; letter-spacing: var(--t-s); color: var(--fg-soft); }
+/* the cue to scroll: a word and a hairline a light runs down, at the foot of the opening only */
+.hn-cue { position: absolute; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom)); z-index: 2; display: grid; justify-items: center; gap: 10px; margin: 0; translate: -50% 0; font-size: 12px; letter-spacing: var(--t-s); color: var(--fg-soft); opacity: var(--cue, 0); pointer-events: none; }
+.hn-cue i { position: relative; display: block; width: 1px; height: 46px; overflow: hidden; background: rgba(242, 243, 241, .16); }
+.hn-cue i::after { content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 16px; background: var(--fg); animation: hn-run 2.4s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes hn-run { 0% { translate: 0 -16px; } 100% { translate: 0 46px; } }
+@media (prefers-reduced-motion: reduce) { .hn-cue i::after { animation: none; translate: 0 15px; } }
+.ho-ink { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.hv-orbits .hv-gl.is-turning { cursor: grabbing; }
+.ho-hint { position: absolute; right: var(--gutter); bottom: calc(44px + 4vh); z-index: 2; margin: 0; font-size: 13px; color: var(--fg-soft); pointer-events: none; transition: color .4s; }
+.hv-orbits.is-holding .ho-hint { color: var(--fg); }
+.hv-orbits .hv-card .hc-note { margin-top: 12px; max-width: 40ch; font-size: 15px; line-height: 1.5; color: var(--fg-soft); }
+.hv-orbits .hv-card .hc-list { margin-top: 12px; max-width: 46ch; font-size: 13px; line-height: 1.55; color: var(--fg-soft); }
+/* (19 Nov) hero 8's words, the poster (the user chose it from three sketches, refs/hero-orbits/sketch-openings.html;
+   of the stack before it: "it makes it look AI"). One line along the foot of the screen, edge to edge (fitted in
+   js/hero-orbits.js), clear of the change-of-version button; the firm's sentence and its numbers small at the top
+   left; the one link at the top right under the tag, the hint under that. No eyebrow, no paragraph block, no pair of
+   buttons. Once the orbits have sunk back (.is-words) each part rises out of its own mask: the line first, the
+   corners after it; the line's italic word then turns. */
+.hv-orbits .ho-copy { inset: 0; width: auto; padding: 0; }
+.ho-mask { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+.ho-mask > * { display: inline-block; transform: translateY(108%); transition: transform 1.3s var(--ease-out); }
+.hv-orbits.is-words .ho-mask > * { transform: none; }
+.hv-orbits.is-words .ho-corner .ho-mask:first-child > * { transition-delay: .5s; }
+.hv-orbits.is-words .ho-corner .ho-mask:last-child > * { transition-delay: .62s; }
+.hv-orbits.is-words .ho-raise-m > * { transition-delay: .74s; }
+.ho-corner { position: absolute; left: var(--gutter); top: calc(var(--nav-h) + 28px); display: grid; gap: 18px; justify-items: start; }
+.ho-say { max-width: 31ch; font-size: 15px; line-height: 1.45; letter-spacing: var(--t-s); color: var(--fg-soft); }
+.ho-ledger { display: grid; gap: 4px; font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--fg-soft); }
+.ho-ledger b { margin-right: 6px; font-weight: 400; color: var(--fg); }
+.ho-raise-m { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 50px); }
+.ho-raise { display: inline-flex; align-items: center; gap: 10px; padding-bottom: 4px; border-bottom: 1px solid color-mix(in srgb, var(--fg) 30%, transparent); font-size: 16px; font-weight: 500; color: var(--fg); transition: border-color .3s var(--ease-out); }
+.ho-raise:hover, .ho-raise:focus-visible { border-color: var(--fg); }
+.ho-raise svg { width: 22px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.4; transition: translate .5s var(--ease-out); }
+.ho-raise:hover svg { translate: 4px 0; }
+.ho-line-m { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(clamp(14px, 2.4vw, 32px) + 62px); }
+/* (19 Nov: the line's window in the line's own size, set by fitLine, with room for the italic f's head and tail;
+   before, .14em of the window's own 16px left 2px and cut "transforms.") */
+.ho-mask.ho-line-m { padding: .14em 0 .38em; margin-bottom: -.38em; }
+.ho-line { margin: 0; font-size: 9.2vw; font-weight: 500; line-height: .92; letter-spacing: var(--t-d); white-space: nowrap; color: var(--fg); }
+.ho-br { display: none; }
+.hv-orbits .ho-hint { top: calc(var(--nav-h) + 90px); bottom: auto; }
 .hv { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #030405; color: var(--fg); }
 .hv-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .hv-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
@@ -1391,7 +1750,7 @@ html.type-old {
 .hero-horizon .proof { position: static; margin-top: 22px; }
 .hero-horizon .orbit-card { bottom: auto; justify-content: flex-start; padding-top: calc(var(--nav-h) + 6vh); }
 .hero-horizon .orb-caption { top: calc(var(--nav-h) + 6vh); bottom: auto; }
-.ol-r { font-family: var(--mono); font-size: 11px; color: rgba(239, 231, 214, .92); }
+.ol-r { font-family: var(--mono); font-size: 11px; color: rgba(242, 243, 241, .92); }
 
 /* 2 and 3: the words bottom left, over the scene; they wait for the scene to open (.is-words) */
 .hv-copy { position: absolute; left: var(--gutter); bottom: 0; z-index: 2; width: min(36vw, 540px); padding: 0 0 calc(44px + 4vh); pointer-events: none; opacity: var(--copy, 1); transition: opacity .45s var(--ease-out); }
@@ -1411,7 +1770,7 @@ html.type-old {
 .hv-card.is-on { opacity: 1; translate: 0 0; }
 .hv-card .hc-k { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--fg-soft); }
 .hv-card .hc-sw { width: 26px; height: 12px; flex: none; }
-.hv-card .hc-name { margin-top: 14px; font-family: var(--accent); font-stretch: 74%; font-weight: var(--accent-weight); font-style: italic; font-size: clamp(2.4rem, 4vw, 4.2rem); line-height: 1; font-size-adjust: var(--accent-adjust); }
+.hv-card .hc-name { margin-top: 14px; letter-spacing: var(--accent-track); font-family: var(--accent); font-stretch: 74%; font-weight: var(--accent-weight); font-style: italic; font-size: clamp(2.4rem, 4vw, 4.2rem); line-height: 1; font-size-adjust: var(--accent-adjust); }
 .hv-card .hc-note { margin-top: 16px; max-width: 38ch; font-size: clamp(15px, 1.1vw, 17px); line-height: 1.5; color: var(--fg-soft); }
 .hv-card .hc-list { margin-top: 16px; max-width: 42ch; font-size: 14.5px; line-height: 1.6; }
 
@@ -1419,11 +1778,29 @@ html.type-old {
   .hero-horizon .hero-copy { top: 0; bottom: auto; right: var(--gutter); width: auto; padding: calc(var(--nav-h) + 22px) 0 0; }
   .hero-horizon .orbit-card { top: 0; bottom: auto; padding-top: calc(var(--nav-h) + 22px); justify-content: flex-start; }
   .hero-horizon .orb-caption { top: calc(var(--nav-h) + 22px); bottom: auto; }
-  .hv-copy { right: var(--gutter); width: auto; padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
+  .hv-copy { right: var(--gutter); width: auto; padding-bottom: calc(18px + 58px + env(safe-area-inset-bottom)); } /* (clear of the change-of-version button) */
   .hv-caption { right: var(--gutter); bottom: calc(28px + env(safe-area-inset-bottom)); max-width: none; font-size: 21px; }
   .hv-card { right: var(--gutter); width: auto; bottom: calc(22px + env(safe-area-inset-bottom)); }
   .hv-card .hc-name { font-size: clamp(2.1rem, 9.5vw, 2.9rem); }
   .hv-tag { top: calc(var(--nav-h) + 10px); font-size: 12px; }
+  /* (19 Nov) hero 8's poster on a phone: the line in two lines over the foot, clear of the change-of-version button;
+     the sentence and the numbers (two by two) at the top left, the link at the top right, under the tag and hint */
+  .hv-orbits .ho-copy { right: 0; padding: 0; }
+  .ho-corner { top: calc(var(--nav-h) + 70px); gap: 14px; }
+  .ho-say { max-width: 24ch; font-size: 13.5px; }
+  .ho-ledger { grid-template-columns: auto; font-size: 11.5px; }
+  .ho-raise-m { top: calc(var(--nav-h) + 72px); }
+  .ho-raise { gap: 8px; font-size: 14.5px; }
+  .ho-line-m { bottom: calc(14px + 48px + 26px + env(safe-area-inset-bottom)); }
+  .ho-br { display: inline; }
+  .hv-orbits .ho-hint { top: calc(var(--nav-h) + 36px); font-size: 12px; }
+  .hn-corner { top: calc(var(--nav-h) + 70px); }
+  .hn-what-m { top: calc(var(--nav-h) + 72px); }
+  .hn-what { gap: 8px; font-size: 14.5px; }
+  .hn-foot { bottom: calc(14px + 48px + 26px + env(safe-area-inset-bottom)); gap: 12px; }
+  .ho-mask.hn-line-m { font-size: clamp(56px, 18vw, 96px); }
+  .hn-line { line-height: .9; }
+  .hn-sub { font-size: 15px; max-width: 30ch; }
   .hero-horizon .hv-tag { top: auto; bottom: calc(10px + env(safe-area-inset-bottom)); right: var(--gutter); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1432,9 +1809,9 @@ html.type-old {
 
 /* 2, the gathering: trackers on the disciplines, each ring named large as the camera passes it, the
    top rail's ticks named small. All drawn over the canvas, placed each frame by js/hero-gather.js. */
-.hg-tk { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; translate: -7px -7px; white-space: nowrap; font-size: 11.5px; line-height: 1; color: rgba(239, 231, 214, .9); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
+.hg-tk { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 6px; translate: -7px -7px; white-space: nowrap; font-size: 11.5px; line-height: 1; color: rgba(242, 243, 241, .9); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
 .hg-tk-box {
-  --c: rgba(239, 231, 214, .85);
+  --c: rgba(242, 243, 241, .85);
   position: relative; width: 14px; height: 14px; flex: none;
   background:
     linear-gradient(var(--c), var(--c)) top left / 4px 1px no-repeat,
@@ -1452,9 +1829,9 @@ html.type-old {
 .hg-tk-n, .hg-tk-m { font-family: var(--mono); font-size: 10px; color: rgba(162, 168, 157, .95); }
 .hg-ring { position: absolute; left: 0; top: 0; display: grid; gap: 6px; opacity: 0; will-change: transform, opacity; pointer-events: none; text-shadow: 0 0 18px rgba(3, 4, 5, .9); }
 .hg-ring-n { font-family: var(--head); font-stretch: 74%; font-weight: 450; font-size: clamp(56px, 6.4vw, 104px); line-height: .86; color: var(--fg); letter-spacing: var(--t-d); }
-.hg-ring-name { font-family: var(--accent); font-style: italic; font-size: clamp(16px, 1.3vw, 20px); color: var(--fg); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.hg-ring-name { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-size: clamp(16px, 1.3vw, 20px); color: var(--fg); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .hg-ring-c { font-family: var(--mono); font-size: 11px; color: var(--fg-soft); }
-.hg-tick { position: absolute; left: 0; top: 0; transform-origin: 0 50%; font-family: var(--mono); font-size: 9.5px; line-height: 1; white-space: nowrap; color: rgba(239, 231, 214, .85); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 8px rgba(3, 4, 5, .95); }
+.hg-tick { position: absolute; left: 0; top: 0; transform-origin: 0 50%; font-family: var(--mono); font-size: 9.5px; line-height: 1; white-space: nowrap; color: rgba(242, 243, 241, .85); opacity: 0; will-change: transform, opacity; text-shadow: 0 0 8px rgba(3, 4, 5, .95); }
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
   .hg-tk { font-size: 10px; gap: 4px; }
   .hg-tk-m { display: none; }
@@ -1466,14 +1843,14 @@ html.type-old {
 /* 3, the eyespot: the orbit being read, named by the pointer; its disciplines named on their scales */
 .he-tag { position: absolute; left: 0; top: 0; font-size: 13px; color: var(--fg); white-space: nowrap; opacity: 0; transition: opacity .3s var(--ease-out); text-shadow: 0 0 12px rgba(3, 4, 5, .95), 0 0 3px rgba(3, 4, 5, .9); }
 .he-tag.is-on { opacity: 1; }
-.he-d { position: absolute; left: 0; top: 0; translate: 10px -50%; font-size: 12px; color: #fff4dc; white-space: nowrap; opacity: 0; text-shadow: 0 0 10px rgba(3, 4, 5, 1), 0 0 3px rgba(3, 4, 5, 1); }
+.he-d { position: absolute; left: 0; top: 0; translate: 10px -50%; font-size: 12px; color: #f2f3f1; white-space: nowrap; opacity: 0; text-shadow: 0 0 10px rgba(3, 4, 5, 1), 0 0 3px rgba(3, 4, 5, 1); }
 .hv[data-paper="true"] { background: var(--hero-paper); }
 
 /* 4, the emergence: the trackers (as 2's) go quiet on the wing, named only while read; the sectors
    named round the wings' edge, outward */
 .hg-tk.is-quiet .hg-tk-name { opacity: 0; }
 .hg-tk-name { transition: opacity .3s var(--ease-out); }
-.hx-sec { position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 5px; white-space: nowrap; font-size: 11px; line-height: 1; color: rgba(239, 231, 214, .88); opacity: 0; will-change: transform, opacity; translate: 0 -50%; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
+.hx-sec { position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 5px; white-space: nowrap; font-size: 11px; line-height: 1; color: rgba(242, 243, 241, .88); opacity: 0; will-change: transform, opacity; translate: 0 -50%; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
 .hx-sec.is-l { translate: -100% -50%; flex-direction: row-reverse; }
 .hx-sec-n { font-family: var(--mono); font-size: 9.5px; color: rgba(162, 168, 157, .95); }
 
@@ -1481,10 +1858,10 @@ html.type-old {
    cocoon's right, each joined to its band by a hairline; how to handle it, below them; the button
    that opens it by holding */
 .hx-leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.hx-leaders path { fill: none; stroke: rgba(239, 231, 214, .55); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.hx-leaders path { fill: none; stroke: rgba(242, 243, 241, .55); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .hx-lab { position: absolute; left: 0; top: 0; display: grid; grid-template-columns: 2.6em auto; column-gap: 2px; row-gap: 3px; align-items: baseline; translate: 0 -50%; white-space: nowrap; opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; }
 .hx-lab-n { grid-row: span 2; font-family: var(--mono); font-size: 11px; color: var(--fg-soft); }
-.hx-lab-name { font-family: var(--accent); font-style: italic; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.1; color: var(--fg); transition: color .3s var(--ease-out); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.hx-lab-name { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-size: clamp(15px, 1.15vw, 18px); line-height: 1.1; color: var(--fg); transition: color .3s var(--ease-out); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .hx-lab-c { font-family: var(--mono); font-size: 10px; color: var(--fg-soft); }
 .hx-lab.is-on .hx-lab-n { color: var(--fg); }
 .hx-hint { position: absolute; right: var(--gutter); bottom: calc(26px + 2vh); z-index: 2; font-size: 13px; color: var(--fg-soft); opacity: 0; pointer-events: none; }
@@ -1500,15 +1877,17 @@ html.type-old {
 /* 6, the flight: the orbits named large as the flight passes them, the disciplines small along the tube */
 .hf-o { position: absolute; left: 0; top: 0; display: grid; gap: 5px; translate: 0 -100%; opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; text-shadow: 0 0 18px rgba(3, 4, 5, .95); }
 .hf-o-n { font-family: var(--head); font-stretch: 74%; font-weight: 450; font-size: clamp(48px, 5.4vw, 92px); line-height: .86; color: var(--fg); letter-spacing: var(--t-d); }
-.hf-o-name { font-family: var(--accent); font-style: italic; font-size: clamp(15px, 1.25vw, 19px); color: var(--fg); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.hf-o-name { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-size: clamp(15px, 1.25vw, 19px); color: var(--fg); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .hf-o-c { font-family: var(--mono); font-size: 10.5px; color: var(--fg-soft); }
-.hf-d { position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; translate: 0 -100%; font-size: 11.5px; color: rgba(239, 231, 214, .9); opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
+.hf-d { position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 6px; white-space: nowrap; translate: 0 -100%; font-size: 11.5px; color: rgba(242, 243, 241, .9); opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
 .hf-d-n, .hf-d-c { font-family: var(--mono); font-size: 10px; color: rgba(162, 168, 157, .95); }
 
 /* 7, the ascent: the sectors named on the crown */
-.ha-s { position: absolute; left: 0; top: 0; translate: -50% calc(-100% - 10px); font-family: var(--mono); font-size: 10px; line-height: 1; white-space: nowrap; color: rgba(239, 231, 214, .88); opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
-.hv-ascent .hf-d { align-items: center; translate: -7px -50%; }
-.hv-ascent .hf-d .hg-tk-box { margin-right: 2px; }
+.ha-s { position: absolute; left: 0; top: 0; translate: -50% calc(-100% - 10px); font-family: var(--mono); font-size: 10px; line-height: 1; white-space: nowrap; color: rgba(242, 243, 241, .88); opacity: 0; will-change: transform, opacity; cursor: pointer; pointer-events: none; text-shadow: 0 0 10px rgba(3, 4, 5, .95); }
+.hv-ascent .hf-d, .hv-rise .hf-d { align-items: center; translate: -7px -50%; }
+/* (hero 9 on its flat orbits: a discipline is a tracker until it, or what it moves, is pointed at) */
+.hv-rise .hf-d:not(.is-named) :is(.hf-d-n, .hf-d-name, .hf-d-c) { display: none; }
+.hv-ascent .hf-d .hg-tk-box, .hv-rise .hf-d .hg-tk-box { margin-right: 2px; }
 
 /* the dawn gallery (11 Nov): the client found the room overpowering the work and its light sky blues
    far from the rest of the site. Close on the wall, the work as stretched canvases the size of the
@@ -1533,11 +1912,11 @@ html.type-old {
    the-silk-banner-corner-2026-11-12) */
 .cp-mu-walls .cp-mu-tag { top: 14px; z-index: 4; color: rgba(242, 243, 239, .86); }
 
-/* ---------------------------------------------------------------- the works (14 Nov)
-   Everything, after a photographer's portfolio the user sent (js/corner-works.js): on the night,
-   where colour shows best. A stack of three pieces under the words, set large and tight; then each
-   domain as a chapter: its work in one strip at one height, every piece at its own shape, its title
-   and maker under it, then a hairline and the chapter's number and name, large. Set in the new
+/* ---------------------------------------------------------------- the works (14 Nov; the wall 18 Nov)
+   Everything (js/corner-works.js): on the night, where colour shows best. A stack of three pieces
+   under the words, set large and tight; then (18 Nov) the wall of every piece, the domains A to Z
+   above it; a domain chosen zooms into one strip at one height, every piece at its own shape, its
+   title and maker under it, then a hairline and the domain's count and name, large. Set in the new
    type: Inter Tight, tight, with Cormorant italic, semibold, for the word that turns. Nothing round,
    no frame; the only shadows are the stack's, where one piece lies on another. */
 .cc-page { --cw-g: var(--sans); --cw-night: #050709; --cw-fg: #f2f3ef; --cw-soft: rgba(242, 243, 239, .56); --cw-line: rgba(242, 243, 239, .2); }
@@ -1551,8 +1930,96 @@ html.type-old {
 }
 .cc-works-on .cc-foot { --cc-fg: var(--cw-fg); --cc-soft: var(--cw-soft); --cc-line: var(--cw-line); color: var(--cw-soft); font-family: var(--cw-g); letter-spacing: -.01em; }
 /* (it starts a little under the haze, once the sky has gone dark) */
-.cp-works { position: relative; width: 100vw; margin-left: calc(50% - 50vw); padding-top: 46vh; color: var(--cw-fg); font-family: var(--cw-g); letter-spacing: -.012em; --cw-h: clamp(260px, 50vh, 480px); }
+.cp-works { position: relative; width: 100vw; margin-left: calc(50% - 50vw); padding-top: clamp(30px, 6vh, 70px); /* (19 Nov: it was 46vh, room for the full-screen opening) */ color: var(--cw-fg); font-family: var(--cw-g); letter-spacing: -.012em; --cw-h: clamp(260px, 50vh, 480px); }
 .cp-works:not(.is-on) { display: none; }
+/* (20 Nov) with the opening empty (its galleries removed, a new one to come) the works are first on the page: clear of the nav */
+.cp-open-slot + .cp-works { padding-top: calc(var(--nav-h) + clamp(30px, 6vh, 70px)); }
+/* (21 Nov, a test) the walk (js/corner-walk.js): a first-person walk into a museum, your own gloved hands in view, the
+   art of the day, the week and the month on its walls, a door on into the gallery below. The stage is held while the
+   scroll walks you through it; its place is kept from the first paint, so the works never jump. */
+.cp-open-slot.is-walk { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: 560svh; }
+.wk-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #050709; user-select: none; -webkit-user-select: none; }
+.wk-gl { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
+.wk-gl.is-dragging { cursor: grabbing; }
+.wk-hits { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.wk-hit { position: absolute; left: 0; top: 0; padding: 0; border: 0; background: none; visibility: hidden; pointer-events: none; }
+.wk-hit img { display: none; }
+.wk-hit:focus-visible { outline: 2px solid rgba(242, 243, 241, .9); outline-offset: 6px; }
+.wk-tag { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 18px); z-index: 3; margin: 0; font-size: 13px; color: rgba(242, 243, 241, .8); pointer-events: none; }
+.wk-cue { position: absolute; left: 50%; bottom: clamp(20px, 4.4vh, 40px); z-index: 3; margin: 0; translate: -50% 0; font-size: 13px; letter-spacing: -.005em; color: rgba(242, 243, 241, .78); white-space: nowrap; pointer-events: none; transition: opacity .7s var(--ease-out); }
+.wk-cue.is-done { opacity: 0; }
+/* the way straight into the gallery, at any time: smoked glass, as the nav's tab */
+.wk-enter { position: absolute; right: var(--gutter); bottom: clamp(16px, 4vh, 36px); z-index: 3; display: inline-flex; align-items: center; gap: 10px; padding: 12px 16px; border: 0; border-radius: 2px; font: 500 14px/1 var(--sans); letter-spacing: -.01em; color: #f2f3f1; background: rgba(5, 7, 9, .56); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); cursor: pointer; transition: background .3s var(--ease-out); }
+.wk-enter:hover { background: rgba(5, 7, 9, .78); }
+.wk-enter svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: translate .4s var(--ease-out); }
+.wk-enter:hover svg { translate: 0 2px; }
+.wk-fade { position: absolute; inset: 0; z-index: 4; background: #050709; opacity: 0; pointer-events: none; }
+/* (21 Nov) under the piece you stand at: a thumbs up (the room's like), Hire, and See in detail (a click on the piece
+   opens it too); smoked glass on the wall, as the nav's tab */
+.wk-react { position: absolute; left: 0; top: 0; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 2px; background: rgba(5, 7, 9, .62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); opacity: 0; visibility: hidden; transition: opacity .45s var(--ease-out), visibility 0s linear .45s; will-change: transform; }
+.wk-react.is-on { opacity: 1; visibility: visible; transition: opacity .45s var(--ease-out), visibility 0s; }
+.wk-react > * { display: inline-flex; align-items: center; justify-content: center; height: 38px; white-space: nowrap; border: 0; border-radius: 2px; font: 500 14px/1 var(--sans); letter-spacing: -.01em; cursor: pointer; }
+.wk-up { width: 40px; padding: 0; color: #f2f3f1; background: transparent; transition: background .3s var(--ease-out); }
+.wk-up svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; transition: fill .3s var(--ease-out), scale .5s var(--ease-out); }
+.wk-up:hover { background: rgba(242, 243, 241, .1); }
+.wk-up[aria-pressed="true"] svg { fill: currentColor; scale: 1.08; }
+.wk-hire { padding: 0 16px; color: #0a101c; background: #f2f3f1; font-weight: 600; transition: background .3s var(--ease-out); }
+.wk-hire:hover { background: #fff; }
+.wk-more { gap: 8px; padding: 0 12px 0 14px; color: #f2f3f1; background: transparent; transition: background .3s var(--ease-out); }
+.wk-more svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: translate .4s var(--ease-out); }
+.wk-more:hover, .wk-react.is-hint .wk-more { background: rgba(242, 243, 241, .12); }
+.wk-more:hover svg, .wk-react.is-hint .wk-more svg { translate: 3px 0; }
+.wk-react :focus-visible { outline: 2px solid #f2f3f1; outline-offset: 2px; }
+/* (21 Nov) at the door, in the middle of the screen: the way in, as a game shows a door's handle */
+.wk-door { position: absolute; left: 50%; top: 50%; z-index: 3; display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border: 0; border-radius: 2px; font: 500 15px/1 var(--sans); letter-spacing: -.01em; color: #f2f3f1; background: rgba(5, 7, 9, .62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); translate: -50% calc(-50% + 10px); opacity: 0; visibility: hidden; cursor: pointer; transition: opacity .4s var(--ease-out), translate .6s var(--ease-out), visibility 0s linear .4s, background .3s var(--ease-out); }
+.wk-door.is-on { opacity: 1; visibility: visible; translate: -50% -50%; transition: opacity .4s var(--ease-out), translate .6s var(--ease-out), visibility 0s, background .3s var(--ease-out); }
+.wk-door:hover { background: rgba(5, 7, 9, .8); }
+.wk-door svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: translate .4s var(--ease-out); }
+.wk-door:hover svg { translate: 3px 0; }
+.wk-door:focus-visible { outline: 2px solid #f2f3f1; outline-offset: 3px; }
+/* the gallery arriving out of the black: its title rises, then the filter and the wall come up under it */
+.cp-works .cw-browse { transition: opacity .9s var(--ease-out), translate 1.2s var(--ease-out); }
+.cp-works .cw-head .cw-meta { transition: opacity .9s var(--ease-out) .1s; }
+.cp-works.is-landing .cw-browse { opacity: 0; translate: 0 32px; }
+.cp-works.is-landing .cw-head .cw-meta { opacity: 0; }
+.cp-works.is-cut .cw-browse, .cp-works.is-cut .cw-head .cw-meta, .cp-works.is-cut .cw-title > span > span { transition: none !important; }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .wk-cue { bottom: calc(clamp(16px, 4vh, 36px) + 58px); }
+  .wk-react { left: 50%; top: auto; bottom: calc(clamp(16px, 4vh, 36px) + 60px); transform: translateX(-50%) !important; }
+  .wk-tag { top: calc(var(--nav-h) + 12px); }
+}
+/* (20 Nov) the current: the opening is the collection drifting upward in columns on the night, past the three picks
+   standing still in it like stones, and the heading with them (js/corner-current.js); the filter and the still wall
+   follow straight under it, the filter's row at the foot of the first screen */
+.cp-open-slot.is-current { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: calc(100svh - 96px); overflow: hidden; user-select: none; -webkit-user-select: none; }
+.cp-open-slot.is-current + .cp-works { padding-top: 0; }
+/* (on the night, only a faint depth of the corner's blue in the middle of the stream: the user's "more dark") */
+.cc-page.cc-works-on.cc-hz-night:has(.cp-open-slot.is-current) { --cc-sky: linear-gradient(180deg, var(--cw-night) 0, color-mix(in oklab, var(--cc) 30%, var(--cw-night)) calc(var(--hz) * .45), color-mix(in oklab, var(--cc) 14%, var(--cw-night)) calc(var(--hz) * .8), var(--cw-night) var(--hz), var(--cw-night) 100%); }
+.cp-open-slot.is-current + .cp-works .cw-browse { margin-top: 0; }
+.cr-river { position: absolute; inset: 0; z-index: 1; }
+.cr-tile { position: absolute; left: 0; top: 0; padding: 0; border: 0; background: rgba(242, 243, 239, .04); cursor: pointer; visibility: hidden; transform-origin: 50% 50%; will-change: transform; }
+.cr-tile img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .7s var(--ease-out); }
+.cr-tile.is-loaded img { opacity: 1; }
+.cr-tile:focus-visible, .cr-pic:focus-visible { outline: 2px solid var(--cw-fg); outline-offset: 3px; }
+.is-pushing .cr-tile { cursor: grabbing; }
+.cr-stone { position: absolute; z-index: 2; margin: 0; }
+.cr-pic { display: block; width: 100%; aspect-ratio: var(--r, .8); padding: 0; border: 0; background: rgba(242, 243, 239, .05); cursor: pointer; }
+.cr-pic img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .9s var(--ease-out); }
+.cr-stone.is-loaded .cr-pic img { opacity: 1; }
+.cr-label { display: grid; gap: 1px; margin: 12px 0 0; font-family: var(--cw-g); font-size: 13px; line-height: 1.35; letter-spacing: -.01em; color: var(--cw-soft); }
+.cr-label em { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight, 600); font-size: 19px; line-height: 1.1; letter-spacing: var(--accent-track-s, -.014em); color: var(--cw-fg); }
+.cr-label b { font-weight: 500; color: var(--cw-fg); }
+/* the heading, a stone too: at the foot on the left, over two lines */
+.cp-open-slot.is-current .cw-head.cr-head { position: absolute; left: var(--gutter); bottom: clamp(20px, 4.5vh, 44px); z-index: 3; width: min(44vw, 620px); padding: 0; pointer-events: none; }
+.cp-open-slot.is-current .cr-head .cw-title { font-size: clamp(40px, 4.4vw, 80px); }
+.cp-open-slot.is-current .cr-head .cw-meta { justify-content: flex-start; margin-top: 14px; }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .cp-open-slot.is-current { height: calc(100svh - 90px); }
+  .cp-open-slot.is-current .cw-head.cr-head { width: calc(100% - 2 * var(--gutter)); bottom: 18px; }
+  .cp-open-slot.is-current .cr-head .cw-title { font-size: clamp(34px, 9.6vw, 54px); }
+  .cr-label { margin-top: 8px; font-size: 12px; }
+  .cr-label em { font-size: 16px; }
+}
 .cp-works em { font-family: var(--accent-word, var(--accent)); font-style: var(--accent-style, italic); font-weight: var(--accent-weight, 600); }
 
 /* the opening: the stack, and the words across it */
@@ -1570,26 +2037,61 @@ html.type-old {
 .cw-card:focus-visible { outline: none; }
 .cw-card:focus-visible img { outline: 2px solid var(--cw-fg); outline-offset: 4px; }
 .cw-title { position: absolute; left: 0; right: 0; top: 50%; z-index: 2; translate: 0 -40%; margin: 0; font-weight: 400; font-size: clamp(54px, 9.4vw, 172px); line-height: .86; letter-spacing: -.062em; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 30px rgba(0, 0, 0, .5); pointer-events: none; }
-.cw-title > span { display: block; overflow: clip; padding-bottom: .06em; margin-bottom: -.06em; }
+.cw-title > span { display: block; overflow: clip; padding: .12em 0 .34em; margin: -.12em 0 -.34em; } /* (19 Nov: room for the italic's head and tail; it was .06em and cut the g) */
 .cw-title > span > span { display: inline-block; }
 .cw-l1 { padding-left: 12vw; }
 .cw-l2 { padding-left: 33vw; }
 .cw-l3 { padding-left: 45vw; }
-.cw-title em { letter-spacing: -.025em; }
+.cw-title em { letter-spacing: var(--accent-track); }
 .cw-open:not(.is-in) .cw-title > span > span { translate: 0 140%; }
 .cw-open .cw-title > span > span { transition: translate 1.3s var(--ease-out); }
 .cw-open .cw-l2 > span { transition-delay: .08s; }
 .cw-open .cw-l3 > span { transition-delay: .16s; }
 
-/* a chapter: the strip, the arrows, the hairline, the number and the name */
-.cw-chapter { position: relative; padding-top: clamp(90px, 16vh, 170px); }
-.cw-chapter:first-of-type { padding-top: clamp(40px, 8vh, 90px); }
+/* (19 Nov) the works' heading: short, over the wall, so the first row of art is in view with it (the user: no screen
+   to scroll through before the art, nothing moving behind the words). The full-screen opening above is unused now. */
+.cw-head { padding: clamp(40px, 8vh, 84px) var(--gutter) 0; }
+.cw-head .cw-title { position: static; translate: none; font-size: clamp(40px, 5.3vw, 100px); line-height: .98; letter-spacing: var(--t-d); text-shadow: none; }
+.cw-head .cw-l1 { padding-left: 0; }
+.cw-head .cw-title > span > span { transition: translate 1.1s var(--ease-out); }
+.cw-head:not(.is-in) .cw-title > span > span { translate: 0 112%; }
+.cw-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 30px; margin: 16px 0 0; font-size: 13.5px; line-height: 1.4; color: rgba(242, 243, 239, .6); }
+.cw-head + .cw-browse { margin-top: 0; }
+/* (18 Nov) the wall and its filter: every piece at once in columns, the domains A to Z above it.
+   Clean on purpose, the art is the whole of it: no frames, no captions on the wall (a piece's title,
+   maker and domain come beside the pointer, or under a piece reached by the keyboard). The filter stays
+   at the top while the wall is walked, on the same night as the nav's tab, so they read as one. */
+.cw-browse { position: relative; margin-top: clamp(40px, 8vh, 90px); overflow-x: clip; }
+.cw-filter { position: sticky; top: 0; z-index: 4; padding: 54px var(--gutter) 14px; background: var(--cw-night); }
+.cw-chips { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; }
+.cw-chip { display: inline-flex; align-items: baseline; gap: 7px; padding: 6px 0; font-size: 14px; letter-spacing: -.01em; color: rgba(242, 243, 239, .62); border-bottom: 1px solid transparent; transition: color .25s var(--ease-out), border-color .25s var(--ease-out); }
+.cw-chip i { width: 7px; height: 7px; align-self: center; }
+.cw-chip-n { font-family: var(--mono); font-size: 11px; letter-spacing: 0; color: rgba(242, 243, 239, .42); }
+.cw-chip:hover { color: #fff; }
+.cw-chip[aria-pressed="true"] { color: #fff; border-color: rgba(242, 243, 239, .7); }
+.cw-chip:focus-visible { outline: 2px solid var(--cw-fg); outline-offset: 4px; }
+.cw-stage { padding-top: clamp(14px, 2.4vh, 24px); }
+.cw-wall { position: relative; margin: 0 var(--gutter); padding: 0; list-style: none; }
+.cw-wall[hidden] { display: none; }
+.cw-tile { position: absolute; }
+.cw-tile-b { display: block; width: 100%; height: 100%; padding: 0; background: rgba(242, 243, 239, .04); cursor: pointer; }
+.cw-tile-b img { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .6s var(--ease-out); }
+.cw-tile.is-loaded .cw-tile-b { background: none; }
+.cw-tile.is-loaded .cw-tile-b img { opacity: 1; }
+.cw-tile-b:focus-visible { outline: 2px solid var(--cw-fg); outline-offset: 3px; }
+.cw-say { position: fixed; left: 0; top: 0; z-index: 17; max-width: 340px; margin: 0; padding: 6px 10px; font-family: var(--sans); font-size: 13px; letter-spacing: -.01em; color: #16120e; background: #efe9df; opacity: 0; pointer-events: none; transition: opacity .2s var(--ease-out); }
+.cw-say.is-on { opacity: 1; }
+
+/* a domain, zoomed in: the strip, the arrows, the hairline, the count and the name */
+.cw-chapter { position: relative; padding-top: clamp(10px, 2vh, 22px); }
+.cw-chapter[hidden] { display: none; }
+.cw-strip.is-flying { overflow: visible; }
 .cw-strip { display: flex; align-items: flex-start; gap: clamp(14px, 1.5vw, 24px); margin: 0; padding: 0 var(--gutter); list-style: none; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: var(--gutter); scrollbar-width: none; cursor: grab; }
 .cw-strip::-webkit-scrollbar { display: none; }
 .cw-strip.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 .cw-strip.is-dragging .cw-pic { pointer-events: none; }
 .cw-piece { flex: none; width: calc(var(--cw-h) * var(--r)); scroll-snap-align: start; text-align: center; }
-.cw-pic { display: block; width: 100%; height: var(--cw-h); padding: 0; background: rgba(242, 243, 239, .04); cursor: pointer; }
+.cw-pic { position: relative; display: block; width: 100%; height: var(--cw-h); padding: 0; background: rgba(242, 243, 239, .04); cursor: pointer; }
 .cw-pic img { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .8s var(--ease-out); }
 .cw-piece.is-loaded .cw-pic { background: none; }
 .cw-piece.is-loaded .cw-pic img { opacity: 1; }
@@ -1613,8 +2115,6 @@ html.type-old {
 .cw-n > span, .cw-dom > span { display: inline-block; transition: translate 1.2s var(--ease-out) .25s; }
 .cw-n { font-variant-numeric: tabular-nums; }
 .cw-chapter.is-waiting .cw-n > span, .cw-chapter.is-waiting .cw-dom > span { translate: 0 130%; }
-.cw-piece { transition: opacity .9s var(--ease-out), translate 1.1s var(--ease-out); transition-delay: calc(var(--i) * 60ms); }
-.cw-chapter.is-waiting .cw-piece { opacity: 0; translate: 0 34px; }
 .cc-works-on .cc-foot { margin-top: clamp(90px, 16vh, 170px); }
 
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
@@ -1630,7 +2130,16 @@ html.type-old {
   .cw-l1 { padding-left: var(--gutter); }
   .cw-l2 { padding-left: 22vw; }
   .cw-l3 { padding-left: 34vw; }
-  .cw-chapter { padding-top: 72px; }
+  .cw-browse { margin-top: 40px; }
+  .cw-filter { padding: 48px 0 10px; }
+  .cw-head .cw-title { font-size: clamp(34px, 10.6vw, 58px); translate: none; }
+  .cw-head .cw-l1 { padding-left: 0; }
+  .cw-head + .cw-browse { margin-top: 0; }
+  .cw-meta { margin-top: 12px; font-size: 13px; }
+  .cw-chips { flex-wrap: nowrap; gap: 18px; overflow-x: auto; padding: 0 var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .cw-chips::-webkit-scrollbar { display: none; }
+  .cw-chip { flex: none; font-size: 13.5px; }
+  .cw-chapter { padding-top: 6px; }
   .cw-steps { display: none; }
   .cw-strip { cursor: auto; }
   .cw-cap { margin-top: 10px; }
@@ -1641,7 +2150,137 @@ html.type-old {
   .cw-n, .cw-dom { font-size: clamp(36px, 11vw, 64px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cw-piece, .cw-n > span, .cw-dom > span, .cw-title > span > span { transition: none; }
+  .cw-piece, .cw-n > span, .cw-dom > span, .cw-title > span > span, .cw-tile-b img { transition: none; }
+}
+
+/* ---------------------------------------------------------------- the mother map (18 Nov, later)
+   js/mothermap.js: the foot of every page. Not a section of its own: it carries on the ground the page ends
+   on (--fm-ground, read off it), under one hairline, never taller than three quarters of a screen. The site
+   index, one column a page; the wordmark, large, with the way in's butterfly on its h; the last line. Light type on night, ink on paper (.is-paper). */
+.fm { position: relative; z-index: 2; background: var(--fm-ground, transparent); color: var(--fm-ink); --fm-ink: #e9ebe6; --fm-soft: rgba(233, 235, 230, .56); --fm-line: rgba(233, 235, 230, .16); }
+.fm.is-paper { --fm-ink: #0a101c; --fm-soft: rgba(10, 16, 28, .6); --fm-line: rgba(10, 16, 28, .16); }
+.fm-in { max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); }
+.fm-index { display: grid; grid-template-columns: minmax(0, 1.45fr) repeat(var(--fm-cols, 5), minmax(0, 1fr)); gap: 30px 24px; padding-top: clamp(26px, 4.5vh, 44px); border-top: 1px solid var(--fm-line); }
+.fm-say { max-width: 25ch; font-size: 15px; line-height: 1.42; letter-spacing: var(--t-s); color: var(--fm-soft); }
+.fm-talk { display: inline-block; margin-top: 12px; font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); font-size: 30px; line-height: 1.1; letter-spacing: var(--accent-track-m); color: var(--fm-ink); background: linear-gradient(currentColor, currentColor) 0 94% / 0 1px no-repeat; transition: background-size .6s var(--ease-out); }
+.fm-talk:hover, .fm-talk:focus-visible { background-size: 100% 1px; }
+.fm-col h3 { margin: 0 0 11px; font-size: 15px; font-weight: 500; line-height: 1.2; letter-spacing: var(--t-s); }
+.fm-col h3 a { color: var(--fm-ink); }
+.fm-col ul { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.fm-col li a { font-size: 13.5px; line-height: 1.3; color: var(--fm-soft); transition: color .3s; }
+.fm-col a:hover, .fm-col a:focus-visible { color: var(--fm-ink); }
+.fm-col a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+/* the wordmark: as large as the line allows */
+.fm-word { position: relative; margin: clamp(48px, 10vh, 100px) 0 0; font-weight: 500; font-size: 15vw; line-height: .82; letter-spacing: -.058em; white-space: nowrap; padding-bottom: .2em; color: var(--fm-ink); cursor: default; user-select: none; -webkit-user-select: none; outline: none; }
+.fm-l { display: inline-block; }
+.fm-last { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px 24px; padding: 16px 0 calc(20px + env(safe-area-inset-bottom)); border-top: 1px solid var(--fm-line); font-size: 13px; color: var(--fm-soft); }
+.fm-top { padding: 0; border: 0; background: none; font: inherit; color: var(--fm-ink); cursor: pointer; }
+.fm-top:hover, .fm-top:focus-visible { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .fm-index { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 14px; }
+  .fm-lead { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .fm-say { font-size: 13px; max-width: 30ch; }
+  .fm-talk { margin-top: 0; font-size: 24px; white-space: nowrap; }
+  .fm-col h3 { margin-bottom: 7px; font-size: 13.5px; }
+  .fm-col ul { gap: 3px; }
+  .fm-col li a { font-size: 12px; }
+  .fm-word { margin-top: 74px; }
+}
+
+/* the way on (19 Nov, js/onward.js): at the head of the foot, before the index, the next page to see, all one
+   link: "Next", its name large with the word that turns and an arrow, one line, and its picture at the right (under
+   the words on a phone). On the foot's own ground. Arriving, the picture opens like a curtain from its foot and the
+   words come up after it; pointed at, the arrow goes on and the picture lifts. The forces' inks for the grid, as on
+   the Sectors pages: the bright set on the night, the printed set on paper. */
+.fm-on { max-width: 1440px; margin: 0 auto; padding: clamp(96px, 17vh, 170px) var(--gutter) clamp(64px, 11vh, 112px);
+  --f-unlocks: #5cc48e; --f-reprices: #e6b24f; --f-derisks: #6ea2ef; --f-constrains: #ef7457; --f-legitimises: #b791e6; --f-restructures: #e9e3d6; }
+.fm.is-paper .fm-on { --f-unlocks: #2f8a5b; --f-reprices: #b8841f; --f-derisks: #2c63b0; --f-constrains: #c0452c; --f-legitimises: #7d55a8; --f-restructures: #24302b; }
+.fm-on-a { display: grid; grid-template-columns: minmax(0, 1fr) clamp(240px, 27vw, 420px); align-items: end; column-gap: clamp(32px, 6vw, 110px); color: var(--fm-ink); }
+.fm-on-a:focus-visible { outline: 1px solid var(--fm-ink); outline-offset: 10px; }
+.fm-on-words { display: block; min-width: 0; padding-bottom: 4px; }
+.fm-on-k { display: block; font-size: 15px; letter-spacing: var(--t-s); color: var(--fm-soft); }
+.fm-on-t { margin: 16px 0 0; font-size: clamp(3.2rem, 7.6vw, 8.4rem); font-weight: 500; line-height: .92; letter-spacing: var(--t-d); }
+.fm-on-tail { white-space: nowrap; }
+.fm-on-arrow { display: inline-block; width: .4em; height: auto; margin-left: .22em; vertical-align: .06em; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; transition: translate .6s var(--ease-out); }
+.fm-on-line { display: block; max-width: 44ch; margin-top: 24px; font-size: 16px; line-height: 1.45; letter-spacing: var(--t-s); color: var(--fm-soft); }
+.fm-on-pic { display: flex; align-items: flex-end; justify-content: flex-end; gap: 12px; }
+.fm-on-pic img { display: block; width: 100%; height: auto; max-height: 64vh; object-fit: contain; object-position: 100% 100%; transition: translate .6s var(--ease-out); }
+.fm-on-pic.is-coins img { width: calc(50% - 6px); clip-path: circle(43.4% at 50% 50%); }
+.fm-on-grid { display: block; width: 100%; height: auto; overflow: visible; transition: translate .6s var(--ease-out); }
+.fm-on-grid line { stroke: var(--fm-line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.fm-on-grid line.is-strong { stroke: var(--fm-soft); opacity: .5; }
+.fm-on-a:hover .fm-on-arrow, .fm-on-a:focus-visible .fm-on-arrow { translate: 10px 0; }
+.fm-on-a:hover :is(.fm-on-pic img, .fm-on-grid), .fm-on-a:focus-visible :is(.fm-on-pic img, .fm-on-grid) { translate: 0 -6px; }
+/* (arriving) */
+.fm-on-pic { clip-path: inset(100% 0 0 0); transition: clip-path 1.5s cubic-bezier(.77, 0, .175, 1); }
+.fm-on-words > * { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease-out), translate 1.1s var(--ease-out); }
+.fm-on.is-in .fm-on-pic { clip-path: inset(0 0 0 0); }
+.fm-on.is-in .fm-on-words > * { opacity: 1; translate: 0 0; }
+.fm-on.is-in .fm-on-words > :nth-child(2) { transition-delay: .12s; }
+.fm-on.is-in .fm-on-words > :nth-child(3) { transition-delay: .26s; }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .fm-on { padding: clamp(72px, 12vh, 110px) var(--gutter) 56px; }
+  .fm-on-a { grid-template-columns: minmax(0, 1fr); row-gap: 30px; }
+  .fm-on-pic { order: -1; justify-content: flex-start; }
+  .fm-on-pic img { width: auto; max-width: 78%; max-height: 38svh; object-position: 0 100%; }
+  .fm-on-pic.is-coins img { width: calc(39% - 6px); max-width: none; }
+  .fm-on-grid { width: 86%; }
+  .fm-on-k { font-size: 13.5px; }
+  .fm-on-t { margin-top: 10px; font-size: clamp(2.6rem, 12.4vw, 3.6rem); }
+  .fm-on-line { margin-top: 16px; font-size: 15px; }
+}
+/* (when the way on is Talk to us, the index's own Talk to us under it would only say it twice) */
+.fm-on[data-place="talk"] + .fm-in .fm-talk { display: none; }
+@media (prefers-reduced-motion: reduce) { .fm-on-pic, .fm-on-words > * { clip-path: none; opacity: 1; translate: none; transition: none; } }
+
+/* the butterfly that comes back (js/foot-butterfly.js): one canvas over the foot, reaching up above it so it can
+   fly in; on the simple site a still of it */
+.fm-fly { position: absolute; left: 0; top: -60vh; z-index: 3; display: block; width: 100%; height: calc(100% + 60vh); pointer-events: none; transition: opacity .5s linear; }
+.fm-fly-still { position: absolute; left: 0; top: 0; z-index: 3; height: auto; pointer-events: none; }
+
+/* ---------------------------------------------------------------- the transmission (18 Nov)
+   js/transmission.js: the foot of every page, after the user's reference (a cryptic poster printed in
+   vertical lines). The title and the closing line printed in vertical lines (a banknote's engraving,
+   a lenticular print's strips), never outlined; the binary that decodes into "mother map"; the lenticular
+   card, the cocoon and the butterfly in one set of strips; the message and the fine print. The whole
+   foot under a faint line screen. Its top falls from the page's own ground into the night (--tx-from).
+   The signature it replaced (below) shows with ?foot=signature. */
+.tx { position: relative; z-index: 2; padding-top: 26vh; color: #e9ebe6; background: linear-gradient(180deg, var(--tx-from, transparent) 0, color-mix(in oklab, #050709 70%, var(--tx-from, transparent)) 12vh, #050709 22vh); overflow: clip; --tx-ink: #e9ebe6; --tx-soft: rgba(233, 235, 230, .55); --tx-line: rgba(233, 235, 230, .16); }
+.tx::after { content: ''; position: absolute; inset: 22vh 0 0; pointer-events: none; background: repeating-linear-gradient(90deg, rgba(233, 235, 230, .035) 0 1px, transparent 1px 5px); }
+.tx-in { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; padding: 0 var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.tx-title, .tx-end { font-weight: 500; white-space: nowrap; text-align: center; padding-bottom: .22em; margin-bottom: -.22em; color: transparent; background: repeating-linear-gradient(90deg, var(--tx-ink) 0 max(.013em, 1.5px), transparent max(.013em, 1.5px) max(.03em, 3px)); -webkit-background-clip: text; background-clip: text; }
+.tx-title { font-size: clamp(4.4rem, 18vw, 21rem); line-height: .82; letter-spacing: -.06em; margin-left: -.03em; }
+.tx-end { margin-top: clamp(60px, 12vh, 130px); font-size: clamp(3rem, 9.3vw, 11rem); line-height: .9; letter-spacing: -.055em; padding: 0 .05em .08em; }
+.tx-end em { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: var(--accent-track); }
+/* the binary: each byte its own word; rested on, it decodes and the letters close up into a word */
+.tx-code { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; margin-top: clamp(22px, 4vh, 40px); font-family: var(--mono); font-size: clamp(11px, 1vw, 14px); line-height: 2; color: var(--tx-soft); cursor: default; outline: none; }
+.tx-code:focus-visible { outline: 1px solid var(--tx-line); outline-offset: 8px; }
+.tx-bit { display: inline-block; min-width: 8ch; margin: 0 .55em; text-align: center; transition: min-width .7s var(--ease-out), margin .7s var(--ease-out), color .5s; }
+.tx-bit.is-read { min-width: 0; margin: 0; color: var(--tx-ink); font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 1.9em; line-height: 1; letter-spacing: -.01em; }
+/* the lenticular card */
+.tx-card { width: min(1100px, 92vw); aspect-ratio: 1180 / 800; margin: clamp(30px, 6vh, 70px) 0 0; -webkit-mask: linear-gradient(90deg, transparent, #000 9% 91%, transparent), linear-gradient(transparent, #000 10% 88%, transparent); -webkit-mask-composite: source-in; mask: linear-gradient(90deg, transparent, #000 9% 91%, transparent), linear-gradient(transparent, #000 10% 88%, transparent); mask-composite: intersect; } /* (its edges fall away into the night: no card's edge) */
+.tx-card canvas { display: block; width: 100%; height: 100%; }
+/* the one thing to do, and the fine print */
+.tx-msg { width: 100%; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 24px 48px; align-items: end; margin-top: clamp(40px, 8vh, 90px); padding-top: 22px; border-top: 1px solid var(--tx-line); }
+.tx-ask { font-weight: 500; font-size: clamp(1.8rem, 3vw, 3.2rem); line-height: 1.04; letter-spacing: var(--t-l); }
+.tx-talk { white-space: nowrap; font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: var(--accent-track-m); background: linear-gradient(currentColor, currentColor) 0 94% / 0 1px no-repeat; transition: background-size .6s var(--ease-out); }
+.tx-talk:hover, .tx-talk:focus-visible { background-size: 100% 1px; }
+.tx-fine { font-family: var(--mono); font-size: 11.5px; line-height: 1.75; color: rgba(233, 235, 230, .5); text-align: justify; hyphens: auto; }
+/* the way round */
+.tx-bottom { width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px 30px; margin-top: clamp(50px, 9vh, 90px); padding: 20px 0 calc(26px + env(safe-area-inset-bottom)); border-top: 1px solid var(--tx-line); font-size: 13px; color: var(--tx-soft); }
+.tx-links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.tx-links a { color: var(--tx-ink); opacity: .8; transition: opacity .3s; }
+.tx-links a:hover, .tx-links a[aria-current="page"] { opacity: 1; }
+.tx-links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
+  .tx { padding-top: 18vh; }
+  .tx-title { font-size: 19.5vw; }
+  .tx-end { font-size: 9.4vw; }
+  .tx-code { font-size: 10.5px; }
+  .tx-bit { margin: 0 .35em; }
+  .tx-card { width: 100%; }
+  .tx-msg { grid-template-columns: minmax(0, 1fr); }
+  .tx-bottom { flex-direction: column; }
 }
 
 /* ---------------------------------------------------------------- the signature (14 Nov)
@@ -1721,18 +2360,18 @@ html.script-plate { --script: 'Pinyon Script', 'Monsieur La Doulaise', cursive; 
    stone, glass plinth and three orders, all of which share these styles). The corners carry a few
    small words, as a poster's do; a carving you rest on says what it is (the hidden metamorphosis). */
 .cp-open.is-plinth { height: 330vh; }
-.cp-pd-stage { background: #050304; color: #efe9df; }
+.cp-pd-stage { background: #050304; color: #f2f3f1; }
 .cp-pd-c { position: absolute; z-index: 2; pointer-events: none; font-size: 13px; line-height: 1.3; }
 .cp-pd-c p { margin: 0; }
 .cp-pd-tl { left: var(--gutter); top: calc(var(--nav-h) + 26px); }
 .cp-pd-bl { left: var(--gutter); bottom: 30px; }
 .cp-pd-br { right: var(--gutter); bottom: 30px; text-align: right; }
-.cp-pd-small { color: rgba(239, 233, 223, .6); }
-.cp-pd-title { margin-top: 4px !important; font-family: var(--accent-word, var(--accent)); font-style: var(--accent-style, italic); font-size: 26px; font-size-adjust: var(--accent-word-adjust, var(--accent-adjust)); line-height: 1.1; color: #f6f1e8; font-weight: var(--accent-weight); }
-.cp-pd-maker { font-size: 15px; font-weight: 500; letter-spacing: -.02em; color: #f6f1e8; }
-.cp-pd-n { font-family: var(--mono); font-size: 12px; color: rgba(239, 233, 223, .8); }
-.cp-pd-stage .cp-mu-hint { color: rgba(239, 233, 223, .6); }
-.cp-pd-stage .cp-mu-tag { color: rgba(239, 233, 223, .8); }
+.cp-pd-small { color: rgba(242, 243, 241, .6); }
+.cp-pd-title { margin-top: 4px !important; letter-spacing: var(--accent-track-m); font-family: var(--accent-word, var(--accent)); font-style: var(--accent-style, italic); font-size: 26px; font-size-adjust: var(--accent-word-adjust, var(--accent-adjust)); line-height: 1.1; color: #f2f3f1; font-weight: var(--accent-weight); }
+.cp-pd-maker { font-size: 15px; font-weight: 500; letter-spacing: -.02em; color: #f2f3f1; }
+.cp-pd-n { font-family: var(--mono); font-size: 12px; color: rgba(242, 243, 241, .8); }
+.cp-pd-stage .cp-mu-hint { color: rgba(242, 243, 241, .6); }
+.cp-pd-stage .cp-mu-tag { color: rgba(242, 243, 241, .8); }
 /* what a carving is, beside the pointer */
 .cp-pd-say { position: absolute; left: 0; top: 0; z-index: 3; max-width: 240px; margin: 0; padding: 6px 10px; font-size: 13px; line-height: 1.3; color: #16120e; background: #efe9df; opacity: 0; pointer-events: none; transition: opacity .35s var(--ease-out); }
 .cp-pd-say.is-on { opacity: 1; }
@@ -1750,74 +2389,48 @@ html.script-plate { --script: 'Pinyon Script', 'Monsieur La Doulaise', cursive; 
 }
 
 /* ---------------------------------------------------------------- the branch (14 Nov, a test)
-   js/corner-branch.js: the picks hanging on silver threads from one driftwood branch in the dark. Each
-   has a numbered label beside it, after the user's reference: the number in mono, the honour, and once
-   the camera is close, the title and the maker. Placed on the screen by the scene each frame. */
+   js/corner-branch.js: the picks caught in a living bough over dawn mist. Since 18 Nov (the user: it
+   looked copied from the pin it came from) each label is a paper tag tied beside its piece, as a label is
+   tied to a parcel or a plant at a nursery: a hole punched at its edge, a short string from the hole to the
+   piece, the honour on it, and once the camera is close, the title, the maker and the date. No numbers.
+   Placed on the screen by the scene each frame. */
 .cp-open.is-branch { height: 440vh; }
-.cp-br-lab { position: absolute; left: 0; top: 0; z-index: 2; width: 250px; pointer-events: none; color: #efe9df; will-change: transform, opacity; }
-.cp-br-lab.is-left { text-align: right; }
+.cp-br-lab { position: absolute; left: 0; top: 0; z-index: 2; width: max-content; max-width: 250px; padding: 12px 16px 13px 30px; border-radius: 2px; background: #f1ede4; color: #16201b; pointer-events: none; will-change: transform, opacity; rotate: 2.2deg; transform-origin: 0 22px; box-shadow: 0 10px 24px -12px rgba(5, 7, 9, .55); }
+.cp-br-lab.is-left { padding: 12px 30px 13px 16px; rotate: -2.2deg; transform-origin: 100% 22px; }
+/* the hole punched in it, and the string from the hole to the piece */
+.cp-br-lab::before { content: ''; position: absolute; left: 11px; top: 17px; width: 8px; height: 8px; border-radius: 50%; background: #0c1424; box-shadow: 0 0 0 2px #d9d2c3; }
+.cp-br-lab.is-left::before { left: auto; right: 11px; }
+.cp-br-lab::after { content: ''; position: absolute; right: calc(100% - 15px); top: 20px; width: 64px; height: 1px; background: rgba(241, 237, 228, .8); }
+.cp-br-lab.is-left::after { right: auto; left: calc(100% - 15px); }
 .cp-br-lab p { margin: 0; }
-.cp-br-n { font-family: var(--mono); font-size: 40px; line-height: 1; letter-spacing: -.03em; color: rgba(239, 233, 223, .94); }
-.cp-br-h { margin-top: 12px !important; font-size: 13px; line-height: 1.3; color: rgba(239, 233, 223, .72); }
+.cp-br-n { display: none; }
+.cp-br-h { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 21px; font-size-adjust: var(--accent-adjust); letter-spacing: var(--accent-track-s); line-height: 1.1; color: #16201b; }
 .cp-br-more { opacity: var(--more, 0); max-height: calc(var(--more, 0) * 9em); overflow: hidden; } /* (takes no room until it shows) */
-.cp-br-t { margin-top: 16px !important; font-family: var(--accent-word, var(--accent)); font-style: var(--accent-style, italic); font-weight: var(--accent-weight); font-size: 30px; font-size-adjust: var(--accent-word-adjust, var(--accent-adjust)); line-height: 1.08; color: #f6f1e8; }
-.cp-br-m { margin-top: 8px !important; font-size: 14px; font-weight: 500; letter-spacing: -.02em; color: #f6f1e8; }
-.cp-br-d { margin-top: 2px !important; font-size: 13px; color: rgba(239, 233, 223, .6); }
+.cp-br-t { margin-top: 10px !important; padding-top: 10px; border-top: 1px solid rgba(22, 32, 27, .16); font-size: 15px; font-weight: 500; letter-spacing: -.015em; line-height: 1.2; color: #16201b; }
+.cp-br-m { margin-top: 3px !important; font-size: 13px; color: #56615b; }
+.cp-br-d { margin-top: 2px !important; font-family: var(--mono); font-size: 11px; color: #56615b; }
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
   .cp-open.is-branch { height: 400vh; }
-  .cp-br-lab { width: 180px; }
-  .cp-br-lab.is-left { text-align: left; }
-  .cp-br-n { font-size: 30px; }
-  .cp-br-t { font-size: 24px; }
+  .cp-br-lab, .cp-br-lab.is-left { max-width: 200px; padding: 10px 14px 11px 28px; text-align: left; rotate: -1.6deg; transform-origin: 0 100%; }
+  .cp-br-lab.is-left::before { left: 10px; right: auto; }
+  /* (on a phone the tag sits above its piece, the string falling to it) */
+  .cp-br-lab::after, .cp-br-lab.is-left::after { left: 15px; right: auto; top: 100%; width: 1px; height: 14px; }
+  .cp-br-h { font-size: 18px; }
 }
-
-/* ---------------------------------------------------------------- the works' wide view (14 Nov)
-   Every piece at once (js/corner-works.js): a button while the works are on the screen, and over the
-   page, on the night, every piece, domain by domain in justified rows, sized to fit the screen on a
-   laptop. The room (a piece opened, z 18) opens over it; the nav stays above all. */
-.cw-wide-btn { position: fixed; right: var(--gutter); bottom: 26px; z-index: 16; display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; font-family: var(--sans); font-size: 13.5px; letter-spacing: -.01em; color: #f2f3ef; background: rgba(20, 22, 26, .72); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border: 1px solid rgba(242, 243, 239, .14); border-radius: 999px; opacity: 0; translate: 0 10px; pointer-events: none; transition: opacity .4s var(--ease-out), translate .5s var(--ease-out), background-color .3s var(--ease-out); }
-.cw-wide-btn svg { width: 14px; height: 14px; fill: currentColor; }
-.cw-wide-btn.is-in { opacity: 1; translate: 0 0; pointer-events: auto; }
-.cw-wide-btn.is-hidden { opacity: 0; pointer-events: none; }
-.cw-wide-btn:hover { background: rgba(32, 35, 41, .86); }
-.cw-wide { position: fixed; inset: 0; z-index: 17; overflow-y: auto; overscroll-behavior: contain; padding: calc(var(--nav-h) + 18px) var(--gutter) 40px; background: #050709; color: #f2f3ef; font-family: var(--sans); }
-.cw-wide-bar { display: flex; justify-content: space-between; align-items: baseline; max-width: 1560px; margin: 0 auto 14px; }
-.cw-wide-count { margin: 0; font-size: 13px; color: rgba(242, 243, 239, .62); }
-.cw-wide-close { font-size: 14px; color: #f2f3ef; border-bottom: 1px solid rgba(242, 243, 239, .3); }
-.cw-wide-close:hover { border-color: #f2f3ef; }
-.cw-wide-body { min-height: calc(100% + 1px); margin: 0 auto; }
-.cw-wide-group { margin-bottom: 16px; }
-.cw-wide-head { display: flex; align-items: baseline; gap: 10px; height: 32px; margin: 0; padding-top: 8px; font-size: 13px; color: rgba(242, 243, 239, .62); border-top: 1px solid rgba(242, 243, 239, .14); }
-.cw-wide-n { font-family: var(--mono); font-size: 11.5px; }
-.cw-wide-name { color: #f2f3ef; }
-.cw-wide-k { margin-left: auto; font-family: var(--mono); font-size: 11.5px; }
-.cw-wide-row { display: flex; margin-bottom: 6px; }
-.cw-wide-tile { flex: none; padding: 0; background: rgba(242, 243, 239, .05); cursor: zoom-in; transition: filter .3s var(--ease-out); }
-.cw-wide-tile img { display: block; width: 100%; height: 100%; }
-.cw-wide-row:hover .cw-wide-tile { filter: brightness(.62); }
-.cw-wide-row:hover .cw-wide-tile:hover { filter: none; }
-.cw-wide-tile:focus-visible { outline: 2px solid #f2f3ef; outline-offset: 2px; }
-.cw-wide-say { position: fixed; left: 0; top: 0; z-index: 2; margin: 0; padding: 6px 10px; font-size: 13px; color: #16120e; background: #efe9df; opacity: 0; pointer-events: none; transition: opacity .25s var(--ease-out); }
-.cw-wide-say.is-on { opacity: 1; }
-.cw-wide-on .cw-wide-btn { opacity: 0; pointer-events: none; }
+/* (19 Nov) the bough's labels, plain (the user: "the part of the day and the title should come minimalistically
+   instead of a price tag"): type on the dark beside the piece, no card, string, hole, tilt or shadow. The honour in
+   the italic in silver, the title under it, the maker only when close. The branch and the canopy keep their tags. */
+.cp-br-lab.cp-br-plain { max-width: 240px; padding: 0; border-radius: 0; background: none; color: #f2f3f1; rotate: none; box-shadow: none; }
+.cp-br-lab.cp-br-plain::before, .cp-br-lab.cp-br-plain::after { display: none; }
+.cp-br-lab.cp-br-plain.is-left { padding: 0; rotate: none; text-align: right; }
+.cp-br-plain .cp-br-h { font-size: 20px; color: #c3cad4; }
+.cp-br-plain .cp-br-t { margin-top: 5px !important; padding-top: 0; border-top: 0; font-size: 15px; font-weight: 500; letter-spacing: -.012em; line-height: 1.25; color: #f2f3f1; }
+.cp-br-plain .cp-br-m { margin-top: 2px !important; font-size: 13px; color: #a2a89d; }
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
-  .cw-wide-btn { bottom: 18px; padding: 10px 14px; font-size: 13px; }
-  .cw-wide { padding-top: calc(var(--nav-h) + 12px); }
-  .cw-wide-row { margin-bottom: 4px; }
-  .cw-wide-group { margin-bottom: 18px; }
+  .cp-br-lab.cp-br-plain, .cp-br-lab.cp-br-plain.is-left { max-width: 220px; padding: 0; rotate: none; text-align: left; }
+  .cp-br-plain .cp-br-h { font-size: 18px; }
+  .cp-br-plain .cp-br-t { font-size: 14px; }
 }
-/* the domains along the top of the wide view: a dot of each one's colour, its name, its count; resting
-   on one leaves only its pieces lit */
-.cw-wide-bar { gap: 20px; align-items: flex-start; }
-.cw-wide-legend { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; }
-.cw-wide-key { display: inline-flex; align-items: baseline; gap: 7px; font-size: 13px; color: rgba(242, 243, 239, .72); transition: color .25s var(--ease-out); }
-.cw-wide-key i { width: 7px; height: 7px; align-self: center; background: var(--dom); }
-.cw-wide-key em { font-family: var(--mono); font-style: normal; font-size: 11px; font-size-adjust: none; letter-spacing: 0; font-weight: 400; color: rgba(242, 243, 239, .45); }
-.cw-wide-key:hover, .cw-wide-key.is-on { color: #fff; }
-.cw-wide .cw-wide-count { margin-right: 6px; }
-.cw-wide.is-picking .cw-wide-tile { filter: brightness(.28) saturate(.6); }
-.cw-wide.is-picking .cw-wide-tile.is-lit { filter: none; }
-.cw-wide-body { margin-top: 18px; }
 
 /* ------------------------------------------------------------------ the word that turns (js/turn.js)
    A heading with data-turn: its italic word arrives upright, in the heading's own sans, and leans over
@@ -1835,7 +2448,9 @@ html.script-plate { --script: 'Pinyon Script', 'Monsieur La Doulaise', cursive; 
    laid on, the nav holding still above both: the site's four pages read as one object. (Cross-document
    view transitions: a browser without them changes pages as before; none with reduced motion.) */
 @view-transition { navigation: auto; }
-.nav { view-transition-name: nav; }
+/* (19 Nov) the name is on the tab, not the nav round it: a named element is a backdrop root, so with the name on
+   the nav the tab's glass could only blur the empty nav, never the page under it */
+.nav-tab { view-transition-name: nav; }
 ::view-transition-old(root) { animation: vt-leave .9s cubic-bezier(.7, 0, .2, 1) both; }
 ::view-transition-new(root) { animation: vt-arrive .9s cubic-bezier(.7, 0, .2, 1) both; }
 ::view-transition-group(nav) { animation-duration: .9s; }
@@ -1856,3 +2471,6 @@ html.script-plate { --script: 'Pinyon Script', 'Monsieur La Doulaise', cursive; 
   .hero-copy, .hv-copy, .hero-horizon .hero-copy { width: auto; }
   .hero .title, .hv .title { font-size: clamp(2.8rem, 14.2vw, 5rem); }
 }
+/* (20 Nov) hero 9's card for what is pointed at: clear of the change-of-version button */
+.hv-rise .hv-card { bottom: calc(clamp(14px, 2.4vw, 32px) + 84px); }
+@media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) { .hv-rise .hv-card { left: var(--gutter); right: var(--gutter); width: auto; bottom: calc(14px + 48px + 26px + env(safe-area-inset-bottom)); } }

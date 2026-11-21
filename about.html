@@ -32,48 +32,28 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="modulepreload" href="assets/vendor/three.module.min.js">
 </head>
 <body>
-  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
-       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
-  <header class="nav" data-tone="ink">
-    <div class="nav-pill">
-      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
-      <a class="wordmark" href="index.html">Metamorph</a>
-      <nav class="links" aria-label="Main">
-        <a href="about.html" aria-current="page">About</a>
-        <a href="index.html#services">Services</a>
-        <a href="sectors.html">Sectors</a>
-        <a href="index.html#team">Team</a>
-        <a href="creative.html">Creative corner</a>
-        <a href="#investors" data-soon>Investor corner</a>
-      </nav>
-    </div>
-    <div class="nav-right">
-      <div class="mode" role="group" aria-label="Version of the site">
-        <button type="button" data-set-mode="ink" aria-pressed="false">Ink</button>
-        <span aria-hidden="true">·</span>
-        <button type="button" data-set-mode="light" aria-pressed="true">Light</button>
-      </div>
-      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
-    </div>
-  </header>
+  <header class="nav" data-tone="light">
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="index.html">Metamorph</a>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
 
-  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
-  <nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="about.html" aria-current="page">About</a>
-    <a href="index.html#services">Services</a>
-    <a href="sectors.html">Sectors</a>
-    <a href="index.html#team">Team</a>
-    <a href="creative.html">Creative corner</a>
-    <a href="#investors" data-soon>Investor corner</a>
-    <a href="#contact" data-soon>Contact</a>
-  </nav>
 
   <!-- About (js/about-page.js, js/about.js, js/about-way.js): the firm told through the one idea in
        its name, metamorphosis, with the butterfly from the way in (js/emerge-scene.js) as the thing
@@ -111,7 +91,7 @@
     </header>
 
     <!-- 02 our story: inked as it is read -->
-    <section class="ab-sec ab-story" aria-labelledby="ab-s-story">
+    <section id="story" class="ab-sec ab-story" aria-labelledby="ab-s-story">
       <div class="ab-story-side">
         <p class="ab-k">02</p>
         <div class="ab-dial" role="group" aria-labelledby="ab-dial-q">
@@ -127,13 +107,13 @@
       </div>
       <div class="ab-story-main">
         <h2 class="ab-h" id="ab-s-story">Our story</h2>
-        <p class="ab-text ab-story-text">Capital, debt and taxes have stayed with people since time immemorial. Wars have been won on them, families broken, rebellions raised and societies shaped by how they were handled. It is far easier to make wealth than to keep it.<span data-l="2"> Money looks like the dullest thing there is: it only changes hands. Follow it further, through the network that carries it round the world and into the minds it moves, and its right use turns into something else: wealth that compounds, and outlives a generation. That change is our work.</span><span data-l="2"> Our parents’ generation was mostly not born with wealth. They built it as the economy opened its doors, and kept it with sanskaar, the values you are raised inside.</span> Metamorph grew out of a chartered accountancy practice with thirty years of signed accounts<span data-l="2">, and was founded by Ritvik and Gurleen to stand beside founders who are driven, hungry and growing</span>.<span data-l="3"> Money is a double-edged sword: it builds, and it brings out greed, theft and treachery. Everyone wants to be rich. We believe in wealth and despise the relentless, unhinged chase for it. A firm becomes what the people who run it want; ours earn, spend, invest and save with clarity and a right conscience, and look for founders who do the same. Every empire that stops growing starts declining, so we work where there is growth, ambition and a right conscience, and only as a premium service: we would rather advise fewer companies well than many quickly.</span></p>
+        <p class="ab-text ab-story-text">Capital, debt and taxes have stayed with people since time immemorial. Wars have been won on them, families broken, rebellions raised and societies shaped by how they were handled. It is far easier to make wealth than to keep it.<span data-l="2"> Money looks like the dullest thing there is: it only changes hands. Follow it further, through the network that carries it round the world and into the minds it moves, and its right use turns into something else: wealth that compounds, and outlives a generation. That change is our work.</span><span data-l="2"> Our parents’ generation was mostly not born with wealth. They built it as the economy opened its doors, and kept it with sanskaar, the values you are raised inside.</span> Metamorph grew out of a chartered accountancy practice with thirty years of signed accounts<span data-l="2">, and was founded by Ritvik and Gurleen to stand beside founders who are driven, hungry and growing</span>.<span data-l="2"> We are here for founders and promoters; for investors, from angels to family offices and venture capital; for creatives and curious souls, data and knowledge geeks, and anyone curious about the world.</span><span data-l="3"> Money is a double-edged sword: it builds, and it brings out greed, theft and treachery. Everyone wants to be rich. We believe in wealth and despise the relentless, unhinged chase for it. A firm becomes what the people who run it want; ours earn, spend, invest and save with clarity and a right conscience, and look for founders who do the same. Every empire that stops growing starts declining, so we work where there is growth, ambition and a right conscience, and only as a premium service: we would rather advise fewer companies well than many quickly.</span></p>
         <button class="ab-more" type="button"><span class="ab-more-t">More on this</span> <span class="ab-more-n"></span></button>
       </div>
     </section>
 
     <!-- 03 what we do, in four stages; the butterfly is held beside them -->
-    <section class="ab-stages ab-night" aria-labelledby="ab-s-do" data-sky="night">
+    <section id="stages" class="ab-stages ab-night" aria-labelledby="ab-s-do" data-sky="night">
       <div class="ab-stages-pin">
         <p class="ab-k" id="ab-s-do"><span>03</span> What we do, in four stages</p>
         <ol class="ab-stage-list">
@@ -173,7 +153,7 @@
     </section>
 
     <!-- 04 the practice behind us: the thread it is all spun from -->
-    <section class="ab-thread ab-night" aria-labelledby="ab-s-thread" data-sky="night">
+    <section id="thread" class="ab-thread ab-night" aria-labelledby="ab-s-thread" data-sky="night">
       <div class="ab-thread-pin">
         <div class="ab-thread-words">
           <p class="ab-k"><span>04</span> The practice behind us</p>
@@ -188,7 +168,7 @@
     </section>
 
     <!-- 05 how we decide: one sentence on the thread -->
-    <section class="ab-decide" aria-labelledby="ab-s-decide">
+    <section id="decide" class="ab-decide" aria-labelledby="ab-s-decide">
       <p class="ab-k" id="ab-s-decide"><span>05</span> How we decide</p>
       <div class="ab-decide-in">
         <svg class="ab-decide-svg" aria-hidden="true"><path class="ab-decide-ghost"/><path class="ab-decide-line"/><g class="ab-pearls"></g></svg>
@@ -204,7 +184,7 @@
     </section>
 
     <!-- 06 who we are: the two questions, and the founders' coins -->
-    <section class="ab-who ab-night" aria-labelledby="ab-s-who" data-sky="night">
+    <section id="who" class="ab-who ab-night" aria-labelledby="ab-s-who" data-sky="night">
       <div class="ab-who-words">
         <p class="ab-k" id="ab-s-who"><span>06</span> Who we are</p>
         <ol class="ab-qs">

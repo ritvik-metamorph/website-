@@ -50,7 +50,13 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="modulepreload" href="assets/vendor/three.module.min.js">
   <link rel="modulepreload" href="js/orb.js">
@@ -82,225 +88,61 @@
     </div>
     <div class="em-foot">
       <h2 class="em-title" id="em-title">Two ways in.</h2>
-      <p class="em-switch">Change your mind any time with <span class="em-key">Ink · Light</span>, at the top right.</p>
+      <p class="em-switch">Change your mind any time with the <span class="em-key">button at the bottom left</span>.</p>
     </div>
   </div>
 
-  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
-       the menu (and the links, where they fit), the version switch in a pill of its own, and the one
-       thing to do in a solid pill apart. -->
   <header class="nav" data-tone="light">
-    <div class="nav-pill">
-      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
-      <a class="wordmark" href="#top" data-top>Metamorph</a>
-      <nav class="links" aria-label="Main">
-        <a href="about.html">About</a>
-        <a href="#services" data-services>Services</a>
-        <a href="sectors.html">Sectors</a>
-        <a href="#team" data-team>Team</a>
-        <a href="creative.html">Creative corner</a>
-        <a href="#investors" data-soon>Investor corner</a>
-      </nav>
-    </div>
-    <div class="nav-right">
-      <div class="mode" role="group" aria-label="Version of the site">
-        <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
-        <span aria-hidden="true">·</span>
-        <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
-      </div>
-      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
-    </div>
-  </header>
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="#top" data-top>Metamorph</a>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
 
-  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
-  <nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="about.html">About</a>
-    <a href="#services" data-services>Services</a>
-    <a href="sectors.html">Sectors</a>
-    <a href="#team" data-team>Team</a>
-    <a href="creative.html">Creative corner</a>
-    <a href="#investors" data-soon>Investor corner</a>
-    <a href="#contact" data-soon>Contact</a>
-  </nav>
 
   <main id="top">
-    <!-- The hero, four ways (10 Nov). The client found the light orb blurry and muddy, and somehow
-         not complete, and sent two videos they liked (a sculpture of rings made of thousands of
-         small covers; pictures turned to point clouds with trackers). Four heroes are stacked here
-         so they can be shown in one scroll and one chosen. Each is pinned for its own short story,
-         and each says which it is, top right.
-         1. The horizon (js/orb.js, js/orb-scene.js): the light orb, cut sharp, its centre on the
-            foot of the screen so the upper half of the orbits rises across the whole width.
-         2. The gathering (js/hero-gather.js): after the two videos. Grain gathers into the seven
-            orbits, stacked in the round; threads run from the disciplines up to the sectors.
-         3. The eyespot (js/hero-eyespot.js): the seven orbits as the eyespot on a butterfly's wing,
-            close enough to see every scale; the scroll draws back to the wing.
-         4. The emergence (js/hero-emergence.js): 2's look with 3's thinking, asked for the same day. The
-            orbits as a cocoon of grain on a thread open into a butterfly of the same grain, the
-            orbits settling as its eyespots, the grid's threads as its veins out to the 48 sectors.
-         (Earlier heroes, kept: the light orb as it was, backed up at
-         ~/Desktop/metamorph_backups/before-hero-variants-2026-11-10/; Seven inks in js/inks.js,
-         Layers of a life in js/aura.js, The Note in js/hero.js, the orrery in js/orrery.js.) -->
-    <div class="stage stage-1">
-      <section class="hero hero-horizon" aria-labelledby="hero-title">
-        <canvas class="hero-gl" aria-hidden="true"></canvas>
-        <div class="orb-labels" aria-hidden="true"></div>
-        <div class="hero-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h1 id="hero-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h1>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line orbits-btn" type="button">Explore the orbits</button>
-          </div>
-          <p class="proof">Backed by a 30-year chartered accountancy practice.</p>
-        </div>
-        <!-- an orbit, lifted: the left column becomes its caption -->
-        <div class="orbit-card" aria-hidden="true">
-          <p class="oc-ring"></p>
-          <p class="oc-name"></p>
-          <p class="oc-note"></p>
-          <p class="oc-discs"></p>
-          <p class="oc-foot"><span class="oc-hint">Click the orbit to open its metrics</span><button class="oc-open" type="button" tabindex="-1">Open</button></p>
-        </div>
-        <!-- the seven orbits as buttons: a key to the colours, and the way in from a keyboard -->
-        <div class="orb-key" role="group" aria-label="The seven orbits"></div>
-        <p class="orb-hint" aria-hidden="true"><span class="for-mouse">Seven orbits of a life. Hover one to read it.</span><span class="for-touch">Seven orbits of a life. Tap one to read it.</span></p>
-        <!-- what the scroll shows, said once each -->
-        <p class="orb-caption" aria-hidden="true">Seven orbits shape a life, from the ground of being out to the return. <em>Twenty-seven disciplines move within them.</em></p>
-        <p class="orb-caption" aria-hidden="true">Where they meet, an industry takes shape. <em>Forty-eight of them, each moved by its own few.</em></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 1 of 7</span> The horizon</p>
-      </section>
-    </div>
+    <!-- The hero, three ways (20 Nov; the user: remove the rest, "just keep 7th and 8th"; then hero 9, the user's
+         combination of the two, first). Each is pinned for its own short story and says which it is, top
+         right; every orbit, discipline and sector in them opens the same metrics panel (js/orbit-panel.js).
+         7. The ascent (js/hero-ascent.js): aura rings as tubes of grain in a rising spiral, a journey from the foot to
+            the top, out over a crown of the 48 sectors.
+         8. The orbits, in grain (js/hero-orbits.js): the Investor Corner's rings of grain as the seven orbits; it hands
+            over to the paper the services are printed on.
+         Heroes 1 to 6 (the horizon, the gathering, the eyespot, the emergence, the emergence in rings, the flight) are
+         backed up at ~/Desktop/metamorph_backups/heroes-before-keeping-7-and-8-2026-11-20/, their scripts kept
+         unloaded in js/. Earlier heroes, kept: the light orb as it was (before-hero-variants-2026-11-10); Seven inks in
+         js/inks.js, Layers of a life in js/aura.js, The Note in js/hero.js, the orrery in js/orrery.js. -->
 
-    <!-- Hero 2 of 3, the gathering (js/hero-gather.js) -->
-    <div class="stage stage-v stage-2">
-      <section class="hv hv-gather" aria-labelledby="hg-title">
+
+    <!-- Hero 9, the ascent in grain (js/hero-rise.js; 20 Nov): the user's combination of 7 and 8. Hero 7's spiral and
+         journey with hero 8's bands of grain: it opens at the foot looking straight up the middle, with only a cue to
+         scroll; the climb, out through the crown, the camera flips over and draws back while the spiral settles into
+         hero 8's orbits; only then the words. First on the page, so its name is the page's h1. -->
+    <div class="stage stage-v stage-9">
+      <section class="hv hv-rise" aria-labelledby="hn-title">
         <canvas class="hv-gl" aria-hidden="true"></canvas>
+        <!-- (hero 7's names in the world: the orbits, the disciplines, the sectors; and the card for what is pointed at) -->
         <div class="hv-labels" aria-hidden="true"></div>
-        <div class="hv-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h2 id="hg-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h2>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line hv-go" type="button">Follow the threads</button>
+        <div class="hv-card" aria-live="polite"></div>
+        <div class="hv-copy hn-copy">
+          <div class="hn-corner">
+            <span class="ho-mask"><span class="ho-ledger"><span><b>7</b> orbits of a life</span><span><b>27</b> disciplines within them</span><span><b>48</b> sectors they move</span><span><b>151</b> streams between them</span></span></span>
+          </div>
+          <span class="ho-mask hn-what-m"><a class="ho-raise hn-what" href="about.html">What’s Metamorph? <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></span>
+          <div class="hn-foot">
+            <div class="ho-mask hn-line-m"><h1 id="hn-title" class="hn-line">Metamorph<br class="ho-br"> <em>Capital</em></h1></div>
+            <span class="ho-mask hn-sub-m"><span class="hn-sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</span></span>
           </div>
         </div>
-        <div class="hv-card" aria-live="polite"></div>
-        <p class="hv-caption" aria-hidden="true">Seven orbits of a life, gathered out of the dark. <em>Twenty-seven disciplines ride them.</em></p>
-        <p class="hv-caption" aria-hidden="true">From each, threads run up to the industries it moves. <em>Forty-eight sectors, a hundred and fifty-one threads.</em></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 2 of 7</span> The gathering</p>
+        <p class="hn-cue" aria-hidden="true"><span>Scroll</span><i></i></p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 9</span> The ascent, in grain</p>
       </section>
     </div>
 
-    <!-- Hero 3 of 3, the eyespot (js/hero-eyespot.js) -->
-    <div class="stage stage-v stage-3">
-      <section class="hv hv-eye" aria-labelledby="he-title">
-        <canvas class="hv-gl" aria-hidden="true"></canvas>
-        <div class="hv-labels" aria-hidden="true"></div>
-        <div class="hv-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h2 id="he-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h2>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line hv-go" type="button">See the whole wing</button>
-          </div>
-        </div>
-        <div class="hv-card" aria-live="polite"></div>
-        <p class="hv-caption" aria-hidden="true">Close up, a wing is thousands of scales, each one colour. <em>Seven rings of them make its eye: the seven orbits of a life.</em></p>
-        <p class="hv-caption" aria-hidden="true">Drawn back, they are the markings of what it becomes.</p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 3 of 7</span> The eyespot</p>
-      </section>
-    </div>
-
-    <!-- Hero 4 of 4, the emergence (js/hero-emergence.js): 2's look with 3's thinking -->
-    <div class="stage stage-v stage-4">
-      <section class="hv hv-emerge" aria-labelledby="hx-title">
-        <canvas class="hv-gl" aria-hidden="true"></canvas>
-        <div class="hv-labels" aria-hidden="true"></div>
-        <div class="hv-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h2 id="hx-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h2>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line hold hx-hold" type="button"><svg class="hold-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="8"/><circle class="fill" cx="10" cy="10" r="8"/></svg><span class="hold-label">Hold to open it</span></button>
-          </div>
-        </div>
-        <div class="hv-card" aria-live="polite"></div>
-        <p class="hv-caption" aria-hidden="true">Seven orbits, wound round a life like a cocoon. <em>Twenty-seven disciplines move within them.</em></p>
-        <p class="hv-caption" aria-hidden="true">Opened, the orbits are on its wings, and veins run out to the industries they move. <em>Forty-eight sectors, a hundred and fifty-one veins.</em></p>
-        <p class="hx-hint" aria-hidden="true"><span class="for-mouse">Brush past it, drag to turn it, hold it to open</span><span class="for-touch">Drag to turn it, hold it to open</span></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 4 of 7</span> The emergence</p>
-      </section>
-    </div>
-
-
-    <!-- Hero 5 of 6, the emergence in rings (js/hero-rings.js): hero 4 as it was first built -->
-    <div class="stage stage-v stage-5">
-      <section class="hv hv-rings" aria-labelledby="hr-title">
-        <canvas class="hv-gl" aria-hidden="true"></canvas>
-        <div class="hv-labels" aria-hidden="true"></div>
-        <div class="hv-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h2 id="hr-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h2>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line hv-go" type="button">Watch it emerge</button>
-          </div>
-        </div>
-        <div class="hv-card" aria-live="polite"></div>
-        <p class="hv-caption" aria-hidden="true">Seven orbits, wound round a life like a cocoon. <em>Twenty-seven disciplines move within them.</em></p>
-        <p class="hv-caption" aria-hidden="true">Opened, the orbits are on its wings, and veins run out to the industries they move. <em>Forty-eight sectors, a hundred and fifty-one veins.</em></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 5 of 7</span> The emergence, in rings</p>
-      </section>
-    </div>
-
-    <!-- Hero 6 of 6, the flight (js/hero-flight.js): the first video's composition, flown through -->
-    <div class="stage stage-v stage-6">
-      <section class="hv hv-flight" aria-labelledby="hf-title">
-        <canvas class="hv-gl" aria-hidden="true"></canvas>
-        <div class="hv-labels" aria-hidden="true"></div>
-        <div class="hv-copy">
-          <p class="eyebrow">Investment banking and advisory</p>
-          <h2 id="hf-title" class="title">
-            <span class="line"><span>Capital that</span></span>
-            <span class="line"><span><em>transforms.</em></span></span>
-          </h2>
-          <p class="sub">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</p>
-          <div class="actions">
-            <a class="btn btn-solid" href="#contact" data-soon>Raise capital</a>
-            <button class="btn btn-line hv-go" type="button">Take the flight</button>
-          </div>
-        </div>
-        <div class="hv-card" aria-live="polite"></div>
-        <p class="hv-caption" aria-hidden="true">Seven orbits, a turn for each, made of the founder's grid. <em>Every card a discipline, a sector and a force.</em></p>
-        <p class="hv-caption" aria-hidden="true">Where a discipline moves an industry, the card is inked, and a thread runs up to it. <em>Forty-eight sectors, a hundred and fifty-one threads.</em></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 6 of 7</span> The flight</p>
-      </section>
-    </div>
-
-
-    <!-- Hero 7 of 7, the ascent (js/hero-ascent.js): aura rings of particles, a journey from the foot to the top -->
+    <!-- Hero 7, the ascent (js/hero-ascent.js): aura rings of particles, a journey from the foot to the top -->
     <div class="stage stage-v stage-7">
       <section class="hv hv-ascent" aria-labelledby="ha-title">
         <canvas class="hv-gl" aria-hidden="true"></canvas>
@@ -320,9 +162,35 @@
         <div class="hv-card" aria-live="polite"></div>
         <p class="hv-caption" aria-hidden="true">Seven orbits of a life, rising from the ground of being to the return. <em>Twenty-seven disciplines move within them.</em></p>
         <p class="hv-caption" aria-hidden="true">From each, a stream rises to the industries it moves. <em>Forty-eight sectors, a hundred and fifty-one streams.</em></p>
-        <p class="hv-tag" aria-hidden="true"><span>Hero 7 of 7</span> The ascent</p>
+        <p class="hv-tag" aria-hidden="true"><span>Hero 7</span> The ascent</p>
       </section>
     </div>
+
+
+<!-- Hero 8, the orbits in grain (js/hero-orbits.js): the Investor Corner's rings of grain, as the seven orbits;
+     this one now hands over to the paper the services are printed on -->
+<div class="stage stage-v stage-8">
+  <section class="hv hv-orbits" aria-labelledby="ho-title">
+    <canvas class="hv-gl" aria-hidden="true"></canvas>
+    <!-- (19 Nov) the poster: the orbits fill the screen, then sink back; the line rises out of the foot of the
+         screen, edge to edge; the firm's sentence and its numbers small at the top left, the one link at the top
+         right. Before it, the usual stack (eyebrow, two lines, sentence, two buttons): backup
+         hero-8-before-poster-2026-11-19. Since 19 Nov (later) a storyline: the orbits drawn in one by one, then the line
+         and the corners at once, the story in the four lines of numbers; the two captions that came by scroll are gone
+         (backup hero-8-before-storyline-2026-11-19) -->
+    <div class="hv-copy ho-copy">
+      <div class="ho-corner">
+        <span class="ho-mask"><span class="ho-say">We raise capital, sharpen strategy and grow wealth for founders in the middle of becoming.</span></span>
+        <span class="ho-mask"><span class="ho-ledger"><span><b>7</b> orbits of a life</span><span><b>27</b> disciplines within them</span><span><b>48</b> sectors they move</span><span><b>151</b> streams between them</span></span></span>
+      </div>
+      <span class="ho-mask ho-raise-m"><a class="ho-raise" href="#contact" data-soon>Raise capital <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></span>
+      <div class="ho-mask ho-line-m"><h2 id="ho-title" class="ho-line" data-turn>Capital that<br class="ho-br"> <em>transforms.</em></h2></div>
+    </div>
+    <div class="hv-card" aria-live="polite"></div>
+    <p class="ho-hint" aria-hidden="true">Drag to turn. Hold to open the orbits.</p>
+    <p class="hv-tag" aria-hidden="true"><span>Hero 8</span> The orbits, in grain</p>
+  </section>
+</div>
 
 
     <!-- The services, the client's own from the brief. In Ink a plain list on paper. In Light "the note"

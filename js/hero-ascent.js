@@ -1,4 +1,4 @@
-// Hero 7 of 7, "the ascent" (10 Nov). The user, after hero 6: no books or papers; "the ultimate
+// Hero 7 of 8, "the ascent" (10 Nov). The user, after hero 6: no books or papers; "the ultimate
 // goal is aura rings", made of particles, with "a proper journey… a proper camera angle which goes
 // from the bottom to top". The first video's composition and camera travel as inspiration only:
 // - The seven orbits are one rising spiral of aura rings, a turn each, from the ground of being at
@@ -551,7 +551,8 @@ export function setupAscent({ lenis, reduced, isTouch, local }) {
     // depth: close, the far turns sink into the dark; drawn back, the whole shows
     FOG.uFogNear.value = lerp(lerp(lerp(4, 9, wB), 6, wC), 13, wD);
     FOG.uFogFar.value = lerp(lerp(lerp(17, 34, wB), 22, wC), 40, wD);
-    const white = smooth(0.94, 0.995, p);
+    // (18 Nov: hero 8 follows, so the paper is its to hand over to; this one stays in the night)
+    const white = document.querySelector('.stage-8') ? 0 : smooth(0.94, 0.995, p);
     FADE.value = 1 - white;
     clear.copy(ROOM).lerp(PAPER, white);
     renderer.setClearColor(clear, 1);

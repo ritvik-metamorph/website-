@@ -1,23 +1,15 @@
-// The simple home (ink.html; js/ink.js says what the simple site is). The film hero (a reel stands in
-// until the film exists), the services beside the note in four forms, the conditions, the team on
-// their coins (in Ink; the room's light is the creative site's), the founder's grid running past and
-// drawn, the Creative Corner's work going by, and the end.
+// The simple home (ink.html; js/ink.js says what the simple site is): since 21 Nov the film hero alone, one screen
+// (a reel stands in until the film exists). What was under it (the services, the conditions, the team on their coins,
+// the founder's grid, the Creative Corner's work, the end) is on its own pages now; the team is on the simple About
+// (js/ink-about.js). Backup simple-home-before-hero-only-2026-11-21.
 
 import { inkPage } from './ink.js';
-import { setupTeam } from './team.js';
-import { ATLAS } from './atlas-data.js';
-import { drawLoom } from './ink-loom.js';
 
 const { gsap, ScrollTrigger } = window;
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-// (the forty-eight are written in before the motion sets the line running: js/ink-motion.js doubles them)
-const marq = $('.ik-marq-t');
-if (marq) marq.innerHTML = ATLAS.sectors.map((s) => `<a href="sectors.html#${s.id}" tabindex="-1"><span class="mq-a">${esc(s.name)}</span><span class="mq-b">${esc(s.name)}</span></a><i aria-hidden="true"></i>`).join('');
-
 const ctx = inkPage();
-const { lenis, register, reduced, isTouch, local, onEnter } = ctx;
+const { lenis, reduced, local } = ctx;
 const narrow = () => matchMedia('(max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px)').matches;
 
 // ---------------------------------------------------------------- the film, and the reel before it
@@ -32,41 +24,56 @@ if (v && v.dataset.src) {
   v.load();
 }
 
-// ---------------------------------------------------------------- the services, beside the note
-// the note takes the form of whichever service is in the middle of the screen (or under the pointer),
-// the new form drawn up over the last like a blind
-const stage = $('.ik-svc-pics'), shots = $$('.ik-svc-pic'), items = $$('.ik-svc li'), cap = $('.ik-svc-cap');
-let current = 0, z = 1;
-function form(i) {
-  if (i === current || !shots[i]) return;
-  current = i;
-  shots[i].style.zIndex = ++z;
-  shots.forEach((s, k) => s.classList.toggle('is-on', k === i));
-  items.forEach((li, k) => li.classList.toggle('is-on', k === i));
-  if (cap) cap.innerHTML = `<b>${String(i + 1).padStart(2, '0')}</b><span>${esc(items[i].dataset.form)}</span>`;
-}
-items[0]?.classList.add('is-on');
-if (ScrollTrigger) items.forEach((li, i) => ScrollTrigger.create({ trigger: li, start: 'top 55%', end: 'bottom 55%', onToggle: (st) => { if (st.isActive) form(i); } }));
-if (!isTouch) items.forEach((li, i) => li.addEventListener('pointerenter', () => form(i)));
+// (19 Nov, the user's sketches) the line on the paper under the film's frame, one line on a laptop, as wide as the room
+// the words beside it leave; on a phone it wraps at its own size, the words under it
+const heroLine = $('.ik-hero .title'), frame = $('.ik-frame');
+const fitHero = () => {
+  if (!heroLine || !frame) return;
+  const row = heroLine.closest('.ik-hero-foot') || heroLine.parentElement;
+  if (narrow()) { heroLine.style.fontSize = ''; row.style.removeProperty('--hfs'); return; }
+  heroLine.style.fontSize = '100px';
+  const side = row.querySelector('.ik-hero-in'), gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+  const lw = heroLine.offsetWidth, room = (row.clientWidth - (side ? side.offsetWidth + gap : 0)) * 0.995;
+  if (lw > 50 && room > 50) heroLine.style.fontSize = `${(Math.floor((1000 * room * 0.995) / lw) / 10).toFixed(1)}px`;
+  // (the headline's size, for the practice's line under it to stand clear of the italic f's tail)
+  row.style.setProperty('--hfs', heroLine.style.fontSize);
+};
+fitHero();
+document.fonts?.ready.then(fitHero);
+addEventListener('mm:type', fitHero); // (another sans to compare, once it has loaded: js/site.js)
+if (frame) new ResizeObserver(fitHero).observe(frame);
 
-// ---------------------------------------------------------------- the founder's grid
-// the forty-eight running past (written in above; each leans into the italic under the pointer, the
-// word that turns), the nine families with how many of the forty-eight are in each, and the grid
-const fams = $('.ik-on-fams');
-if (fams) {
-  const n = (k) => ATLAS.sectors.filter((s) => s.fam === k).length;
-  fams.innerHTML = Object.entries(ATLAS.families).map(([k, name]) => `<span>${name}<i>${n(k)}</i></span>`).join('');
+// (20 Nov; the user: too much empty paper under the hero, kept clear for the change-of-version button) the button is seated
+// in the hero, in the slot beside Raise capital, the two ways on together; as the page is read (the first half screen of
+// scroll) it glides down to its corner and stays there. With the menu open it is in its corner.
+{
+  const vx = $('.vx'), slot = $('.ik-vx-slot');
+  if (vx && slot) {
+    let base = null;
+    const measure = () => {
+      vx.style.translate = '';
+      const r = vx.getBoundingClientRect();
+      if (!r.width) return;
+      base = { x: r.left, y: r.top };
+      slot.style.width = `${Math.round(r.width)}px`;
+      slot.style.height = `${Math.round(r.height)}px`;
+    };
+    const dock = () => {
+      if (!base) return;
+      const s = slot.getBoundingClientRect();
+      const open = document.documentElement.classList.contains('menu-open');
+      const p = open ? 1 : Math.min(1, Math.max(0, (lenis?.scroll ?? scrollY) / (innerHeight * 0.45)));
+      const e = p * p * (3 - 2 * p);
+      const dx = (s.left - base.x) * (1 - e), dy = (s.top - base.y) * (1 - e);
+      const t = Math.abs(dx) + Math.abs(dy) < 0.5 ? '' : `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
+      if (t !== vx.style.translate) vx.style.translate = t;
+    };
+    measure(); dock();
+    addEventListener('resize', () => { measure(); dock(); });
+    document.fonts?.ready.then(() => { measure(); dock(); });
+    gsap.ticker.add(dock);
+  }
 }
-drawLoom($('[data-loom]'), { reduced, onEnter });
 
-// ---------------------------------------------------------------- the corner's work, going by
-const strip = $('.ik-cc-strip'), track = $('.ik-cc-track');
-if (strip && ScrollTrigger && !reduced) {
-  gsap.fromTo(track, { x: () => innerWidth * (narrow() ? 0.04 : 0.18) }, {
-    x: () => -(track.scrollWidth - innerWidth * 0.82), ease: 'none',
-    scrollTrigger: { trigger: strip, start: 'top bottom', end: 'bottom top', scrub: 0.8, invalidateOnRefresh: true },
-  });
-}
-
-setupTeam({ lenis, register, reduced, isTouch, local });
-if (local) window.__inkHome = { form, get current() { return current; } };
+// (localhost only: a handle for checking the film)
+if (local) window.__inkHome = { film, v };

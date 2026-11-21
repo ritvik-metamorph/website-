@@ -124,9 +124,15 @@ void main() {
 
 // ---------------------------------------------------------------- the section
 
-export function setupTeam({ lenis, register, reduced, isTouch, local }) {
+// crew: the team without its two placeholder co-founders (21 Nov, on the simple About, where the real founders, Ritvik
+// and Gurleen, are on their own coins just above: invented co-founders and their answers never stand beside them); the
+// rest of the team then rides a higher arc, filling the place the pair had
+export function setupTeam({ lenis, register, reduced, isTouch, local, crew = false }) {
   const section = $('#team');
   if (!section) return;
+  const CREW_PEOPLE = crew ? PEOPLE.filter((p) => !p.founder) : PEOPLE;
+  const spotOf = (slug) => { if (crew) { const k = CREW.indexOf(slug); if (k >= 0) { const x = 0.1 + k * 0.16; return [x, arc(x, 0.36, 0.14)]; } } return SPOT[slug] || [0.5, 0.5]; };
+  if (crew) section.classList.add('is-crew');
   const canvas = $('.team-gl', section);
   const room = $('.team-room', section);
   const stage = $('.coins-team', section);
@@ -138,7 +144,7 @@ export function setupTeam({ lenis, register, reduced, isTouch, local }) {
   // ---------------------------------------------------------------- the people, and their buttons
 
   const people = [
-    ...PEOPLE.map((p) => ({ p, kind: p.founder ? 'founder' : 'crew', discs: p.disciplines || [], answers: p.answers })),
+    ...CREW_PEOPLE.map((p) => ({ p, kind: p.founder ? 'founder' : 'crew', discs: p.disciplines || [], answers: p.answers })),
     ...ADVISORS.map((p) => ({ p: { ...p, metal: 'bronze' }, kind: 'advisor', discs: [], answers: [] })),
   ];
   people.forEach((P, i) => {
@@ -147,7 +153,7 @@ export function setupTeam({ lenis, register, reduced, isTouch, local }) {
     const b = el('button', `coin coin-${P.kind}`);
     b.type = 'button';
     b.dataset.i = i;
-    const spot = P.kind === 'advisor' ? ADV_SPOT[i - PEOPLE.length] : SPOT[P.p.slug] || [0.5, 0.5];
+    const spot = P.kind === 'advisor' ? ADV_SPOT[i - CREW_PEOPLE.length] : spotOf(P.p.slug);
     b.style.setProperty('--x', `${spot[0] * 100}%`);
     b.style.setProperty('--y', `${spot[1] * 100}%`);
     const what = P.kind === 'advisor' ? P.p.field : P.p.role;
@@ -177,7 +183,7 @@ export function setupTeam({ lenis, register, reduced, isTouch, local }) {
   // mostly fall instead of crossing the room
   const discs = [...new Set(team.flatMap((P) => P.discs))];
   const meanX = (d) => {
-    const xs = team.filter((P) => P.discs.includes(d)).map((P) => (SPOT[P.p.slug] || [0.5])[0]);
+    const xs = team.filter((P) => P.discs.includes(d)).map((P) => spotOf(P.p.slug)[0]);
     return xs.reduce((a, b) => a + b, 0) / xs.length;
   };
   discs.sort((a, b) => meanX(a) - meanX(b));

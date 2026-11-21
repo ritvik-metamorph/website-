@@ -310,6 +310,7 @@ export function createEmergeScene(canvas, { onTurn, transparent = false } = {}) 
     if (placed) {
       const d = (3.3 * Hh) / (2 * placed.w * tanH);
       camera.position.set(0, 0, d);
+      camera.far = Math.max(60, d + 10); // (small on a tall canvas, it is seen from far off: keep it inside the view)
       camera.lookAt(0, 0, 0);
       camera.setViewOffset(W, Hh, W / 2 - placed.cx, Hh / 2 - placed.cy, W, Hh);
       camera.updateProjectionMatrix();

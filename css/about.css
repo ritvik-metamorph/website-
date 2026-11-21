@@ -30,7 +30,7 @@
 .ab-story .ab-life-tip { fill: #5d666f; filter: none; }
 .ab-life-into { transition: opacity .3s linear; }
 
-.ab-night { background: var(--ab-night); color: #ece7dc; --fg: #ece7dc; --fg-soft: #9ca29c; --line: rgba(236, 231, 220, .14); --line-strong: rgba(236, 231, 220, .3); }
+.ab-night { background: var(--ab-night); color: #f2f3f1; --fg: #f2f3f1; --fg-soft: #9ca29c; --line: rgba(242, 243, 241, .14); --line-strong: rgba(242, 243, 241, .3); }
 
 /* the silk (js/about-silk.js): one ground behind the whole page, night and paper changing along its
    folds, so no part has an edge. The parts lay their own grounds down while it runs; the nav's
@@ -56,7 +56,7 @@
 .ab-l { display: inline-block; }
 .ab-word-ghost { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; }
 .ab-word-ghost span { display: inline-block; }
-.ab-word-note { margin-top: clamp(14px, 2.4vh, 24px); font-family: var(--accent); font-style: italic; font-stretch: 80%; font-weight: var(--accent-weight); font-size: clamp(17px, 1.4vw, 22px); color: var(--fg-soft); opacity: 0; translate: 0 8px; transition: opacity 1s var(--ease-out), translate 1s var(--ease-out); font-size-adjust: var(--accent-adjust); }
+.ab-word-note { margin-top: clamp(14px, 2.4vh, 24px); font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 80%; font-weight: var(--accent-weight); font-size: clamp(17px, 1.4vw, 22px); color: var(--fg-soft); opacity: 0; translate: 0 8px; transition: opacity 1s var(--ease-out), translate 1s var(--ease-out); font-size-adjust: var(--accent-adjust); }
 .ab-word-note.is-on { opacity: 1; translate: 0 0; }
 .ab-word-from { color: var(--fg); }
 .ab-lead { max-width: 17em; font-family: var(--head); font-stretch: 76%; font-weight: 460; font-size: clamp(28px, 3vw, 50px); line-height: 1.06; letter-spacing: var(--t-l); }
@@ -69,7 +69,7 @@
 .ab-story-side { align-self: start; position: sticky; top: calc(var(--nav-h) + 40px); display: grid; gap: 28px; }
 .ab-dial { display: grid; gap: 10px; opacity: 0; translate: 0 10px; transition: opacity 1s var(--ease-out), translate 1s var(--ease-out); }
 .ab-dial.is-in { opacity: 1; translate: 0 0; }
-.ab-dial-q { font-family: var(--accent); font-style: italic; font-stretch: 80%; font-size: 22px; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.ab-dial-q { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 80%; font-size: 22px; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .ab-dial-opts { position: relative; display: flex; gap: 22px; }
 .ab-dial-opts button, .ab-bar button { position: relative; padding: 6px 0; font-size: 14px; color: var(--fg-soft); transition: color .4s var(--ease-out); }
 .ab-dial-opts button:hover, .ab-bar button:hover, .ab-dial-opts button[aria-pressed="true"], .ab-bar button[aria-pressed="true"] { color: var(--fg); }
@@ -84,7 +84,7 @@
 .ab-text .g { display: inline-block; }
 .ab-text .ab-run { white-space: nowrap; }
 /* unread words are the ink, faint (not a fixed pale grey), so they hold on any light of the silk */
-.ab-story-text .g { color: rgba(22, 32, 27, .2); transition: color .45s var(--ease-out); }
+.ab-story-text .g { color: rgba(22, 32, 27, .28); transition: color .8s cubic-bezier(.33, .1, .3, 1); } /* (20 Nov: a legible pale, filled slowly, never popping) */
 .ab-story-text .g.is-read { color: var(--fg); }
 .ab-story-text .g.l2.is-read { color: #46504a; }
 .ab-story-text .g.l3.is-read { color: #5d6660; }
@@ -185,8 +185,8 @@
 .ab-slot-end { grid-column: 2; grid-row: 1 / span 3; align-self: center; aspect-ratio: 1.45; }
 .ab-end-line { grid-column: 1; grid-row: 2; max-width: 10em; text-wrap: balance; font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 6vw, 108px); line-height: .98; letter-spacing: var(--t-d); }
 .ab-end-ways { grid-column: 1; grid-row: 3; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
-.ab-night .btn-solid { background: #ece7dc; color: var(--ab-night); }
-.ab-night .btn-line { border-color: rgba(236, 231, 220, .35); color: #ece7dc; }
+.ab-night .btn-solid { background: #f2f3f1; color: var(--ab-night); }
+.ab-night .btn-line { border-color: rgba(242, 243, 241, .35); color: #f2f3f1; }
 
 /* the length bar the old page kept at the foot of the screen: the lengths now apply only to the
    story, whose own question stays beside it while it is read, so the bar is not shown */

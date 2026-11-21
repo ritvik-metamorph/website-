@@ -145,7 +145,7 @@ export function setupEmerge({ lenis, setMode, reduced, isTouch, local }) {
     gsap.to(S, { exit: 1, duration: 1.7 * d, ease: 'power2.in' });
     lightTo(light ? HZ.goLight : HZ.goInk, 1.6 * d, 'power2.inOut');
     gsap.delayedCall(0.6 * d, () => {
-      fly($('.em-word', b), $(`.nav [data-set-mode="${light ? 'light' : 'ink'}"]`));
+      fly($('.em-word', b), $('.vx-lens'));
       html.classList.remove('gate');
       lenis.start();
       dispatchEvent(new CustomEvent('mm:enter', { detail: { light } }));
@@ -158,7 +158,7 @@ export function setupEmerge({ lenis, setMode, reduced, isTouch, local }) {
 
   // the word you chose goes up into the switch, so you know where it lives
   function fly(word, target) {
-    const mode = $('.nav .mode');
+    const mode = $('.vx'); // (18 Nov: the change of version is its own button now, js/menu.js)
     if (!word || !target || reduced) { teach(mode, target); return; }
     const a = word.getBoundingClientRect(), z = target.getBoundingClientRect();
     const cs = getComputedStyle(word);

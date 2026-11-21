@@ -88,8 +88,8 @@ export function setupSignature({ register, reduced, isTouch }) {
   links.setAttribute('aria-label', 'The site');
   // (on the simple site, the way round stays in the simple site; the corner is one page for both)
   const ink = root.dataset.site === 'ink';
-  (ink ? [['About', 'ink-about.html'], ['Services', 'ink.html#services'], ['Sectors', 'ink-sectors.html'], ['Team', 'ink.html#team'], ['Creative corner', 'creative.html']]
-    : [['About', 'about.html'], ['Services', 'index.html#services'], ['Sectors', 'sectors.html'], ['Team', 'index.html#team'], ['Creative corner', 'creative.html']])
+  (ink ? [['About', 'ink-about.html'], ['Services', 'ink-services.html'], ['Sectors', 'ink-sectors.html'], ['Team', 'ink-about.html#team'], ['Creative corner', 'creative.html'], ['Investor corner', 'ink-investors.html']]
+    : [['About', 'about.html'], ['Services', 'index.html#services'], ['Sectors', 'sectors.html'], ['Team', 'index.html#team'], ['Creative corner', 'creative.html'], ['Investor corner', 'investors.html']])
     .forEach(([t, h]) => { const a = el('a', '', t); a.href = h; if (h === here) a.setAttribute('aria-current', 'page'); links.append(a); });
   const talk = el('a', 'sig-talk', 'Talk to us');
   talk.href = '#contact';

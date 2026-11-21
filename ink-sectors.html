@@ -21,7 +21,13 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/ink.css">
 </head>
@@ -29,38 +35,15 @@
 <!-- The nav, as on every page: the wordmark and links in one glass pill, the version in its own, and
      the one thing to do. In the simple site its links stay in the simple site; Light goes to the
      creative twin of this page (js/site.js). -->
-<header class="nav" data-tone="ink">
-  <div class="nav-pill">
-    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+<header class="nav" data-tone="light">
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
     <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
     <a class="wordmark" href="ink.html">Metamorph</a>
-    <nav class="links" aria-label="Main">
-        <a href="ink-about.html">About</a>
-        <a href="ink.html#services">Services</a>
-        <a href="ink-sectors.html" aria-current="page">Sectors</a>
-        <a href="ink.html#team">Team</a>
-        <a href="creative.html">Creative corner</a>
-      <a href="#investors" data-soon>Investor corner</a>
-    </nav>
-  </div>
-  <div class="nav-right">
-    <div class="mode" role="group" aria-label="Version of the site">
-      <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
-      <span aria-hidden="true">·</span>
-      <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
-    </div>
     <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
   </div>
 </header>
-<nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="ink-about.html">About</a>
-    <a href="ink.html#services">Services</a>
-    <a href="ink-sectors.html">Sectors</a>
-    <a href="ink.html#team">Team</a>
-    <a href="creative.html">Creative corner</a>
-  <a href="#investors" data-soon>Investor corner</a>
-  <a href="#contact" data-soon>Contact</a>
-</nav>
 <main id="top" class="iks">
   <header class="iks-open">
     <div class="ik-wrap">
@@ -76,7 +59,7 @@
       </div>
     </div>
   </header>
-  <section class="iks-fams ik-wrap" aria-label="The forty-eight sectors, by family"></section>
+  <section id="families" class="iks-fams ik-wrap" aria-label="The forty-eight sectors, by family"></section>
   <!-- the end -->
   <section class="ik-end ik-night" data-tone="light" aria-labelledby="ik-end-h">
     <figure class="ik-pic ik-end-pic" data-drift aria-hidden="true"><div class="ik-pic-in"><img src="assets/ink/film-2-cocoon.jpg" alt="" loading="lazy"></div></figure>

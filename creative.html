@@ -29,41 +29,26 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
-       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
   <header class="nav" data-tone="light">
-    <div class="nav-pill">
-      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
-      <a class="wordmark" href="index.html">Metamorph</a>
-      <nav class="links" aria-label="Main">
-        <a href="about.html">About</a>
-        <a href="index.html#services">Services</a>
-        <a href="sectors.html">Sectors</a>
-        <a href="index.html#team">Team</a>
-        <a href="creative.html" aria-current="page">Creative corner</a>
-        <a href="#investors" data-soon>Investor corner</a>
-      </nav>
-    </div>
-    <div class="nav-right">
-      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
-    </div>
-  </header>
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="index.html">Metamorph</a>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
 
-  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
-  <nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="about.html">About</a>
-    <a href="index.html#services">Services</a>
-    <a href="sectors.html">Sectors</a>
-    <a href="index.html#team">Team</a>
-    <a href="creative.html" aria-current="page">Creative corner</a>
-    <a href="#investors" data-soon>Investor corner</a>
-    <a href="#contact" data-soon>Contact</a>
-  </nav>
 
   <!-- The Creative Corner (js/creative-page.js, js/corner.js), a page of its own, under one sky:
        a gradient from the top of the page to its foot, near night, the corner's colour, a haze where
@@ -90,26 +75,18 @@
     </svg>
 
     <div class="cp-inner">
-      <!-- the opening: the picks in a gallery (js/corner-museum.js). On a laptop a room you walk
-           round as you scroll; on a phone one long wall you swipe along. A museum label beside
-           each piece, and nothing else. -->
-      <section class="cp-open" aria-labelledby="cp-name">
+      <!-- the opening (20 Nov): empty for now. The user removed its four galleries ("something new" and good is to be
+           made here): the dawn gallery without and with visitors (js/corner-museum.js), the pedestal
+           (js/corner-pedestal.js), the bough (js/corner-bough.js); backup corner-galleries-before-removal-2026-11-20,
+           the scripts kept unloaded. Until the new opening, the page starts with the works, on the night. -->
+      <section id="opening" class="cp-open cp-open-slot" aria-labelledby="cp-name">
         <h1 class="sr-only" id="cp-name">Creative corner</h1>
       </section>
-      <!-- (11 Nov) the same gallery again, with visitors standing before the work, for the client to
-           choose between the two; on a laptop only (a phone's wall has no visitors) -->
-      <section class="cp-open cp-open-2" aria-label="Creative corner, with visitors"></section>
-      <!-- (14 Nov) a third way: the pedestal, the piece on a carved stone capital before a curtain, the
-           metamorphosis hidden in the stone (js/corner-pedestal.js) -->
-      <section class="cp-open cp-open-3" aria-label="Creative corner, on a pedestal"></section>
-      <!-- (16 Nov) a fourth way: the branch, the picks resting in the boughs of one driftwood branch
-           rising from dark water, milkweed and a monarch's caterpillar on it (js/corner-branch.js) -->
-      <section class="cp-open cp-open-4" aria-label="Creative corner, on a branch"></section>
 
       <!-- (14 Nov) everything, as "the works": a stack of pieces under the words, then each domain
            as a chapter, its work in one strip (js/corner-works.js). The shop wall under it is kept
            for ?shop=rows. -->
-      <section class="cp-works" aria-labelledby="cw-title"></section>
+      <section id="works" class="cp-works" aria-labelledby="cw-title"></section>
 
       <!-- everything, on one wall -->
       <section class="cp-all" aria-labelledby="corner-title">
@@ -231,6 +208,18 @@
               <span class="cc-count"></span>
               <button class="cc-next" type="button">Next</button>
             </p>
+            <!-- (19 Nov, the split room) what else to look at: more of the maker's work, then pieces
+                 like this one by other makers -->
+            <section class="cc-recs" aria-label="More to see">
+              <div class="cc-rec-own">
+                <h4 class="cc-rec-title"></h4>
+                <ul class="cc-rec-row"></ul>
+              </div>
+              <div class="cc-rec-like">
+                <h4 class="cc-rec-title">More like this</h4>
+                <ul class="cc-rec-grid"></ul>
+              </div>
+            </section>
           </div>
         </article>
 

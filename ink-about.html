@@ -21,7 +21,13 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/ink.css">
 </head>
@@ -29,38 +35,15 @@
 <!-- The nav, as on every page: the wordmark and links in one glass pill, the version in its own, and
      the one thing to do. In the simple site its links stay in the simple site; Light goes to the
      creative twin of this page (js/site.js). -->
-<header class="nav" data-tone="ink">
-  <div class="nav-pill">
-    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+<header class="nav" data-tone="light">
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
     <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
     <a class="wordmark" href="ink.html">Metamorph</a>
-    <nav class="links" aria-label="Main">
-        <a href="ink-about.html" aria-current="page">About</a>
-        <a href="ink.html#services">Services</a>
-        <a href="ink-sectors.html">Sectors</a>
-        <a href="ink.html#team">Team</a>
-        <a href="creative.html">Creative corner</a>
-      <a href="#investors" data-soon>Investor corner</a>
-    </nav>
-  </div>
-  <div class="nav-right">
-    <div class="mode" role="group" aria-label="Version of the site">
-      <button type="button" data-set-mode="ink" aria-pressed="true">Ink</button>
-      <span aria-hidden="true">·</span>
-      <button type="button" data-set-mode="light" aria-pressed="false">Light</button>
-    </div>
     <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
   </div>
 </header>
-<nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="ink-about.html">About</a>
-    <a href="ink.html#services">Services</a>
-    <a href="ink-sectors.html">Sectors</a>
-    <a href="ink.html#team">Team</a>
-    <a href="creative.html">Creative corner</a>
-  <a href="#investors" data-soon>Investor corner</a>
-  <a href="#contact" data-soon>Contact</a>
-</nav>
 <main id="top" class="ika">
   <!-- (16 Nov) The words here are the client's own, from the Notion page (the name, the vision
        statement, the values, the deal roles, the practice), set plainly for a quick read; tidied
@@ -71,16 +54,28 @@
     <div class="ik-wrap">
       <p class="ika-word" aria-label="Metamorph" data-lines="hero" data-letters data-anagram="Mother map">Metamorph</p>
       <p class="ika-note ik-rise" style="--d:.6s"><span><em>Mother map,</em> rearranged. The same nine letters, in a new form.</span><span>Investment banking and advisory</span></p>
+      <!-- (21 Nov) the name's meaning set as a dictionary entry, as the simple home had it (the user: "like Google… Metamorph and
+           then its meaning under it"), in the client's words; the change set into it, the cocoon and the flight -->
       <div class="ika-open-in">
-        <h1 class="ika-lead" data-read>A metamorph is a living thing that has gone through a complete change. We work with driven, hungry founders in the middle of theirs.</h1>
+        <div class="ika-def">
+          <p class="ik-def" data-settle><span class="ik-def-w">met·a·morph</span><span class="ik-def-p">/ˈmet.ə.mɔːf/</span><span class="ik-def-c">noun</span></p>
+          <h1 class="ika-lead" data-read><span class="ik-def-n">1</span>A living thing <span class="ik-chip"><img src="assets/ink/film-2-cocoon.jpg" alt="" loading="lazy"></span> that has gone through a complete change.<br><span class="ik-def-n">2</span><span class="ik-chip"><img src="assets/ink/film-5-flight.jpg" alt="" loading="lazy"></span> We work with driven, hungry founders in the middle of theirs.</h1>
+        </div>
         <!-- (the butterfly the way in spins, its wings open: drawn in code, a placeholder) -->
         <figure class="ik-pic ika-open-pic" data-drift data-arc="68 48 78"><div class="ik-pic-in"><img src="assets/ink/film-4-wings.jpg" alt="" style="object-position:66% 50%"></div></figure>
       </div>
+      <!-- (21 Nov, from the simple home) the numbers behind it, all true -->
+      <dl class="ik-facts">
+        <div class="ik-fact" data-settle><dt data-count>30</dt><dd>Years of signed accounts in the chartered accountancy practice behind us.</dd></div>
+        <div class="ik-fact" data-settle style="--sd:.08s"><dt data-count>04</dt><dd>Ways we work with founders, from the first cheque to the next generation.</dd></div>
+        <div class="ik-fact" data-settle style="--sd:.16s"><dt data-count>27</dt><dd>Disciplines on the founder's grid, each read for how it moves a business.</dd></div>
+        <div class="ik-fact" data-settle style="--sd:.24s"><dt data-count>48</dt><dd>Sectors read against them, with 151 places where one decides another.</dd></div>
+      </dl>
     </div>
   </header>
 
   <!-- the vision statement -->
-  <section class="ika-story" aria-labelledby="ika-story-h">
+  <section id="story" class="ika-story" aria-labelledby="ika-story-h">
     <div class="ik-wrap ika-story-in">
       <div>
         <p class="ik-k"><b data-scramble>01</b> Our vision</p>
@@ -91,27 +86,37 @@
         <p>Money can look like the dullest thing there is, changing hands for no purpose but more money. Go deeper, into the international network of money, how it is structured, how it moves human psychology and behaviour, and how its rightful deployment compounds into wealth that can last for generations, and it becomes a calling.</p>
         <p>Money is also a double-edged sword. It brings out greed, theft and treachery, and everyone wishes to be rich. We agree wealth is important and necessary in life, and we despise the relentless, unhinged chase for it.</p>
         <p>One of the factors of wealth is society and its teachings, sanskaar. Our parents’ generation was mostly not born with even basic wealth, yet they built it as the economy opened up opportunities for its people.</p>
-        <p>A firm’s aims come from the goals of the people who run it. When earning, spending, investing and saving are decided with clarity and a right conscience, working with driven, venture-loving, enterprising founders follows. Wherever there is growth, ambition, professionalism and a right conscience, we are there to make it happen, as a premium service: aiming for volume would defeat the purpose of serving ambitious, metamorphic, non-greedy owners.</p>
+        <p>A firm’s aims come from the goals of the people who run it. When earning, spending, investing and saving are decided with clarity and a right conscience, working with driven, venture-loving, enterprising founders follows. Every empire that stops growing starts declining. Wherever there is growth, ambition, professionalism and a right conscience, we are there to make it happen, as a premium service: aiming for volume would defeat the purpose of serving ambitious, metamorphic, non-greedy owners.</p>
+        <p>We are here for founders and promoters; for investors, from angels to family offices and venture capital; for creatives and curious souls, data and knowledge geeks, and anyone curious about the world.</p>
       </div>
     </div>
   </section>
 
-  <!-- what we do, as the four stages of the change -->
-  <section class="ika-stages" aria-labelledby="ika-do-h">
-    <div class="ik-wrap">
-      <p class="ik-k"><b data-scramble>02</b> What we do</p>
-      <h2 class="ik-h2" id="ika-do-h" data-turn data-lines>Four stages of one <em>change.</em></h2>
-      <ol class="ika-stage-list">
-        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-spun.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>Spun</h3><p class="ika-stage-no" data-scramble>01</p></div><p class="ika-stage-prac">Fundraising and investor readiness</p><p class="ika-stage-line">We raise capital, and make you ready for it first: a model that holds up under questions, a data room with nothing missing, a story spun thread by thread.</p></li>
-        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-cocoon.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>The cocoon</h3><p class="ika-stage-no" data-scramble>02</p></div><p class="ika-stage-prac">Strategic consulting</p><p class="ika-stage-line">We sharpen strategy for founders growing faster than their plans: the few decisions made inside, before the change shows.</p></li>
-        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-change.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>The change</h3><p class="ika-stage-no" data-scramble>03</p></div><p class="ika-stage-prac">Financial services</p><p class="ika-stage-line">We keep the numbers honest while everything changes: accounts, tax, compliance, and a structure that still makes sense at ten times the size.</p></li>
-        <li><figure class="ik-pic" data-drift><div class="ik-pic-in"><img src="assets/ink/stage-flight.jpg" alt="" loading="lazy"></div></figure><div class="ika-stage-head"><h3 class="ika-stage-name" data-chars>Flight</h3><p class="ika-stage-no" data-scramble>04</p></div><p class="ika-stage-prac">Wealth management</p><p class="ika-stage-line">We help wealth last, through a multi-family office for founders and their families, planned for the generation after this one.</p></li>
-      </ol>
+  <!-- what we do: the four, short, each opening its own place on the Services page -->
+<section id="stages" class="ik-services ika-four" aria-labelledby="ika-do-h">
+  <div class="ik-wrap">
+    <div class="ik-services-head">
+      <div>
+        <p class="ik-k"><b data-scramble>02</b> What we do</p>
+        <h2 class="ik-h2" id="ika-do-h" data-turn data-lines data-engrave>Four ways we work <em>with founders.</em></h2>
+      </div>
+      <p data-settle>Raising capital, managing a family’s wealth, strategy, and the financial work beneath all three.</p>
     </div>
-  </section>
+    <!-- (20 Nov; the user: "make it short… just 4 different headings", no pictures on hover, and "see in detail" by each,
+         opening the Services page at that service, with a way back here) the four as the Services page's own index: the
+         number, the name, its short line, See in detail. ?from=about tells the Services page to offer the way back.
+         Before: the home page's design with pictures (js/ink-four.js), backup about-services-before-index-2026-11-20 -->
+    <ol class="ikv-index ika-index" data-dim>
+      <li><a href="ink-services.html?from=about#fundraising" data-keep-place><span class="ikv-ix-n">01</span><span class="ikv-ix-name">Fundraising and investor readiness</span><span class="ikv-ix-tag">3 principles · 8 services</span><span class="ika-ix-go">See in detail</span></a></li>
+      <li><a href="ink-services.html?from=about#wealth" data-keep-place><span class="ikv-ix-n">02</span><span class="ikv-ix-name">Wealth management</span><span class="ikv-ix-tag">Through a multi-family office</span><span class="ika-ix-go">See in detail</span></a></li>
+      <li><a href="ink-services.html?from=about#strategy" data-keep-place><span class="ikv-ix-n">03</span><span class="ikv-ix-name">Strategic consulting</span><span class="ikv-ix-tag">The founder's journey</span><span class="ika-ix-go">See in detail</span></a></li>
+      <li><a href="ink-services.html?from=about#financial" data-keep-place><span class="ikv-ix-n">04</span><span class="ikv-ix-name">Financial services</span><span class="ikv-ix-tag">9 services</span><span class="ika-ix-go">See in detail</span></a></li>
+    </ol>
+  </div>
+</section>
 
   <!-- in a deal: the three roles, in the client's words -->
-  <section class="ika-deal" aria-labelledby="ika-deal-h">
+  <section id="deal" class="ika-deal" aria-labelledby="ika-deal-h">
     <div class="ik-wrap">
       <p class="ik-k"><b data-scramble>03</b> In a deal</p>
       <h2 class="ik-h2" id="ika-deal-h" data-turn data-lines data-engrave>We create it, negotiate it and <em>close it.</em></h2>
@@ -124,7 +129,7 @@
   </section>
 
   <!-- the practice behind us: thirty years, set as large as the number deserves -->
-  <section class="ika-practice ik-night" data-tone="light" aria-labelledby="ika-pr-h">
+  <section id="practice" class="ika-practice ik-night" data-tone="light" aria-labelledby="ika-pr-h">
     <div class="ik-wrap ika-practice-in">
       <p class="ika-thirty" data-settle aria-label="Thirty years of signed accounts">30<small>years of signed accounts</small></p>
       <div data-settle>
@@ -136,7 +141,7 @@
   </section>
 
   <!-- the values to uphold, two -->
-  <section class="ika-values" aria-labelledby="ika-val-h">
+  <section id="values" class="ika-values" aria-labelledby="ika-val-h">
     <div class="ik-wrap">
       <p class="ik-k" id="ika-val-h"><b data-scramble>05</b> Values we uphold</p>
       <ol class="ika-value-list">
@@ -147,7 +152,7 @@
   </section>
 
   <!-- who we are: the founders' two questions, and the founders (their real names, nothing invented) -->
-  <section class="ika-who ik-night" data-tone="light" aria-labelledby="ika-who-h">
+  <section id="who" class="ika-who ik-night" data-tone="light" aria-labelledby="ika-who-h">
     <div class="ik-wrap">
       <p class="ik-k" id="ika-who-h"><b data-scramble>06</b> Who we are</p>
       <ol class="ika-qs">
@@ -155,12 +160,45 @@
         <li><span>The second</span><b data-turn data-read>Does it pull at us, with a sense of <em>calling?</em></b></li>
       </ol>
       <div class="ika-founders">
-        <p>Metamorph was founded by Ritvik and Gurleen, who ask both before they begin anything. Their own reasons for starting it are theirs to tell, and will be here in their words. <a class="ik-link" href="ink.html#team">Meet the whole team</a></p>
+        <p>Metamorph was founded by Ritvik and Gurleen, who ask both before they begin anything. Their own reasons for starting it are theirs to tell, and will be here in their words. <a class="ik-link" href="#team">Meet the whole team</a></p>
         <div class="ika-person"><figure class="ik-pic ika-coin"><div class="ik-pic-in"><img src="assets/ink/coin-ritvik.jpg" alt="Ritvik, struck on a silver coin" loading="lazy"></div></figure><b>Ritvik</b><i>Founder</i></div>
         <div class="ika-person"><figure class="ik-pic ika-coin"><div class="ik-pic-in"><img src="assets/ink/coin-gurleen.jpg" alt="Gurleen, struck on a silver coin" loading="lazy"></div></figure><b>Gurleen</b><i>Founder</i></div>
       </div>
     </div>
   </section>
+
+    <!-- (21 Nov, from the simple home) The team: everyone struck on a coin (js/team.js, js/coin.js). The people are js/people.js,
+         placeholders for now. The coins are drawn on .team-gl, each over its button. -->
+    <section class="team" id="team" aria-labelledby="team-title" data-lit="false">
+      <div class="team-room" aria-hidden="true"></div>
+      <canvas class="team-gl" aria-hidden="true"></canvas>
+      <div class="team-inner">
+        <header class="team-head">
+          <div>
+            <p class="eyebrow">The people</p>
+            <h2 id="team-title" class="team-title" data-turn data-chars>Everyone here has changed form <em>at least once.</em></h2>
+          </div>
+          <div class="team-side">
+            <p class="team-note">Each of us is struck on a coin. Turn one over to see who we were before.</p>
+            <button class="btn btn-line hold hold-mark" type="button" aria-describedby="team-hold-hint">
+              <svg class="hold-ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="8"/><circle class="fill" cx="10" cy="10" r="8"/></svg>
+              <span class="hold-label">Hold to light</span>
+            </button>
+          </div>
+          <p id="team-hold-hint" class="sr-only">Press and hold to light the room: threads from the disciplines each person brings run down to their coin. With a keyboard, press Enter.</p>
+        </header>
+
+        <div class="coins coins-team">
+          <div class="disc-band" aria-hidden="true"></div>
+        </div>
+        <p class="team-caption" aria-hidden="true"></p>
+
+        <section class="advisors" aria-labelledby="adv-title">
+          <h3 id="adv-title" class="adv-title">Advisory board</h3>
+          <div class="coins coins-adv"></div>
+        </section>
+      </div>
+    </section>
 
 <!-- the end: the one thing to do -->
 <section class="ik-end ik-night" data-tone="light" aria-labelledby="ik-end-h">
@@ -174,6 +212,39 @@
   </div>
 </section>
   </main>
+  <!-- A coin, opened: held up on the left, the person beside it. The same facts in Ink and Light;
+       in Light the lamp reads the answers off the coin's rings. -->
+  <div class="coin-view" role="dialog" aria-modal="true" aria-labelledby="cv-name" data-lit="false" hidden>
+    <div class="cv-back" aria-hidden="true"></div>
+    <canvas class="cv-gl" aria-hidden="true"></canvas>
+    <div class="cv-scroll" data-lenis-prevent>
+      <div class="cv-stage" aria-hidden="true"><p class="cv-hint"></p></div>
+      <div class="cv-panel" data-lenis-prevent>
+        <h2 id="cv-name" class="cv-name"></h2>
+        <p class="cv-role"></p>
+        <dl class="cv-change">
+          <div data-face="back"><dt>Before</dt><dd class="cv-before"></dd></div>
+          <div data-face="front" class="is-up"><dt>Now</dt><dd class="cv-now"></dd></div>
+        </dl>
+        <p class="cv-bio"></p>
+        <p class="cv-brings"></p>
+        <div class="cv-actions"><button class="btn btn-line" type="button" data-flip>Turn it over</button></div>
+        <div class="cv-words-wrap">
+          <h3 class="cv-sub">In their words</h3>
+          <p class="cv-sub-note">The same answers are cut round the coin, too fine to see until you hold it to the light.</p>
+          <ol class="cv-words"></ol>
+        </div>
+        <nav class="cv-steps" aria-label="The rest of the team">
+          <button type="button" data-step="-1">Previous</button>
+          <span class="cv-count" aria-hidden="true"></span>
+          <button type="button" data-step="1">Next</button>
+        </nav>
+      </div>
+    </div>
+    <button class="close cv-close" type="button">Close</button>
+  </div>
+
+  
   <div class="toast" role="status" aria-live="polite"></div>
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>

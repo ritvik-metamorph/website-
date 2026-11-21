@@ -13,7 +13,7 @@ const INK = '#1c392f';
 const INK2 = '#45594f';
 const RUST = '#8a2e1f';
 const SERIF = '"Ibarra Real Nova", Georgia, serif';
-const SANS = '"Inter Tight", system-ui, sans-serif';
+const SANS = '"Open Sauce One", system-ui, sans-serif';
 const MONO = '"Fragment Mono", ui-monospace, monospace';
 
 const rng = (seed) => { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; };

@@ -28,47 +28,27 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Inter+Tight:ital,wght@0,300..700;1,300..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/sectors.css">
 </head>
 <body>
-  <!-- The nav, after the Unscene tickets site's header: the wordmark in one floating glass pill with
-       the menu (and the links, where they fit), and the one thing to do in a solid pill apart. -->
-  <header class="nav" data-tone="ink">
-    <div class="nav-pill">
-      <button class="nav-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-      <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
-      <a class="wordmark" href="index.html">Metamorph</a>
-      <nav class="links" aria-label="Main">
-        <a href="about.html">About</a>
-        <a href="index.html#services">Services</a>
-        <a href="sectors.html" aria-current="page">Sectors</a>
-        <a href="index.html#team">Team</a>
-        <a href="creative.html">Creative corner</a>
-        <a href="#investors" data-soon>Investor corner</a>
-      </nav>
-    </div>
-    <div class="nav-right">
-      <div class="mode" role="group" aria-label="Version of the site">
-        <button type="button" data-set-mode="ink" aria-pressed="false">Ink</button>
-        <span aria-hidden="true">·</span>
-        <button type="button" data-set-mode="light" aria-pressed="true">Light</button>
-      </div>
-      <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
-    </div>
-  </header>
+  <header class="nav" data-tone="light">
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="index.html">Metamorph</a>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
 
-  <!-- the menu: on a phone, and wherever the links do not fit in the pill -->
-  <nav class="menu" id="menu" aria-label="Site" inert>
-    <a href="about.html">About</a>
-    <a href="index.html#services">Services</a>
-    <a href="sectors.html" aria-current="page">Sectors</a>
-    <a href="index.html#team">Team</a>
-    <a href="creative.html">Creative corner</a>
-    <a href="#investors" data-soon>Investor corner</a>
-    <a href="#contact" data-soon>Contact</a>
-  </nav>
 
   <!-- Sectors (js/sectors-page.js, js/sectors.js; the grid is js/atlas-data.js, the words
        js/sectors-data.js, the ground js/sectors-silk.js): the founder's grid, "Twenty-Seven into
@@ -84,7 +64,7 @@
          (NARRATIVE in js/sectors-data.js). -->
   <main class="sx" id="top">
 
-    <section class="sx-index" aria-labelledby="sx-title">
+    <section id="loom" class="sx-index" aria-labelledby="sx-title">
       <!-- the night: the opening, and the loom -->
       <div class="sx-part sx-night sx-loom">
         <div class="sx-wrap">
@@ -108,7 +88,7 @@
       <div class="sx-card" aria-hidden="true"></div>
 
       <!-- the paper: the forty-eight, by family, each with its own thread -->
-      <section class="sx-part sx-fams" aria-labelledby="sx-fams-h">
+      <section id="families" class="sx-part sx-fams" aria-labelledby="sx-fams-h">
         <div class="sx-wrap">
           <h2 class="sx-h2" id="sx-fams-h" data-turn>The forty‑eight, <em>by family</em></h2>
           <p class="sx-h-note">Each with its own thread from the loom, knotted where it is decided.</p>
@@ -117,7 +97,7 @@
       </section>
 
       <!-- the night: what falls out of the grid -->
-      <section class="sx-part sx-night sx-finds" aria-labelledby="sx-finds-h">
+      <section id="finds" class="sx-part sx-night sx-finds" aria-labelledby="sx-finds-h">
         <div class="sx-wrap">
           <h2 class="sx-h2" id="sx-finds-h" data-turn>What falls out of <em>the grid</em></h2>
           <p class="sx-h-note">Read as a whole, from the founder’s atlas.</p>

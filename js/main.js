@@ -4,19 +4,20 @@
 
 import { boot } from './site.js';
 import { setupEmerge } from './emerge.js';
-import { setupOrb } from './orb.js';
-import { setupGather } from './hero-gather.js';
-import { setupEye } from './hero-eyespot.js';
-import { setupEmergence } from './hero-emergence.js';
-import { setupEmergenceRings } from './hero-rings.js';
-import { setupFlight } from './hero-flight.js';
+// (20 Nov: heroes 1 to 6 left the page, the user kept 7 and 8; their scripts are kept, unloaded, and backed up at
+// heroes-before-keeping-7-and-8-2026-11-20. The metrics panel hero 1 held is js/orbit-panel.js now.)
+import { setupPanel } from './orbit-panel.js';
+import { setupRise } from './hero-rise.js';
 import { setupAscent } from './hero-ascent.js';
+import { setupOrbits } from './hero-orbits.js';
 import { setupTeam } from './team.js';
 import { setupServices } from './services.js';
 
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const { lenis, register, setMode, savedMode, reduced, isTouch, local } = boot();
+// ?hero=n: that hero alone, straight after the way in (19 Nov; to show one as it will be once the client has chosen)
+{ const only = new URLSearchParams(location.search).get('hero'); if (/^[789]$/.test(only || '')) document.documentElement.dataset.hero = only; }
 // the way in first, so the cocoon is being spun while the rest is set up
 const gated = document.documentElement.classList.contains('gate');
 setupEmerge({ lenis, setMode, reduced, isTouch, local });
@@ -32,14 +33,14 @@ if (arrive) addEventListener('load', () => setTimeout(() => { lenis.resize?.(); 
 // the services: a list on paper in Ink, the note in Light (js/services.js)
 setupServices({ lenis, register, reduced, isTouch, local });
 
-setupOrb({ lenis, register, reduced, isTouch, local });
-// heroes 2, 3 and 4, stacked under the first for the client to choose from (10 Nov); all dark, the last hands over to paper
-setupGather({ lenis, reduced, isTouch, local });
-setupEye({ lenis, reduced, isTouch, local });
-setupEmergence({ lenis, reduced, isTouch, local });
-setupEmergenceRings({ lenis, reduced, isTouch, local });
-setupFlight({ lenis, reduced, isTouch, local });
+// the metrics panel every hero opens (an orbit, a discipline or a sector)
+const panel = setupPanel({ lenis, reduced });
+// the heroes, for the client to choose from: 9, the ascent in grain (the user's combination of the other two), 7, the
+// ascent, then 8, the orbits in grain, which hands over to the paper
+setupRise({ lenis, reduced, isTouch, local });
 setupAscent({ lenis, reduced, isTouch, local });
+setupOrbits({ lenis, reduced, isTouch, local });
+if (local) window.__panel = panel;
 register({
   name: 'heroes', commit() {}, revert() {},
   under: (y) => ($$('.hv').some((h) => { const r = h.getBoundingClientRect(); return r.top <= y && r.bottom >= y && h.dataset.paper !== 'true'; }) ? { tone: 'light' } : null),

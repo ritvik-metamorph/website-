@@ -20,11 +20,11 @@
 }
 /* the night: light type, and the threads and inks for the dark */
 .sx-night, .sx-card {
-  color: #ece7dc;
-  --fg: #ece7dc;
+  color: #f2f3f1;
+  --fg: #f2f3f1;
   --fg-soft: #9ca29c;
-  --line: rgba(236, 231, 220, .14);
-  --line-strong: rgba(236, 231, 220, .3);
+  --line: rgba(242, 243, 241, .14);
+  --line-strong: rgba(242, 243, 241, .3);
   --ground: var(--sx-night);
   --thread: rgba(222, 228, 240, .24);
   --thread-hi: rgba(242, 245, 250, .92);
@@ -50,7 +50,7 @@
 .sx-index > .sx-part, .sx-sector { opacity: 0; transition: opacity .9s var(--ease-out); }
 .sx-in .sx-index > .sx-part, .sx-in .sx-sector { opacity: 1; }
 .sx-h2 { font-family: var(--head); font-stretch: 72%; font-weight: 500; font-size: clamp(40px, 4.2vw, 72px); line-height: .96; letter-spacing: var(--t-d); }
-.sx-h-note { margin-top: 14px; font-family: var(--accent); font-style: italic; font-stretch: 82%; font-size: 18px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-h-note { margin-top: 14px; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 82%; font-size: 18px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-title em, .sx-h2 em, .sx-h3 em, .sx-end-line em { font-stretch: 80%; font-weight: var(--accent-weight); }
 /* a knot, small, in the type: a bead of its force's ink, lit from the upper left */
 .sx-knot { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 36% 32%, color-mix(in srgb, var(--fc) 50%, #fff), var(--fc) 55%, color-mix(in srgb, var(--fc) 62%, #000)); box-shadow: 0 0 0 1px rgba(0, 0, 0, .3); }
@@ -68,7 +68,7 @@
 .sx-key button { display: grid; grid-template-columns: 12px auto; column-gap: 9px; align-items: baseline; text-align: left; padding: 4px 0; color: var(--fg); opacity: 1; transition: opacity .4s var(--ease-out); }
 .sx-key button i { width: 10px; height: 10px; border-radius: 50%; translate: 0 1px; background: radial-gradient(circle at 36% 32%, color-mix(in srgb, var(--fc) 50%, #fff), var(--fc) 55%, color-mix(in srgb, var(--fc) 62%, #000)); }
 .sx-key-l { font-size: 14px; font-weight: 500; }
-.sx-key-n { grid-column: 2; font-family: var(--accent); font-style: italic; font-stretch: 82%; font-size: 14px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-key-n { grid-column: 2; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 82%; font-size: 14px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-key:has([aria-pressed="true"]) button:not([aria-pressed="true"]) { opacity: .35; }
 .sx-count { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
 .sx-count b { font-weight: 400; color: var(--fg); }
@@ -85,7 +85,7 @@
 .sx-lift { stroke: var(--thread-hi); stroke-width: 1; opacity: 0; transition: opacity .25s var(--ease-out); pointer-events: none; }
 .sx-lift.is-on { opacity: .45; }
 /* a sector read: its thread drawn taut, its disciplines' threads pulled to their knots */
-.sx-pull-glow { fill: none; stroke: rgba(236, 231, 220, .13); stroke-width: 5; stroke-linecap: round; }
+.sx-pull-glow { fill: none; stroke: rgba(242, 243, 241, .13); stroke-width: 5; stroke-linecap: round; }
 .sx-pull-t { fill: none; stroke: var(--thread-hi); stroke-width: 1.3; stroke-linecap: round; }
 /* the knots: beads of the force's ink (their gradients are in the svg) */
 .sx-m { stroke: rgba(0, 0, 0, .6); stroke-width: 1; transition: r .45s var(--ease-out), opacity .4s var(--ease-out); }
@@ -104,7 +104,7 @@
 .sx-colh span { writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap; font-size: 11.5px; line-height: 1; color: var(--fg-soft); transition: color .3s var(--ease-out); }
 .sx-colh:hover span, .sx-colh.is-lit span { color: var(--fg); }
 .sx-colh.is-lit span { font-weight: 500; }
-.sx-rowg { position: absolute; left: 0; display: flex; align-items: center; gap: 8px; font-family: var(--accent); font-style: italic; font-stretch: 80%; font-size: 14px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-rowg { position: absolute; left: 0; display: flex; align-items: center; gap: 8px; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 80%; font-size: 14px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-g-n { font-family: var(--mono); font-style: normal; font-size: 10.5px; color: var(--fg-soft); }
 .sx-rowh { position: absolute; left: 0; display: flex; align-items: center; justify-content: flex-end; font-size: 13px; white-space: nowrap; color: var(--fg); transition: color .3s var(--ease-out); }
 .sx-plot.has-x .sx-rowh:not(.is-x) { color: var(--fg-soft); }
@@ -120,7 +120,7 @@
 .sx-reading.is-riding::before { opacity: 1; }
 .sx-r-name { font-family: var(--head); font-stretch: 74%; font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: var(--t-l); }
 .sx-r-fam { font-size: 12.5px; color: var(--fg-soft); }
-.sx-r-note { flex-basis: 100%; font-family: var(--accent); font-style: italic; font-stretch: 82%; font-size: 20px; line-height: 1.3; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-r-note { flex-basis: 100%; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 82%; font-size: 20px; line-height: 1.3; font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-r-by { flex-basis: 100%; font-size: 13.5px; color: var(--fg-soft); }
 .sx-r-by b { font-weight: 500; }
 
@@ -131,7 +131,7 @@
 .sx-c-path span { font-style: italic; font-weight: 420; color: var(--fg-soft); }
 .sx-c-f { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 8px 0 12px; font-size: 13.5px; font-weight: 500; color: var(--fc); }
 .sx-c-f i { width: 9px; height: 9px; border-radius: 50%; background: var(--fc); }
-.sx-c-f span { flex-basis: 100%; font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-stretch: 82%; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); }
+.sx-c-f span { flex-basis: 100%; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-weight: var(--accent-weight); font-stretch: 82%; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); }
 .sx-c-k { margin-top: 10px; font-family: var(--mono); font-size: 10.5px; color: var(--fg-soft); }
 .sx-c-t { margin-top: 3px; font-size: 13.5px; line-height: 1.45; }
 
@@ -158,7 +158,7 @@
 .sx-finds { padding-block: clamp(120px, 20vh, 220px); }
 .sx-find-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(48px, 7vh, 80px) clamp(32px, 4.4vw, 72px); margin-top: clamp(44px, 7vh, 80px); }
 .sx-find { padding-top: 16px; border-top: 1px solid var(--line); }
-.sx-find-n { font-family: var(--accent); font-style: italic; font-stretch: 80%; font-size: 40px; line-height: 1; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-find-n { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-m); font-stretch: 80%; font-size: 40px; line-height: 1; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-find-h { margin: 14px 0 12px; font-family: var(--head); font-stretch: 76%; font-weight: 500; font-size: clamp(24px, 1.9vw, 30px); line-height: 1.05; letter-spacing: var(--t-l); }
 .sx-find p:not(.sx-find-n) { margin-top: 10px; font-family: var(--serif); font-size: 15.5px; line-height: 1.6; color: color-mix(in srgb, var(--fg) 86%, transparent); letter-spacing: var(--t-s); }
 
@@ -185,7 +185,7 @@
 .sx-s-no { margin-top: clamp(28px, 6vh, 64px); font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
 /* (its longest word always fits on one line: --long is that word's letters, set by js/sectors.js) */
 .sx-s-name { margin: 6px 0 0 -.03em; font-family: var(--head); font-stretch: 70%; font-weight: 500; font-size: min(clamp(64px, 10vw, 184px), calc((100vw - 2 * var(--gutter)) / (var(--long, 8) * .57))); line-height: .86; letter-spacing: var(--t-d); overflow-wrap: anywhere; }
-.sx-s-note { max-width: 18em; margin-top: clamp(20px, 3.5vh, 36px); font-family: var(--accent); font-style: italic; font-stretch: 80%; font-weight: var(--accent-weight); font-size: clamp(26px, 2.6vw, 44px); line-height: 1.08; letter-spacing: var(--t-a); text-wrap: balance; font-size-adjust: var(--accent-adjust); }
+.sx-s-note { max-width: 18em; margin-top: clamp(20px, 3.5vh, 36px); font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-m); font-stretch: 80%; font-weight: var(--accent-weight); font-size: clamp(26px, 2.6vw, 44px); line-height: 1.08; letter-spacing: var(--t-a); text-wrap: balance; font-size-adjust: var(--accent-adjust); }
 .sx-s-by { max-width: 40em; margin-top: 26px; font-size: 16px; line-height: 1.7; }
 .sx-s-by-k { margin-right: 8px; font-family: var(--mono); font-size: 11.5px; color: var(--fg-soft); }
 .sx-by-k { white-space: nowrap; }
@@ -201,7 +201,7 @@
 .sx-s-blurb { max-width: 34em; font-family: var(--serif); font-size: 19px; line-height: 1.55; letter-spacing: var(--t-m); }
 .sx-s-part { margin-top: clamp(64px, 11vh, 120px); padding-top: 16px; border-top: 1px solid var(--line); }
 .sx-h3 { font-family: var(--head); font-stretch: 72%; font-weight: 500; font-size: clamp(34px, 3.4vw, 56px); line-height: .98; letter-spacing: var(--t-d); }
-.sx-s-sub { margin-top: 12px; font-family: var(--accent); font-style: italic; font-stretch: 82%; font-size: 19px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-s-sub { margin-top: 12px; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 82%; font-size: 19px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 
 /* the levers: a discipline at a time, its force in its ink */
 .sx-d { position: relative; margin-top: clamp(40px, 7vh, 72px); padding-left: 22px; opacity: .45; transition: opacity .6s var(--ease-out); }
@@ -211,7 +211,7 @@
 .sx-d-no { font-family: var(--mono); font-size: 11.5px; color: var(--fg-soft); }
 .sx-d-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-top: 6px; font-family: var(--head); font-stretch: 74%; font-weight: 500; font-size: clamp(36px, 3.6vw, 60px); line-height: 1; letter-spacing: var(--t-d); }
 .sx-d-f { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-stretch: normal; font-size: 15px; font-weight: 500; color: var(--fc); }
-.sx-d-fnote { margin-top: 6px; font-family: var(--accent); font-style: italic; font-stretch: 82%; font-size: 17px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-d-fnote { margin-top: 6px; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 82%; font-size: 17px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-d-dl { display: grid; grid-template-columns: minmax(110px, 9.5em) minmax(0, 1fr); gap: 14px clamp(16px, 2vw, 32px); margin-top: 22px; }
 .sx-d-dl dt { padding-top: 4px; font-family: var(--mono); font-size: 11px; line-height: 1.4; color: var(--fg-soft); }
 .sx-d-dl dd { font-family: var(--serif); font-size: clamp(16px, 1.15vw, 18.5px); line-height: 1.55; letter-spacing: var(--t-s); }
@@ -274,7 +274,7 @@
 .sx-mini-c { fill: rgba(22, 32, 27, .08); }
 .sx-col { list-style: none; position: relative; }
 .sx-col-g, .sx-col-r { display: grid; grid-template-columns: minmax(0, 1fr) 24px 6.5em; align-items: center; column-gap: 10px; }
-.sx-col-g { min-height: 26px; padding-top: 6px; font-family: var(--accent); font-style: italic; font-stretch: 80%; font-size: 13px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
+.sx-col-g { min-height: 26px; padding-top: 6px; font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-stretch: 80%; font-size: 13px; color: var(--fg-soft); font-size-adjust: var(--accent-adjust); font-weight: var(--accent-weight); }
 .sx-col-g .sx-g-n { margin-right: 4px; }
 .sx-col-r { height: clamp(15px, 1.9vh, 20px); font-size: 12px; color: var(--fg-soft); }
 .sx-col-n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }

@@ -84,6 +84,8 @@
 /* ---- the type pass (16 Nov, later): each section's type does one thing, for a reason (js/ink-motion.js) */
 /* letter by letter: each letter rises out of its word's window and rights itself */
 [data-chars] .ch:not(.turn-w) { display: inline-block; }
+/* (a word set letter by letter never wraps inside itself, even where it is wider than its column) */
+[data-chars] .li { white-space: nowrap; }
 /* (a word whose letters turn one by one never breaks between them) */
 [data-turn="letters"] em, [data-letters] { white-space: nowrap; }
 .ik-lining [data-chars] .ch { transform: translate3d(0, 118%, 0) rotate(8deg); transform-origin: 0 100%; transition: transform 1.15s var(--rise); transition-delay: calc(var(--ci, 0) * 24ms + var(--ld, 0ms)); }
@@ -92,12 +94,26 @@
 [data-chars] .turn-is { transition-delay: calc(var(--i, 0) * 95ms + var(--ci, 0) * 24ms + 1040ms); }
 /* the hero's letters slide up out of their windows as the page leaves it, each at its own pace */
 .ik-hero .title .ch { translate: 0 calc(var(--hp, 0) * (var(--r, .5) * 1.5 + .25) * -24vh); }
-/* engraved, then inked: the words cut as an outline, the ink running in left to right, word after word
-   (the italic word that turns is ink from the start: it is the one that has already changed) */
-.eg { color: transparent; -webkit-text-stroke: 1px var(--fg); background-image: linear-gradient(90deg, var(--fg) 0 50%, transparent 50% 100%); background-size: 200% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; transition: background-position 1.3s var(--curtain), -webkit-text-stroke-color .6s; transition-delay: calc(var(--wi, 0) * 80ms); }
+/* a pale proof, then inked: the words first printed faint, the ink running into them left to right,
+   word after word (17 Nov, the user: no bordered text anywhere on the site, so never an outline). The
+   italic word that turns is ink from the start: it is the one that has already changed */
+/* (20 Nov; the user: the words "completely faded and then they unfade suddenly… looks like a glitch") the pale proof at
+   a quarter ink, so it reads as printed, not as missing; the ink then fills one word after the next, a soft edge
+   travelling across each word left to right, the next word starting as this one is half filled, at an even pace (the
+   curtain's ease made the ink stand still and then jump) */
+.eg { color: transparent; background-image: linear-gradient(90deg, var(--fg) 0 44%, color-mix(in srgb, var(--fg) 24%, transparent) 56% 100%); background-size: 220% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; transition: background-position .9s cubic-bezier(.33, .1, .3, 1); transition-delay: calc(var(--wi, 0) * 140ms); }
 .is-inked .eg, .ik-still .eg { background-position: 0 0; }
+/* (20 Nov) where a heading's words also rise out of their mask (data-lines, data-chars), the rise's transition rule
+   is the stronger one and took the ink's place: the ink did not run at all, it switched on at once (the "sudden
+   unfade"). Those words carry both: the rise, and the ink filling after it word by word */
+.ik-lining [data-lines] .li.eg { transition: transform 1.3s var(--rise), background-position .9s cubic-bezier(.33, .1, .3, 1); transition-delay: calc(var(--li, 0) * 95ms + var(--ld, 0ms)), calc(var(--wi, 0) * 140ms); }
+.ik-lining [data-chars] .ch.eg { transition: transform 1.15s var(--rise), background-position .9s cubic-bezier(.33, .1, .3, 1); transition-delay: calc(var(--ci, 0) * 24ms + var(--ld, 0ms)), calc(var(--wi, 0) * 140ms); }
+/* (18 Nov, the user: "the bottom of the line is getting cut") the ink is painted only inside each word's box, and with
+   tight leading the box ended just under the baseline: the tails of g, p and y were cut. The box now reaches past
+   the tails and the accents (padding), taken back by an equal negative margin, so nothing moves */
+.eg { padding: .14em .08em .3em; margin: -.14em -.08em -.3em; }
 /* reading light: the words come up from faint to full ink as they are read (set word by word) */
-.rw { transition: opacity .3s linear; }
+.rw { transition: opacity .7s cubic-bezier(.33, .1, .3, 1); } /* (20 Nov: the reading light a soft front, never a word popping) */
 /* the line that gathers itself as you scroll */
 .gw { display: inline-block; transform: translate3d(calc(var(--dx, 0) * (1 - var(--g, 1)) * 1px), calc(var(--dy, 0) * (1 - var(--g, 1)) * 1px), 0) rotate(calc(var(--dr, 0) * (1 - var(--g, 1)) * 1deg)); opacity: calc(.1 + .9 * var(--g, 1)); }
 /* the anagram: the letters glide between the two words (js) */
@@ -110,10 +126,15 @@
 
 /* ------------------------------------------------------------------ the simple home */
 
-/* ---- the hero: a film, full bleed, the line over it. Until the film exists, a reel of the way in's
-   change of form (spun, closed, opening, open, flown), each frame drifting slowly into the next */
-.ik-hero { position: relative; height: 100svh; min-height: 560px; overflow: hidden; background: #050709; color: #f2f3ef; --fg: #f2f3ef; --fg-soft: rgba(242, 243, 239, .72); --line-strong: rgba(242, 243, 239, .4); --ground: #050709; }
-.ik-film { position: absolute; inset: 0; will-change: transform; }
+/* ---- the hero (19 Nov, the user's sketch; before it the film full bleed with the line over it: backup
+   simple-hero-before-frame-2026-11-19): on the paper, the film in a frame hanging from the top edge between the
+   margins, square, the nav's tab over its top; the line under it on the paper, fitted to the frame's width on a
+   laptop (js/ink-home.js); the sentence, the ways in and the practice's line on the film's darker foot. Until the
+   film exists, a reel of the way in's change of form (spun, closed, opening, open, flown) */
+.ik-hero { position: relative; display: flex; flex-direction: column; height: 100svh; min-height: 560px; background: var(--paper); }
+.ik-frame { position: relative; flex: 1 1 auto; min-height: 0; margin: 0 var(--gutter); overflow: hidden; border-radius: 0 0 clamp(10px, 1vw, 16px) clamp(10px, 1vw, 16px); /* (19 Nov: rounded at its foot, the user's ask with their reference; its top runs into the page's edge) */ background: #050709; color: #f2f3ef; --fg: #f2f3ef; --fg-soft: rgba(242, 243, 239, .76); --line-strong: rgba(242, 243, 239, .4); --ground: #050709; }
+.ik-film { position: absolute; inset: 0; }
+.ik-film-in { position: absolute; inset: 0; will-change: transform; }
 .ik-reel { position: absolute; inset: 0; transition: opacity 1.2s var(--ease-out); }
 .ik-reel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 66% 50%; opacity: 0; animation: ik-reel 32s linear infinite both; }
 .ik-reel img:nth-child(2) { animation-delay: 6.4s; }
@@ -124,14 +145,29 @@
 .ik-film-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s var(--ease-out); }
 .ik-film.has-film .ik-film-v { opacity: 1; }
 .ik-film.has-film .ik-reel { opacity: 0; }
-.ik-hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(5, 7, 9, .4), rgba(5, 7, 9, 0) 26%, rgba(5, 7, 9, 0) 46%, rgba(5, 7, 9, .78)), linear-gradient(90deg, rgba(5, 7, 9, .5), rgba(5, 7, 9, 0) 55%); }
-.ik-hero-in { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(46px + 3vh); z-index: 2; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; will-change: transform, opacity; }
-.ik-hero .title { font-size: clamp(3.4rem, 10vw, 11.6rem); line-height: .86; }
-.ik-hero-sub { max-width: 34ch; margin: 46px 0 34px; font-size: clamp(17px, 1.3vw, 20px); line-height: 1.45; color: var(--fg-soft); }
-.ik-hero-side { display: grid; gap: 10px; justify-items: end; text-align: right; padding-bottom: 6px; }
-.ik-hero-proof { max-width: 22ch; font-size: 14px; line-height: 1.4; color: var(--fg-soft); }
-.ik-film-tag { font-family: var(--mono); font-size: 11px; color: rgba(242, 243, 239, .5); }
-.ik-hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* (the film's foot darkened under the words, its top a little under the nav's tab) */
+.ik-frame::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(rgba(5, 7, 9, .3), rgba(5, 7, 9, 0) 22%, rgba(5, 7, 9, 0) 52%, rgba(5, 7, 9, .74)), linear-gradient(90deg, rgba(5, 7, 9, .42), rgba(5, 7, 9, 0) 55%); }
+/* (19 Nov, later; the user's sketch: the words beside the heading, not on the film) under the frame, on the paper, one
+   row: the line at the left, fitted to the room the words beside it leave (js/ink-home.js), and the words at its right,
+   their foot on the line's; room under it all for the change-of-version button. On a phone the words go under the line */
+.ik-hero-foot { flex: none; display: flex; align-items: flex-start; gap: clamp(24px, 2.8vw, 48px); /* (19 Nov, the user: "push the main headline a bit up": its cap line on the words' first line, not its foot on theirs; room above for the italic f's head) */ margin: clamp(20px, 2.8vh, 30px) var(--gutter) clamp(24px, 4vh, 40px); /* (20 Nov: was 104px under it, kept clear for the change-of-version button, which now sits in the row) */ }
+.ik-hero .title { flex: none; width: max-content; max-width: none; margin: 0; font-size: clamp(3.4rem, 7.4vw, 10rem); line-height: .86; white-space: nowrap; color: var(--fg); }
+/* (20 Nov) the line and the practice's line under it at the left, the sentence and the two ways on at the right: the
+   two sides the same height, so no band of empty paper under the headline; the right side wide enough for the two ways
+   on to stay in one row */
+.ik-hero-line { flex: none; display: grid; justify-items: start; }
+.ik-hero-line .ik-hero-proof { margin: calc(var(--hfs, 98px) * .28) 0 0; } /* (clear of the p's tail; the italic f's is further right) */
+.ik-hero-in { flex: none; display: grid; gap: 12px; justify-items: start; width: clamp(330px, 23vw, 380px); padding-bottom: .2em; will-change: transform, opacity; }
+.ik-hero-sub { margin: 0; font-size: 14.5px; line-height: 1.45; letter-spacing: var(--t-s); color: var(--fg); }
+.ik-hero-proof { font-family: var(--mono); font-size: 11.5px; line-height: 1.45; color: var(--ca-ink); } /* (20 Nov: the practice's own line in its ink) */
+/* (20 Nov) Raise capital and the change-of-version button side by side; the slot keeps the button's room */
+.ik-hero-ways { display: flex; flex-wrap: nowrap; align-items: center; gap: 12px 18px; margin-top: 4px; }
+.ik-vx-slot { display: block; flex: none; }
+.ik-raise { display: inline-flex; align-items: center; gap: 10px; margin-top: 4px; padding-bottom: 4px; border-bottom: 1px solid color-mix(in srgb, var(--fg) 34%, transparent); font-size: 15px; font-weight: 500; color: var(--fg); transition: border-color .3s var(--ease-out); }
+.ik-raise:hover, .ik-raise:focus-visible { border-color: var(--fg); }
+.ik-raise svg { width: 22px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.4; transition: translate .5s var(--ease-out); }
+.ik-raise:hover svg { translate: 4px 0; }
+.ik-film-tag { margin: 0; font-family: var(--mono); font-size: 10.5px; color: color-mix(in srgb, var(--fg) 45%, transparent); }
 
 /* ---- the firm in a sentence, the change set into it, and the numbers behind it */
 .ik-intro { padding: clamp(110px, 18vh, 200px) 0 clamp(90px, 14vh, 160px); }
@@ -148,7 +184,7 @@
 .ik-def { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: clamp(26px, 4vh, 44px); padding-bottom: 16px; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--fg-soft); }
 .ik-def-w { font-weight: 600; font-size: 24px; letter-spacing: var(--t-m); color: var(--fg); }
 .ik-def-p { font-family: var(--mono); font-size: 13px; }
-.ik-def-c { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 20px; font-size-adjust: var(--accent-adjust); }
+.ik-def-c { font-family: var(--accent); font-style: italic; letter-spacing: var(--accent-track-s); font-weight: var(--accent-weight); font-size: 20px; font-size-adjust: var(--accent-adjust); }
 .ik-def-n { font-family: var(--mono); font-weight: 400; font-size: .3em; letter-spacing: 0; vertical-align: 1.1em; margin-right: .6em; color: var(--fg-soft); }
 
 /* ---- the services, beside the note held in its four forms */
@@ -168,11 +204,25 @@
 .ik-svc-line, .ik-svc-what { transition: opacity .6s var(--ease-out); }
 .ik-svc li.is-on .ik-svc-name .eg { background-position: 0 0; }
 .ik-svc-m { display: none; }
-.ik-svc-n { font-family: var(--mono); font-size: clamp(2.4rem, 3.6vw, 4rem); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px var(--fg-soft); transition: color .8s var(--ease-out), -webkit-text-stroke-color .8s; }
-.ik-svc li.is-on .ik-svc-n { color: var(--fg); -webkit-text-stroke-color: var(--fg); }
+.ik-svc-n { font-family: var(--mono); font-size: clamp(2.4rem, 3.6vw, 4rem); line-height: 1; letter-spacing: -.04em; color: color-mix(in srgb, var(--fg) 18%, transparent); transition: color .8s var(--ease-out); }
+.ik-svc li.is-on .ik-svc-n { color: var(--fg); }
 .ik-svc-name { font-weight: 500; font-size: clamp(2rem, 3.3vw, 3.7rem); line-height: .96; letter-spacing: var(--t-d); max-width: 12ch; }
 .ik-svc-line { max-width: 38ch; font-size: 17px; line-height: 1.55; color: var(--fg-soft); }
 .ik-svc-what { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--fg); }
+.ik-svc-all { margin-top: clamp(40px, 6vh, 70px); }
+/* (18 Nov) the one design of the four: the cocoon-to-butterfly pictures are tall, held whole in the height there is */
+.ik-four .ik-svc-stage { justify-content: center; }
+.ik-four .ik-svc-pics { aspect-ratio: 4 / 5; width: min(100%, calc((100svh - var(--nav-h) - 8vh) * .8)); }
+.ika-four .ik-services-head .ik-k { margin-bottom: 18px; }
+/* (20 Nov) About's four, short: the Services page's index (the number, the name, its line), no pictures, each row
+   opening that service on the Services page; See in detail at its end, its arrow moving on when the row is pointed at */
+.ikv-index.ika-index { margin-top: 0; }
+.ikv-index.ika-index a { grid-template-columns: 90px minmax(0, 1fr) minmax(0, 15rem) auto; }
+.ika-index .ikv-ix-name { font-size: clamp(1.8rem, 3.2vw, 3.8rem); }
+.ika-ix-go { display: inline-flex; gap: 10px; align-items: center; font-size: 15px; font-weight: 500; white-space: nowrap; }
+.ika-ix-go::after { content: '→'; font-family: var(--mono); font-size: 13px; transition: transform .5s var(--ease-out); }
+@media (hover: hover) { .ika-index a:hover .ika-ix-go::after { transform: translateX(6px); } }
+.ik-four .ik-svc-cap { top: 16px; bottom: auto; } /* (clear of the change-of-version button at the foot of the screen) */
 
 /* ---- how we decide: the conditions, beside the cocoon */
 .ik-decide { padding: clamp(100px, 16vh, 180px) 0; }
@@ -203,12 +253,12 @@
 .ik-marq-t { display: flex; width: max-content; align-items: center; will-change: transform; }
 .ik-marq a { display: inline-grid; font-weight: 500; font-size: clamp(2.6rem, 6.2vw, 7.2rem); line-height: 1.06; letter-spacing: var(--t-d); white-space: nowrap; }
 .mq-a, .mq-b { grid-area: 1 / 1; transition: opacity .55s var(--ease-out), transform 1s var(--ease-out); }
-.mq-b { justify-self: center; font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: 0; opacity: 0; transform: skewX(13deg); transform-origin: 0 85%; }
+.mq-b { justify-self: center; font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size-adjust: var(--accent-adjust); letter-spacing: var(--accent-track); opacity: 0; transform: skewX(13deg); transform-origin: 0 85%; }
 @media (hover: hover) {
   .ik-marq a:hover .mq-a { opacity: 0; transform: skewX(-17deg); }
   .ik-marq a:hover .mq-b { opacity: 1; transform: none; }
 }
-.ik-marq a:nth-of-type(2n) .mq-a { color: transparent; -webkit-text-stroke: 1px var(--fg); }
+.ik-marq a:nth-of-type(2n) .mq-a { color: color-mix(in srgb, var(--fg) 30%, transparent); }
 .ik-marq i { display: block; flex: none; width: .16em; height: .16em; margin: 0 .55em; background: var(--fg-soft); border-radius: 50%; font-size: clamp(2.6rem, 6.2vw, 7.2rem); }
 .ik-sx-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 110px); align-items: center; padding-top: clamp(80px, 12vh, 140px); }
 .ik-sx-p { margin: 26px 0 28px; max-width: 36ch; font-size: 17px; line-height: 1.5; color: var(--fg-soft); }
@@ -298,6 +348,11 @@
 .ika-person { border-top: 1px solid var(--line-strong); padding-top: 18px; }
 .ika-coin { width: min(100%, 360px); aspect-ratio: 1; margin: 0 0 26px; background: var(--night); }
 .ika-coin img { top: 0; height: 100%; }
+/* the founders' coins struck live (js/ink-about.js, js/coin.js): drag to turn, tap to turn over; the picture stays without WebGL */
+.ika-coin-gl { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; }
+.ika-coin-gl:active { cursor: grabbing; }
+.ika-coin.is-live .ik-pic-in { opacity: 0; }
+.ika-coin-gl:focus-visible { outline: 2px solid var(--fg); outline-offset: -8px; }
 .ika-person b { display: block; font-weight: 500; font-size: clamp(2.6rem, 5vw, 5.4rem); line-height: .92; letter-spacing: var(--t-d); }
 .ika-person i { display: block; margin-top: 10px; font-style: normal; font-size: 14px; color: var(--fg-soft); }
 
@@ -348,12 +403,277 @@
 .iks-row[hidden], .iks-fam[hidden] { display: none; }
 .iks-none { padding: 40px 0; font-size: 16px; color: var(--fg-soft); }
 
+/* ------------------------------------------------------------------ the simple Services (18 Nov; ink-services.html, js/ink-services.js)
+   The client's four, each a chapter that comes up over the last like the next card on a pile; each moves
+   in its own way. Prefix ikv-. */
+.ikv-page main { overflow: visible; }
+.ikv-index, .ikv-files, .ikv-steps, .ikv-st { list-style: none; margin: 0; padding: 0; }
+/* (clip, not hidden: nothing inside may widen the page, and the chapters can still hold) */
+.ikv-pile { overflow-x: clip; }
+/* a picture still to come: an empty white studio, its name in the corner (the user is making them) */
+.ikv-pic.is-ph, .ikv-peek-in.is-ph { background: radial-gradient(120% 70% at 50% 82%, #ffffff 0%, #f4f4f2 40%, #dedfdb 100%); }
+.ikv-pic figcaption { display: none; }
+.ikv-pic.is-ph figcaption, .ikv-peek-in.is-ph span { display: block; position: absolute; left: 16px; bottom: 14px; z-index: 2; font-family: var(--mono); font-size: 11px; color: rgba(10, 16, 28, .5); }
+.ikv-pic.is-ph figcaption::before, .ikv-peek-in.is-ph span::before { content: 'Picture to come · '; }
+.ik-night .ikv-pic.is-ph, .ikv-end .ikv-pic.is-ph { background: radial-gradient(120% 70% at 50% 82%, #2b3346 0%, #141a28 45%, #050709 100%); }
+.ik-night .ikv-pic.is-ph figcaption { color: rgba(233, 235, 230, .5); }
+
+/* ---- the opening: the client's line, then the four as an index; a picture follows the pointer over it */
+.ikv-open { position: relative; padding: calc(var(--nav-h) + clamp(60px, 12vh, 140px)) 0 clamp(70px, 12vh, 140px); background: var(--paper); }
+.ikv-open-top { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 40px; align-items: end; }
+.ikv-title { font-weight: 500; font-size: clamp(3rem, 7.4vw, 8.8rem); line-height: .9; letter-spacing: var(--t-d); max-width: 12ch; }
+.ikv-open-side { display: grid; gap: 22px; justify-items: start; padding-bottom: 8px; }
+.ikv-open-side p { max-width: 30ch; font-size: 17px; line-height: 1.5; color: var(--fg-soft); }
+.ikv-index { margin-top: clamp(70px, 12vh, 130px); border-top: 1px solid var(--line-strong); }
+.ikv-index a { position: relative; display: grid; grid-template-columns: 90px minmax(0, 1fr) auto; gap: 20px; align-items: baseline; padding: clamp(20px, 3vh, 30px) 0; border-bottom: 1px solid var(--line); }
+.ikv-index a::before { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--fg); transform: scaleX(0); transform-origin: 0 50%; transition: transform .9s var(--rise); }
+.ikv-ix-n { font-family: var(--mono); font-size: 13px; color: var(--fg-soft); }
+.ikv-ix-name { font-weight: 500; font-size: clamp(1.9rem, 3.8vw, 4.4rem); line-height: 1; letter-spacing: var(--t-d); transition: transform .8s var(--rise); }
+.ikv-ix-tag { font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+@media (hover: hover) { .ikv-index a:hover::before { transform: scaleX(1); } .ikv-index a:hover .ikv-ix-name { transform: translateX(14px); } }
+.ikv-peek { position: absolute; left: 0; top: 0; z-index: 6; width: clamp(220px, 19vw, 300px); aspect-ratio: 4 / 5; margin: 0; pointer-events: none; opacity: 0; scale: .86; transition: opacity .45s var(--ease-out), scale .7s var(--rise); }
+.ikv-peek.is-on { opacity: 1; scale: 1; }
+.ikv-peek-in { position: absolute; inset: 0; overflow: hidden; background: #050709; }
+.ikv-peek-in img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---- the dial: where you are among the four; it turns to the one you are in */
+.ikv-dial { position: fixed; right: 0; top: 50%; z-index: 40; width: 190px; height: 280px; translate: 0 -50%; color: #fff; mix-blend-mode: difference; pointer-events: none; opacity: 0; transition: opacity .6s var(--ease-out); }
+.ikv-dial.is-on { opacity: 1; }
+.ikv-dial.is-on button { pointer-events: auto; }
+.ikv-dial-arc { position: absolute; right: -112px; top: 50%; width: 236px; height: 236px; translate: 0 -50%; overflow: visible; }
+.ikv-dial-arc circle { fill: none; stroke: currentColor; stroke-opacity: .5; stroke-width: 1; stroke-dasharray: 1.5 4; vector-effect: non-scaling-stroke; }
+.ikv-dial-ring { position: absolute; right: -112px; top: 50%; width: 236px; height: 236px; translate: 0 -50%; transform: rotate(calc(var(--cur, 0) * 24deg)); transition: transform 1s var(--rise); }
+.ikv-dial-ring button { position: absolute; left: 50%; top: 50%; padding: 6px; font-family: var(--mono); font-size: 12px; color: inherit; opacity: .5; transform: translate(-50%, -50%) rotate(calc(var(--a) * -24deg)) translateX(-136px) rotate(calc(var(--a) * 24deg - var(--cur, 0) * 24deg)); transition: transform 1s var(--rise), opacity .5s; }
+.ikv-dial-ring button::before { content: ''; position: absolute; right: -12px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: currentColor; }
+.ikv-dial-ring button.is-on { opacity: 1; }
+.ikv-dial-ring button:hover { opacity: 1; }
+.ikv-dial-now { position: absolute; right: 52px; top: 50%; translate: 0 -50%; display: grid; justify-items: end; gap: 4px; text-align: right; pointer-events: none; }
+.ikv-dial-now b { font-family: var(--mono); font-weight: 400; font-size: 26px; line-height: 1; }
+.ikv-dial-now span { max-width: 9ch; font-size: 12px; line-height: 1.2; opacity: .75; }
+.ikv-dial-now.is-rolled > * { animation: ikv-roll .7s var(--rise) both; }
+.ikv-dial-now.is-rolled span { animation-delay: .06s; }
+/* (20 Nov; the user: a cue "that through this I can navigate between any of these four") the dial pointed out once a
+   visit: a pen traces its circle from the top down, the four numbers light one after another as it passes, and a note
+   beside it says what it is for (js/ink-services.js, cue) */
+.ikv-dial-trace { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; }
+.ikv-dial.is-cue .ikv-dial-trace { animation: ikv-trace 2.2s cubic-bezier(.45, 0, .25, 1) both; }
+@keyframes ikv-trace { 0% { stroke-dashoffset: 1; opacity: 1; } 70% { stroke-dashoffset: 0; opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+.ikv-dial.is-cue .ikv-dial-ring button { animation: ikv-cue 1s var(--ease-out); animation-delay: calc(var(--a) * 190ms + .45s); }
+@keyframes ikv-cue { 35% { opacity: 1; } }
+.ikv-tip { position: fixed; right: 172px; top: 50%; z-index: 40; margin: 0; padding: 7px 11px; border-radius: 10px; background: #050709; color: #f2f3f1; font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; translate: 8px -50%; transition: opacity .7s var(--ease-out), translate .7s var(--ease-out); }
+.ikv-tip::after { content: ' →'; font-family: var(--mono); }
+.ikv-tip.is-on { opacity: 1; translate: 0 -50%; }
+/* (20 Nov) the way back to About, for a visitor who came from there: plain words at the top left, level with the nav's
+   tab and never a tab of its own, inverted over whatever passes under it */
+.ikv-back { position: fixed; left: var(--gutter); top: 0; z-index: 41; display: inline-flex; align-items: center; gap: 10px; height: var(--tab-h, 44px); font-size: 14px; font-weight: 500; color: #fff; mix-blend-mode: difference; opacity: 0; translate: -10px 0; transition: opacity .6s var(--ease-out), translate .9s var(--rise); }
+.ikv-back[hidden] { display: none; }
+.ikv-back.is-on { opacity: 1; translate: 0 0; }
+.ikv-back::before { content: '←'; font-family: var(--mono); font-size: 13px; transition: transform .5s var(--ease-out); }
+.ikv-back:hover::before { transform: translateX(-5px); }
+.ikv-back:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+/* (where the tab is wide enough to reach the corner, the way back hangs just under it) */
+@media (max-width: 979px) { .ikv-back { top: calc(var(--tab-h, 44px) + 8px); height: 34px; } }
+@keyframes ikv-roll { from { transform: translateY(60%); opacity: 0; } }
+
+/* ---- the pile: each chapter holds when its end reaches the foot of the screen (its top is set in js),
+   the next comes over it, and the one beneath steps back and dims */
+.ikv-pile { position: relative; }
+/* (room on the right for the dial, where there is a dial) */
+@media (min-aspect-ratio: 1/1) and (min-width: 900px) { .ikv-pile .ik-wrap { padding-right: calc(var(--gutter) + 120px); } }
+.ikv-ch { position: sticky; top: 0; }
+.ikv-ch-in { position: relative; min-height: 100svh; background: inherit; will-change: transform; }
+.ikv-ch-in::after { content: ''; position: absolute; inset: 0; z-index: 30; background: #050709; opacity: var(--cover, 0); pointer-events: none; }
+.ikv-white { background: var(--white); }
+.ikv-paper { background: var(--paper); }
+.ikv-ch + .ikv-ch > .ikv-ch-in { border-top: 1px solid var(--line); }
+
+/* a chapter's face: its tab (number, the registration mark), its name, its picture */
+.ikv-face { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-rows: auto minmax(0, 1fr); gap: 30px clamp(40px, 5vw, 96px); min-height: 100svh; padding-top: calc(var(--nav-h) + 4vh); padding-bottom: clamp(40px, 8vh, 90px); }
+.ikv-tab { grid-column: 1 / -1; display: flex; gap: 10px; align-items: baseline; padding-top: 14px; border-top: 1px solid var(--line-strong); font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.ikv-tab b { font-weight: 400; color: var(--fg); }
+.ikv-tab i { margin-left: auto; font-style: normal; font-size: 16px; line-height: .6; color: var(--fg); }
+.ikv-face-text { align-self: end; }
+.ikv-h { font-weight: 500; font-size: clamp(3rem, 6.6vw, 8rem); line-height: .9; letter-spacing: var(--t-d); max-width: 11ch; }
+.ikv-sub { margin-top: 20px; font-family: var(--mono); font-size: 13px; color: var(--fg-soft); }
+.ikv-lead { margin-top: clamp(22px, 4vh, 40px); max-width: 34ch; font-size: clamp(18px, 1.45vw, 22px); line-height: 1.45; color: var(--fg-soft); }
+.ikv-team { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: baseline; margin-top: 22px; font-size: 15px; color: var(--fg-soft); }
+.ikv-face .ikv-pic { align-self: end; width: 100%; max-height: calc(100svh - var(--nav-h) - 18vh); aspect-ratio: 4 / 5; justify-self: end; }
+.ikv-h3 { font-weight: 500; font-size: clamp(2.2rem, 4.2vw, 4.8rem); line-height: .94; letter-spacing: var(--t-d); max-width: 12ch; }
+.ikv-ch-act { margin-top: clamp(30px, 5vh, 50px); }
+
+/* 01: the deal's three hands, run sideways as you scroll */
+.ikv-deal { position: relative; }
+.ikv-deal-pin { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding-top: var(--nav-h); }
+.ikv-deal-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 40px; align-items: center; width: 100%; margin-bottom: clamp(36px, 7vh, 70px); }
+.ikv-deal-head .ik-k { margin: 0; }
+.ikv-deal-rail { position: relative; display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.ikv-deal-rail i { position: absolute; left: 0; top: -1px; width: 100%; height: 1px; background: var(--fg); transform: scaleX(var(--p, 0)); transform-origin: 0 50%; }
+.ikv-deal-rail span { transition: color .5s; }
+.ikv-deal-rail span.is-on { color: var(--fg); }
+.ikv-deal-track { display: flex; gap: 6vw; width: max-content; padding: 0 var(--gutter); will-change: transform; }
+.ikv-hand { flex: none; width: min(64vw, 900px); display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px 30px; align-content: start; padding-top: 24px; border-top: 1px solid var(--line-strong); opacity: .3; transition: opacity .8s var(--ease-out); }
+.ikv-hand.is-on, .ik-still .ikv-hand { opacity: 1; }
+.ikv-hand-n { font-family: var(--mono); font-size: 13px; color: var(--fg-soft); padding-top: .9em; }
+.ikv-hand h3 { font-weight: 500; font-size: clamp(3rem, 6.6vw, 7.6rem); line-height: .9; letter-spacing: var(--t-d); }
+.ikv-hand p { grid-column: 2; max-width: 40ch; font-size: clamp(18px, 1.45vw, 22px); line-height: 1.5; color: var(--fg-soft); }
+
+/* 01: the eight services, filed into place like a data room's index */
+.ikv-file { padding: clamp(40px, 8vh, 90px) var(--gutter) clamp(90px, 15vh, 170px); }
+.ikv-files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(30px, 4vw, 70px); border-top: 1px solid var(--line-strong); }
+.ikv-files li { display: grid; grid-template-columns: 50px minmax(0, 1fr); align-items: baseline; padding: clamp(18px, 2.6vh, 26px) 0; border-bottom: 1px solid var(--line); font-weight: 500; font-size: clamp(1.3rem, 2vw, 2.1rem); line-height: 1.1; letter-spacing: var(--t-m); opacity: 0; transform: translate3d(56px, 0, 0); transition: opacity .8s var(--ease-out), transform 1.1s var(--rise); transition-delay: calc(var(--k, 0) * 90ms); }
+.ikv-files li.is-in, .ik-still .ikv-files li { opacity: 1; transform: none; }
+.ikv-files b { font-family: var(--mono); font-weight: 400; font-size: 12px; letter-spacing: 0; color: var(--fg-soft); }
+
+/* 02: the family's wealth as four rings */
+.ikv-wealth { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 5vw, 96px); align-items: center; padding-top: clamp(30px, 6vh, 70px); padding-bottom: clamp(100px, 16vh, 180px); }
+.ikv-wealth-text p { margin-top: 22px; max-width: 34ch; font-size: 17px; line-height: 1.5; color: var(--fg-soft); }
+.ikv-rings { aspect-ratio: 1.9; }
+.ikv-rings canvas { display: block; width: 100%; height: 100%; }
+.ikv-ring-key { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 18px; border-top: 1px solid var(--line); }
+.ikv-ring-key p { padding: 14px 14px 0 0; transition: opacity .4s; cursor: default; }
+.ikv-ring-key p + p { padding-left: 14px; border-left: 1px solid var(--line); }
+.ikv-ring-key b { display: block; font-weight: 500; font-size: 15px; }
+.ikv-ring-key span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.4; color: var(--fg-soft); }
+.ikv-rings-wrap.is-focus .ikv-ring-key p:not(.is-on) { opacity: .4; }
+
+/* 03: the founder's journey, drawn as you read it; the working style bends the road */
+.ikv-journey { padding-top: clamp(20px, 4vh, 50px); padding-bottom: clamp(100px, 16vh, 180px); }
+.ikv-journey-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px 30px; }
+.ikv-journey-head .ik-k { margin: 0; }
+.ikv-style { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ikv-style span { margin-right: 8px; font-size: 13px; color: var(--fg-soft); }
+.ikv-style button { height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 2px; font: inherit; font-size: 13px; color: var(--fg); background: transparent; transition: background-color .4s, color .4s; }
+.ikv-style button[aria-pressed="true"] { background: var(--fg); color: var(--ground, var(--paper)); border-color: var(--fg); }
+.ikv-graph { position: relative; height: clamp(340px, 52vh, 520px); margin-top: clamp(40px, 7vh, 70px); }
+.ikv-graph-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ikv-axis { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ikv-road { fill: none; stroke: var(--fg); stroke-width: 2; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+.ikv-road-shadow { fill: color-mix(in srgb, var(--fg) 6%, transparent); stroke: none; }
+/* the frost over the road ahead (18 Nov): from just past the step you are on to the end, the road, its points
+   and their names seen through glass; its edge (left, set in js) glides to the step you reach or touch */
+.ikv-glass { position: absolute; left: 0; right: -1px; top: -10%; bottom: 39px; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(250, 250, 248, .3), rgba(250, 250, 248, .62) 60%); -webkit-backdrop-filter: blur(5px) saturate(1.1); backdrop-filter: blur(5px) saturate(1.1); border-left: 1px solid rgba(22, 32, 27, .22); box-shadow: inset 1px 0 0 rgba(255, 255, 255, .7); transition: left 1s var(--rise); }
+.ikv-glass span { position: absolute; left: 14px; top: 12px; white-space: nowrap; font-family: var(--mono); font-size: 11px; color: rgba(22, 32, 27, .55); transition: opacity .5s; }
+.ikv-glass.is-thin span { opacity: 0; }
+/* (past its edge the steps are under the glass; touch one and the frost draws back to it) */
+.ikv-steps li.is-ahead { z-index: 0; }
+.ikv-steps li { position: absolute; z-index: 2; width: 0; height: 0; opacity: 0; transition: opacity .6s var(--ease-out); }
+.ikv-steps li.is-on, .ik-still .ikv-steps li { opacity: 1; }
+.ikv-steps p { display: none; }
+.ikv-steps button { position: absolute; left: 0; top: 0; width: 30px; height: 30px; translate: -50% -50%; padding: 0; background: none; border: 0; color: var(--fg); cursor: pointer; }
+.ikv-steps button::before { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 11px; translate: -50% -50%; border: 1.5px solid var(--fg); border-radius: 50%; background: var(--ground, var(--paper)); transition: background-color .3s, scale .5s var(--rise); }
+.ikv-steps li.is-hot button::before { background: var(--fg); scale: 1.35; }
+.ikv-steps button b, .ikv-steps button span { position: absolute; left: 50%; translate: -50% 0; white-space: nowrap; pointer-events: none; }
+/* (every name sits above the road, as low as it can without touching the road or a neighbour: --lift is
+   set in js; a hairline joins a raised name to its point) */
+.ikv-steps button b { bottom: calc(var(--lift, 24px) + 20px); font-family: var(--mono); font-weight: 400; font-size: 11px; color: var(--fg-soft); }
+.ikv-steps button span { bottom: var(--lift, 24px); font-size: 13.5px; color: var(--fg-soft); transition: color .3s; }
+.ikv-steps button::after { content: ''; position: absolute; left: 50%; bottom: 21px; width: 1px; height: max(0px, calc(var(--lift, 24px) - 24px)); background: var(--line-strong); }
+.ikv-steps li.is-hot button span { color: var(--fg); font-weight: 500; }
+.ikv-steps li.is-first button b, .ikv-steps li.is-first button span { left: 0; translate: -6px 0; }
+.ikv-steps li.is-last button b, .ikv-steps li.is-last button span { left: auto; right: 0; translate: 6px 0; }
+/* (19 Nov) the client's graph by sector: the shape of the road in words, its five stages under the ground line,
+   the momentum it measures up its side, and their note under it all */
+.ikv-shape { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin-top: 18px; font-size: 15px; color: var(--fg-soft); }
+.ikv-shape b { font-weight: 500; color: var(--fg); transition: opacity .3s; }
+.ikv-shape.is-moving b { opacity: 0; }
+.ikv-stages { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; transition: opacity .3s; }
+.ikv-stages.is-moving { opacity: 0; transition-duration: .1s; }
+.ikv-stage { position: absolute; top: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--fg-soft); white-space: nowrap; }
+.ikv-stage + .ikv-stage { border-left: 1px solid var(--line); }
+.ikv-ylab { position: absolute; left: -6px; top: 50%; z-index: 2; translate: -100% -50%; rotate: -90deg; transform-origin: 100% 50%; font-family: var(--mono); font-size: 10px; color: var(--fg-soft); white-space: nowrap; pointer-events: none; }
+.ikv-steps.is-moving button b, .ikv-steps.is-moving button span, .ikv-steps.is-moving button::after { opacity: 0; transition: opacity .1s; }
+.ikv-steps button b, .ikv-steps button span { transition: color .3s, opacity .3s; }
+.ikv-jnote { margin-top: 14px; font-size: 13px; color: var(--fg-soft); }
+.ikv-say { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 8px 20px; align-items: baseline; margin-top: clamp(80px, 11vh, 120px); padding-top: 16px; border-top: 1px solid var(--line); }
+.ikv-say b { font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--fg-soft); }
+.ikv-say span { font-weight: 500; font-size: clamp(1.3rem, 1.9vw, 1.9rem); letter-spacing: var(--t-m); }
+.ikv-say .ikv-say-d { font-weight: 400; font-size: 17px; line-height: 1.45; letter-spacing: 0; color: var(--fg-soft); }
+
+/* 04: the statement: each line draws its figure; the practice's stamp comes down at its foot */
+.ikv-statement { padding-top: clamp(20px, 4vh, 50px); padding-bottom: clamp(100px, 16vh, 180px); }
+.ikv-st-head { display: flex; justify-content: space-between; gap: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--fg); font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.ikv-st li { display: grid; grid-template-columns: 50px minmax(0, 1fr) 150px; gap: 20px; align-items: center; padding: clamp(14px, 2.2vh, 22px) 0; border-bottom: 1px solid var(--line); }
+.ikv-st b { font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--fg-soft); }
+.ikv-st span { font-weight: 500; font-size: clamp(1.25rem, 1.9vw, 2rem); line-height: 1.1; letter-spacing: var(--t-m); }
+.ikv-st svg { justify-self: end; width: 120px; height: 36px; overflow: visible; color: var(--fg); }
+.ikv-st .gl { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0s; }
+.ikv-st .gl-f { stroke-opacity: .5; }
+.ikv-st .gb { fill: currentColor; transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 0s; }
+.ikv-st .gb-o { fill: none; stroke: currentColor; stroke-width: 1; }
+.ikv-st li.is-drawn .gl, .ik-still .ikv-st .gl { stroke-dashoffset: 0; transition: stroke-dashoffset 1.3s cubic-bezier(.65, 0, .35, 1); }
+.ikv-st li.is-drawn .gb, .ik-still .ikv-st .gb { transform: none; transition: transform 1s var(--rise); }
+.ikv-st li.is-drawn .gb:nth-of-type(2n) { transition-delay: .08s; }
+.ikv-st li.is-drawn .gb:nth-of-type(3n) { transition-delay: .16s; }
+.ikv-st-foot { display: flex; justify-content: space-between; align-items: center; gap: 30px; padding-top: 22px; border-top: 2px solid var(--fg); margin-top: -1px; font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+.ikv-stamp { flex: none; width: clamp(130px, 12vw, 180px); height: auto; color: var(--ca-ink); opacity: 0; transform: rotate(-26deg) scale(1.5); }
+.is-stamped .ikv-stamp, .ik-still .ikv-stamp { animation: ikv-stamp .42s cubic-bezier(.55, 0, 1, .45) forwards; }
+/* (20 Nov) the practice's ink, oxblood (was a stamp pad's blue): the statement signed, then stamped. The signature is
+   written left to right as the foot is reached; the stamp comes down once it is signed */
+.is-stamped .ikv-stamp { animation-delay: .95s; }
+.ikv-sign { display: grid; gap: 6px; justify-items: start; margin-left: auto; color: var(--ca-ink); }
+.ikv-sign-s { padding: 0 .12em .06em 0; border-bottom: 1px solid color-mix(in srgb, var(--ca-ink) 38%, transparent); font-family: var(--script); font-size: clamp(46px, 4.6vw, 66px); line-height: 1.05; letter-spacing: 0; clip-path: inset(-20% 100% -30% 0); transition: clip-path 1.1s cubic-bezier(.45, 0, .25, 1); }
+.is-stamped .ikv-sign-s, .ik-still .ikv-sign-s { clip-path: inset(-20% -10% -30% 0); }
+.ikv-sign small { font-family: var(--mono); font-size: 11px; color: var(--fg-soft); }
+@keyframes ikv-stamp { 80% { opacity: .9; transform: rotate(-12deg) scale(.97); } 100% { opacity: .86; transform: rotate(-12deg) scale(1); } }
+.ikv-stamp .s1 { fill: none; stroke: currentColor; stroke-width: 3; }
+.ikv-stamp .s2 { fill: none; stroke: currentColor; stroke-width: 1.2; }
+.ikv-stamp .s-ring { font-family: var(--mono); font-size: 12.5px; fill: currentColor; }
+.ikv-stamp .s-big { font-family: var(--sans); font-weight: 600; font-size: 56px; letter-spacing: -.05em; fill: currentColor; }
+.ikv-stamp .s-small { font-family: var(--accent); font-style: italic; font-weight: var(--accent-weight); font-size: 17px; fill: currentColor; }
+
+.ikv-end-note { margin-top: 18px; font-family: var(--mono); font-size: 12px; color: var(--fg-soft); }
+
 /* ------------------------------------------------------------------ phones */
 @media (max-aspect-ratio: 1/1), (max-width: 899px) and (min-height: 521px) {
-  .ik-hero-in { grid-template-columns: minmax(0, 1fr); bottom: calc(24px + env(safe-area-inset-bottom)); }
-  .ik-hero-side { justify-items: start; text-align: left; }
-  .ik-hero .title { font-size: clamp(3.2rem, 16vw, 6rem); }
-  .ik-hero-sub { margin: 20px 0 24px; }
+  .ikv-open-top, .ikv-face, .ikv-wealth { grid-template-columns: minmax(0, 1fr); }
+  .ikv-index a { grid-template-columns: 40px minmax(0, 1fr); gap: 6px 10px; }
+  .ikv-ix-tag { grid-column: 2; }
+  .ikv-ix-name { font-size: clamp(1.7rem, 7.4vw, 2.4rem); }
+  .ikv-face { grid-template-rows: auto auto auto; align-content: end; }
+  .ikv-face .ikv-pic { aspect-ratio: 1; max-height: 44svh; justify-self: stretch; }
+  .ikv-h { font-size: clamp(2.6rem, 12vw, 4rem); }
+  .ikv-deal-pin { position: static; height: auto; padding-top: 0; overflow: visible; }
+  .ikv-deal-head { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-bottom: 30px; }
+  .ikv-deal-rail { display: none; }
+  .ikv-deal-track { flex-direction: column; width: auto; gap: 40px; }
+  .ikv-hand { width: auto; grid-template-columns: 32px minmax(0, 1fr); opacity: 1; }
+  .ikv-hand h3 { font-size: clamp(2.4rem, 11vw, 3.6rem); }
+  .ikv-files { grid-template-columns: minmax(0, 1fr); }
+  .ikv-ring-key { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ikv-ring-key p:nth-child(3) { padding-left: 0; border-left: 0; }
+  .ikv-ring-key p { padding-bottom: 14px; }
+  .ikv-graph { height: 300px; }
+  .ikv-glass { top: -14%; }
+  .ikv-steps button span { display: none; }
+  .ikv-steps button b { bottom: var(--lift, 24px); }
+  .ikv-say { grid-template-columns: auto minmax(0, 1fr); margin-top: 70px; }
+  .ikv-say .ikv-say-d { grid-column: 1 / -1; }
+  .ikv-st li { grid-template-columns: 34px minmax(0, 1fr) 90px; gap: 12px; }
+  .ikv-st svg { width: 90px; height: 28px; }
+  .ikv-st-foot { flex-direction: column; align-items: flex-start; }
+  .ikv-sign { margin-left: 0; }
+  /* (20 Nov) on a phone the dial is the four in a row at the foot, right of the version's button, the one you are in
+     lit with its dot; the note sits over it while the cue plays. Before, a phone had no dial. */
+  .ikv-dial { left: auto; right: clamp(12px, 2.4vw, 40px); top: auto; bottom: calc(clamp(14px, 2.4vw, 32px) + env(safe-area-inset-bottom)); width: auto; height: 48px; padding: 0 8px; translate: 0 8px; display: flex; align-items: center; border-radius: 999px; background: rgb(5 7 9 / .72); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); color: #f2f3f1; mix-blend-mode: normal; transition: opacity .6s var(--ease-out), translate .8s var(--rise); }
+  .ikv-dial.is-on { translate: 0 0; }
+  .ikv-dial-arc, .ikv-dial-now { display: none; }
+  .ikv-dial-ring { position: static; display: flex; width: auto; height: auto; translate: none; transform: none; transition: none; }
+  .ikv-dial-ring button { position: relative; left: auto; top: auto; height: 48px; padding: 0 9px; font-size: 13px; transform: none; transition: opacity .5s; }
+  .ikv-dial-ring button::before { right: auto; left: 50%; top: 8px; margin: 0 0 0 -2px; opacity: 0; transition: opacity .5s; }
+  .ikv-dial-ring button.is-on::before { opacity: 1; }
+  .ikv-tip { right: clamp(12px, 2.4vw, 40px); top: auto; bottom: calc(clamp(14px, 2.4vw, 32px) + 60px + env(safe-area-inset-bottom)); translate: 0 6px; }
+  .ikv-tip::after { content: ' ↓'; }
+  .ikv-tip.is-on { translate: 0 0; }
+  .ikv-back { left: 12px; top: calc(var(--tab-h, 44px) + 10px); height: 36px; padding: 0 14px 0 12px; border-radius: 999px; background: rgb(5 7 9 / .72); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); color: #f2f3f1; mix-blend-mode: normal; font-size: 13px; }
+  .ikv-index.ika-index a { grid-template-columns: 40px minmax(0, 1fr) auto; }
+  .ika-index .ikv-ix-name { grid-column: 2 / -1; font-size: clamp(1.6rem, 7vw, 2.3rem); }
+  .ika-index .ikv-ix-tag { grid-column: 2; }
+  .ika-index .ika-ix-go { grid-column: 3; font-size: 14px; }
+  .ik-hero-foot { flex-direction: column; align-items: flex-start; gap: 28px; margin-bottom: calc(24px + env(safe-area-inset-bottom)); } /* (room for the italic f's tail above the words) */
+  .ik-hero-in { width: auto; max-width: 34ch; padding-bottom: 0; }
+  .ik-hero-line .ik-hero-proof { margin-top: calc(min(15.4vw, 5.6rem) * .44); } /* (on a phone the italic f's tail is right above it: clear of it by the headline's own size) */
+  .ik-hero-ways { flex-wrap: wrap; }
+  .ik-hero .title { width: auto; white-space: normal; font-size: clamp(3rem, 15.4vw, 5.6rem); }
   .ik-reel img { object-position: 64% 50%; }
   .ik-lede { font-size: clamp(2rem, 8.6vw, 3rem); }
   .ik-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }

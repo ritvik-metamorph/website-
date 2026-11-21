@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en" class="iv-page iv-light" data-site="light" data-twin="ink-investors.html">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- (16 Nov) the simple site has pages of its own: a visitor who chose Ink is taken to this page's twin -->
+  <script>try { if (localStorage.getItem('mm-mode') === 'ink' && !/[?&]light\b/.test(location.search)) location.replace('ink-investors.html' + location.search); } catch (e) {}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Investor corner · Metamorph Capital</title>
+  <meta name="description" content="Where money becomes wealth: earning, spending, saving and investing, and a picture of what your money builds.">
+  <meta name="theme-color" content="#06070a">
+  <!-- (a typeset M stands in until the client's logo arrives) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a101c'/%3E%3Cpath d='M7 24V8.5L16 20l9-11.5V24' fill='none' stroke='%23d9dde2' stroke-width='2.4' stroke-linejoin='miter'/%3E%3C/svg%3E">
+  <!-- (a page-to-page transition the browser skips is not an error: heard here, early, on the page arriving) -->
+  <script>addEventListener('unhandledrejection', function (e) { if (e.reason && /Transition was (aborted|skipped)/.test(e.reason.message || '')) e.preventDefault(); });</script>
+  <script>
+    // ?type=old puts the type before 14 Nov back (Noto Serif Display, Noto Serif, Instrument Sans), to compare
+    if (/[?&]type=old\b/.test(location.search)) {
+      document.documentElement.classList.add('type-old');
+      document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..600&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&family=Noto+Serif:ital,wdth,wght@0,62.5..100,300..700;1,62.5..100,300..700&display=swap">');
+    }
+    // Local testing only: ?frames=timer runs animation on a timer, for when the browser pane is
+    // hidden and stops drawing frames.
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /frames=timer/.test(location.search)) {
+      window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+      window.cancelAnimationFrame = clearTimeout;
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400..700;1,400..700&family=Cormorant:ital,wght@0,400..700;1,400..700&family=Fragment+Mono&family=Monsieur+La+Doulaise&family=Pinyon+Script&display=swap">
+  <!-- (19 Nov) the sans: Open Sauce One, from Fontsource (open licence), pinned; Inter Tight before it (?type=inter) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/300.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/400.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/500.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/600.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/open-sauce-one@5.2.5/700.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/investors.css">
+</head>
+<body>
+  <header class="nav" data-tone="light">
+  <!-- (18 Nov) one tab hanging from the middle of the top edge: Menu (the full-screen menu, js/menu.js), the name, Talk to us -->
+  <div class="nav-tab">
+    <button class="nav-menu" type="button" aria-expanded="false" aria-controls="mn" aria-haspopup="dialog" aria-label="Open the menu"><span class="nav-menu-i" aria-hidden="true"><i></i><i></i></span><span class="nav-menu-t">Menu</span></button>
+    <!-- Placeholder wordmark. When the client's logo arrives, use their file exactly as supplied. -->
+    <a class="wordmark" href="index.html">Metamorph</a>
+    <a class="nav-cta" href="#contact" data-soon>Talk to us</a>
+  </div>
+</header>
+
+
+  <!-- The Investor Corner (17 Nov), from the client's Notion: "Transforming Money into Wealth", the four
+       parts of wealth (Earn, Spend, Invest and Save) as moving rings, the three kinds of spending, saving
+       against investing, the Family Wealth Picture, and the closing quote. The same words on both sites;
+       the rings, the house and the arithmetic are js/wealth-rings.js, js/wealth-house.js and
+       js/wealth-model.js, put together by js/wealth-tool.js. -->
+  <main id="top" class="iv">
+    <header class="iv-open">
+      <div class="iv-wrap iv-open-in">
+        <div>
+          <h1 class="iv-title" data-turn data-kinetic data-chars="hero">Transforming money into <em>wealth.</em></h1>
+          <p class="iv-sub ik-rise" style="--d:.8s">It is much easier to generate wealth than to maintain it. Four parts decide which it will be.</p>
+        </div>
+        <!-- the four parts of wealth: Earn the outer ring, Spend, Invest and Save inside it, each as thick
+             as its share; grains leave Earn for the ring their rupee goes to (the shares follow the
+             Family Wealth Picture below) -->
+        <div class="iv-rings-wrap">
+          <div class="iv-rings" data-rings><canvas aria-hidden="true"></canvas></div>
+          <div class="iv-ring-key">
+          <p class="iv-ring" data-ring="earn" data-say="Where it all starts. What you earn is yours; the three rings inside are where we come in."><b>Earn</b><span>Yours. The other three are where we come in.</span></p>
+          <p class="iv-ring" data-ring="spend" data-say="Where most of it goes: living utility, experiences and royal spends."><b>Spend</b><span>Living utility, experiences and royal spends.</span></p>
+          <p class="iv-ring" data-ring="invest" data-say="If you are not investing with a high return in view, you are only saving. Saving can keep you safe, but not wealthy."><b>Invest</b><span>Money put to work with a high return in view.</span></p>
+          <p class="iv-ring" data-ring="save" data-say="What you should not invest: emergency, safe and liquid funds, kept for immediate needs."><b>Save</b><span>Emergency, safe and liquid funds, for immediate needs.</span></p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- (19 Nov) Earn has no section of its own (the client's Notion: "Earn: it will not have any details"); it is
+         said once, as the line the other three follow from -->
+    <section class="iv-earn" aria-labelledby="iv-earn-h">
+      <div class="iv-wrap iv-earn-in">
+        <h2 class="iv-h2 iv-earn-line" id="iv-earn-h" data-turn data-kinetic data-lines>You earn it. We help it <em>become</em> wealth.</h2>
+        <div class="iv-earn-side" data-settle>
+          <p>Earning is yours. What it becomes is decided by three things: how it is spent, what is saved and what is invested.</p>
+          <a class="iv-talk" href="#consult" data-soon>Have a word with us <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- the three kinds of spending (their examples from the calculator the client linked; the list of
+         high-end spends for HNIs is to come from Metamorph) -->
+    <section id="spend" class="iv-spend" aria-labelledby="iv-spend-h">
+      <div class="iv-wrap">
+        <h2 class="iv-h2" id="iv-spend-h" data-turn data-kinetic data-lines>Three ways money is <em>spent.</em></h2>
+        <div class="iv-ways">
+          <article class="iv-way" data-settle><span class="iv-way-n" data-scramble>01</span><h3>Living utility</h3><p>The essentials: the home, groceries, power, fuel, the phone, medical care, help at home and school fees.</p></article>
+          <article class="iv-way" data-settle style="--sd:.08s"><span class="iv-way-n" data-scramble>02</span><h3>Experiential and entertainment</h3><p>What is chosen for the joy of it: dining out, streaming, hobbies and trips.</p></article>
+          <article class="iv-way" data-settle style="--sd:.16s"><span class="iv-way-n" data-scramble>03</span><h3>Royal</h3><p>Major assets and luxuries: a car, jewellery, travel abroad, upgrades to the home.</p></article>
+        </div>
+        <!-- (19 Nov) worth spending on: the client's carousel of rare things for HNIs ("not a marketplace"), framed as
+             spending well rather than spending more; no prices, each piece opens a conversation. The pieces are
+             placeholders until Metamorph chooses and photographs them (README); the last is the Creative Corner's -->
+        <div class="iv-coll" data-coll>
+          <div class="iv-coll-head">
+            <h3 class="iv-h3" data-turn>Worth <em>spending</em> on.</h3>
+            <p>Rare things with a story, chosen for people who have everything else. Nothing here is for sale: ask us about any of it.</p>
+            <div class="iv-coll-nav"><button type="button" class="iv-arrow" data-dir="-1" aria-label="Back"><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></button><button type="button" class="iv-arrow" data-dir="1" aria-label="On"><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></button><button type="button" class="iv-coll-all" aria-expanded="false">See the whole list</button></div>
+          </div>
+          <ul class="iv-coll-row" tabindex="0" aria-label="Worth spending on">
+          <li class="iv-piece"><figure class="iv-piece-pic"><img data-pic="craft" alt="" loading="lazy"><figcaption>Picture to come</figcaption></figure><p class="iv-piece-kind">Craft</p><h4>A hidden art of Rajasthan</h4><p>Where it comes from and why it is rare: to come from Metamorph.</p><a class="iv-talk" href="#consult" data-soon>Ask us about it <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          <li class="iv-piece"><figure class="iv-piece-pic"><img data-pic="instrument" alt="" loading="lazy"><figcaption>Picture to come</figcaption></figure><p class="iv-piece-kind">Instrument</p><h4>An instrument from one workshop</h4><p>Where it comes from and why it is rare: to come from Metamorph.</p><a class="iv-talk" href="#consult" data-soon>Ask us about it <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          <li class="iv-piece"><figure class="iv-piece-pic"><img data-pic="record" alt="" loading="lazy"><figcaption>Picture to come</figcaption></figure><p class="iv-piece-kind">Records</p><h4>A first pressing on vinyl</h4><p>Where it comes from and why it is rare: to come from Metamorph.</p><a class="iv-talk" href="#consult" data-soon>Ask us about it <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          <li class="iv-piece"><figure class="iv-piece-pic"><img data-pic="stay" alt="" loading="lazy"><figcaption>Picture to come</figcaption></figure><p class="iv-piece-kind">Stay</p><h4>A stay you cannot book online</h4><p>Where it comes from and why it is rare: to come from Metamorph.</p><a class="iv-talk" href="#consult" data-soon>Ask us about it <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          <li class="iv-piece"><figure class="iv-piece-pic"><img data-pic="gift" alt="" loading="lazy"><figcaption>Picture to come</figcaption></figure><p class="iv-piece-kind">Gift<i>A gift</i></p><h4>A gift nobody else will think of</h4><p>Where it comes from and why it is rare: to come from Metamorph.</p><a class="iv-talk" href="#consult" data-soon>Ask us about it <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          <li class="iv-piece"><figure class="iv-piece-pic"><img src="assets/corner/insomniac/mid/iw-01.jpg" alt="" loading="lazy"></figure><p class="iv-piece-kind">Commission<i>A gift</i></p><h4>A piece made for you by an artist in the Creative Corner</h4><p>Upcoming artists across nine domains, each open to commissions.</p><a class="iv-talk" href="creative.html">See the artists <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- saving against investing (19 Nov, the user's definition): no more than the normal level of risk is saving,
+         anything beyond it investing. The line of risk draws it; under it, where to keep what is saved (a table)
+         and a strategy for what is invested (by what is earned and the risk one can take). The table's rows and
+         the strategies are placeholders for Metamorph to confirm and write (README). -->
+    <section id="keep" class="iv-keep" aria-labelledby="iv-keep-h">
+      <div class="iv-wrap">
+        <div class="iv-keep-in">
+          <h2 class="iv-h2" id="iv-keep-h" data-turn data-kinetic data-lines>Saving can keep you safe, but not <em>wealthy.</em></h2>
+          <p class="iv-def" data-read>Money that takes no more than the normal level of risk is saved. Anything beyond it is invested: more risk, for more return. Saving can keep you safe, but not wealthy.</p>
+        </div>
+        <!-- the line of risk: silver up to the normal level, gold beyond it; the pointer reads where it is -->
+        <div class="iv-risk" data-risk>
+          <ol class="iv-risk-items">
+            <li style="--at:4%">Savings account</li>
+            <li style="--at:13%">Fixed deposits</li>
+            <li style="--at:21%">PPF</li>
+            <li style="--at:29%">Liquid funds</li>
+            <li style="--at:50%" data-invest>Index funds</li>
+            <li style="--at:64%" data-invest>Shares</li>
+            <li style="--at:80%" data-invest>Private companies</li>
+            <li style="--at:94%" data-invest>Start-ups</li>
+          </ol>
+          <div class="iv-risk-bar" style="--mark:38%"><i class="iv-risk-at" aria-hidden="true"></i><span class="iv-risk-mark">The normal level of risk</span></div>
+          <p class="iv-risk-ends"><span>No risk</span><span class="iv-risk-read" aria-live="polite"></span><span>High risk</span></p>
+        </div>
+        <div class="iv-keep-cols">
+          <div class="iv-save" data-settle>
+            <h3 class="iv-h3" data-turn>Where to <em>keep</em> it</h3>
+            <p class="iv-lede">Saving: the safest places, and how quickly the money comes back.</p>
+            <table class="iv-table">
+              <thead><tr><th scope="col">Option</th><th scope="col">Comes back</th><th scope="col">Good for</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Savings account</th><td>Any day</td><td>Everyday money and the first emergency</td></tr>
+                <tr><th scope="row">Liquid funds</th><td>Usually the next working day</td><td>The emergency fund, earning a little more</td></tr>
+                <tr><th scope="row">Fixed deposits</th><td>At the end of the term, or early for a small penalty</td><td>Money needed on a known date</td></tr>
+                <tr><th scope="row">PPF</th><td>After fifteen years, part of it from the seventh</td><td>Long, safe saving with a tax benefit</td></tr>
+              </tbody>
+            </table>
+            <a class="iv-talk" href="#consult" data-soon>Ask us what suits you <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+          </div>
+          <div class="iv-find" data-find data-settle style="--sd:.1s">
+            <h3 class="iv-h3" data-turn>Find your <em>strategy.</em></h3>
+            <p class="iv-lede">Investing: what fits depends on what you earn and how much risk you can take.</p>
+            <div class="iv-find-q"><span>You earn a year</span><div class="iv-seg" role="group" aria-label="You earn a year"><button type="button" data-f="band" data-v="0">Up to ₹25 lakh</button><button type="button" data-f="band" data-v="1">₹25 lakh to ₹1 crore</button><button type="button" data-f="band" data-v="2">Over ₹1 crore</button></div></div>
+            <div class="iv-find-q"><span>Risk you can take</span><div class="iv-seg" role="group" aria-label="Risk you can take"><button type="button" data-f="risk" data-v="0">Low</button><button type="button" data-f="risk" data-v="1">Medium</button><button type="button" data-f="risk" data-v="2">High</button></div></div>
+            <article class="iv-strat" aria-live="polite"><p class="iv-strat-for"></p><h4 class="iv-strat-name"></h4><p class="iv-strat-body"></p><a class="iv-talk" href="#consult" data-soon>Talk this strategy through <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- the Family Wealth Picture -->
+    <section class="iv-tool" id="picture" aria-labelledby="iv-tool-h">
+      <div class="iv-wrap">
+        <div class="iv-tool-head">
+          <h2 class="iv-h2" id="iv-tool-h" data-turn data-kinetic data-lines>See what your money <em>builds.</em></h2>
+          <p data-settle>Set what comes in and where it goes. The picture shows a rough estimate of your family’s life today, in five years or in ten.</p>
+        </div>
+        <div class="iv-tool-in">
+          <form class="iv-form" aria-label="Your household's money" onsubmit="return false">
+            <div class="iv-plan">
+              <p class="iv-plan-h">Where each rupee goes this year</p>
+              <div class="iv-rupee" aria-hidden="true"><i class="iv-c-spend" data-part="utility"></i><i class="iv-c-spend is-2" data-part="experience"></i><i class="iv-c-spend is-3" data-part="royal"></i><i class="iv-c-save" data-part="save"></i><i class="iv-c-invest" data-part="invest"></i><i class="iv-c-idle" data-part="idle"></i></div>
+              <p class="iv-plan-key"><span><i class="iv-dot iv-c-spend"></i>Spending</span><span><i class="iv-dot iv-c-save"></i>Saving</span><span><i class="iv-dot iv-c-invest"></i>Investing</span><span><i class="iv-dot iv-c-idle"></i>Unplanned</span></p>
+              <p class="iv-balance" data-out="balance"></p>
+            </div>
+            <fieldset class="iv-f">
+              <legend>Earning <small>the household, a year</small> <output class="iv-sum" data-out="earn"></output></legend>
+              <div class="iv-earners" data-earners></div>
+              <button type="button" class="iv-add" data-add>Add another earning member</button>
+            </fieldset>
+            <fieldset class="iv-f">
+              <legend>The family</legend>
+              <div class="iv-steps">
+                <div class="iv-step"><span>Adults</span><button type="button" data-step="adults" data-d="-1" aria-label="One adult fewer">−</button><output data-out="adults"></output><button type="button" data-step="adults" data-d="1" aria-label="One adult more">+</button></div>
+                <div class="iv-step"><span>Children today</span><button type="button" data-step="kidsNow" data-d="-1" aria-label="One child fewer today">−</button><output data-out="kidsNow"></output><button type="button" data-step="kidsNow" data-d="1" aria-label="One child more today">+</button></div>
+                <div class="iv-step"><span>Children likely in the next five years</span><button type="button" data-step="kidsNext" data-d="-1" aria-label="One child fewer expected">−</button><output data-out="kidsNext"></output><button type="button" data-step="kidsNext" data-d="1" aria-label="One child more expected">+</button></div>
+              </div>
+            </fieldset>
+            <fieldset class="iv-f">
+              <legend>Spending <small data-out="essential"></small></legend>
+              <div class="iv-kind">
+                <p class="iv-kind-h"><b>Living utility</b> <small>essential</small><span class="iv-est" data-est="utility"></span></p>
+                <div class="iv-opt"><span>Home</span><div class="iv-seg" role="group" aria-label="Home"><button type="button" data-k="home" data-v="own">Owned</button><button type="button" data-k="home" data-v="rent">Rented</button><button type="button" data-k="home" data-v="loan">Home loan</button></div></div>
+                <div class="iv-opt"><span>Where</span><div class="iv-seg" role="group" aria-label="Where"><button type="button" data-k="city" data-v="metro">Metro</button><button type="button" data-k="city" data-v="tier2">Tier-2 city</button><button type="button" data-k="city" data-v="town">Small town</button></div></div>
+                <div class="iv-opt"><span>Schooling</span><div class="iv-seg" role="group" aria-label="Schooling"><button type="button" data-k="school" data-v="budget">Budget</button><button type="button" data-k="school" data-v="private">Private</button><button type="button" data-k="school" data-v="intl">International</button></div></div>
+                <label class="iv-row is-wide"><input type="range" name="utility" min="0" max="1000" step="1" aria-label="Living utility, a year"><output data-out="utility"></output></label>
+                <p class="iv-hint">Groceries, power, fuel, phone, medical, help at home, housing and school fees.</p>
+              </div>
+              <div class="iv-kind">
+                <p class="iv-kind-h"><b>Experiences and entertainment</b> <small>non-essential</small><span class="iv-est" data-est="experience"></span></p>
+                <div class="iv-opt"><span>Lifestyle</span><div class="iv-seg" role="group" aria-label="Lifestyle"><button type="button" data-k="life" data-v="simple">Simple</button><button type="button" data-k="life" data-v="balanced">Balanced</button><button type="button" data-k="life" data-v="lavish">Lavish</button></div></div>
+                <label class="iv-row is-wide"><input type="range" name="experience" min="0" max="1000" step="1" aria-label="Experiences and entertainment, a year"><output data-out="experience"></output></label>
+                <p class="iv-hint">Eating out, streaming, hobbies, weekend trips and holidays.</p>
+              </div>
+              <div class="iv-kind">
+                <p class="iv-kind-h"><b>Royal</b> <small>major assets and luxuries</small><span class="iv-est" data-est="royal"></span></p>
+                <div class="iv-opt"><span>Vehicle</span><div class="iv-seg" role="group" aria-label="Vehicle"><button type="button" data-k="vehicle" data-v="none">None</button><button type="button" data-k="vehicle" data-v="two">Two-wheeler</button><button type="button" data-k="vehicle" data-v="hatch">Hatchback</button><button type="button" data-k="vehicle" data-v="suv">SUV</button><button type="button" data-k="vehicle" data-v="lux">Luxury car</button></div></div>
+                <div class="iv-opt"><span>Big buys</span><div class="iv-seg" role="group" aria-label="Big buys"><button type="button" data-k="big" data-v="rare">Rarely</button><button type="button" data-k="big" data-v="some">Gold and gadgets</button><button type="button" data-k="big" data-v="grand">Jewellery, foreign trips, home upgrades</button></div></div>
+                <label class="iv-row is-wide"><input type="range" name="royal" min="0" max="1000" step="1" aria-label="Royal spends, a year"><output data-out="royal"></output></label>
+                <p class="iv-hint">The yearly cost of owning the vehicle (its EMI, fuel and upkeep), and big-ticket buying.</p>
+              </div>
+            </fieldset>
+            <fieldset class="iv-f">
+              <legend>Saving <small>safe money, a year</small></legend>
+              <label class="iv-row is-wide"><input type="range" name="save" min="0" max="1000" step="1" aria-label="Saving, a year"><output data-out="save"></output></label>
+              <p class="iv-hint">Fixed deposits, PPF, savings accounts. Assumed to grow about 7% a year.</p>
+            </fieldset>
+            <fieldset class="iv-f">
+              <legend>Investing <small>a year</small></legend>
+              <label class="iv-row is-wide"><input type="range" name="invest" min="0" max="1000" step="1" aria-label="Investing, a year"><output data-out="invest"></output></label>
+              <div class="iv-opt"><span>Risk</span><div class="iv-seg" role="group" aria-label="Risk appetite"><button type="button" data-k="risk" data-v="low">Low</button><button type="button" data-k="risk" data-v="medium">Medium</button><button type="button" data-k="risk" data-v="high">High</button></div></div>
+              <p class="iv-hint" data-out="riskSay"></p>
+            </fieldset>
+            <fieldset class="iv-f">
+              <legend>Wealth already held <small>savings and investments</small></legend>
+              <label class="iv-row is-wide"><input type="range" name="held" min="0" max="1000" step="1" aria-label="Wealth already held"><output data-out="held"></output></label>
+            </fieldset>
+          </form>
+          <div class="iv-out" aria-live="polite">
+            <div class="iv-seg iv-when" role="group" aria-label="When">
+              <button type="button" data-k="year" data-v="0">Today</button><button type="button" data-k="year" data-v="5">In 5 years</button><button type="button" data-k="year" data-v="10">In 10 years</button>
+            </div>
+            <canvas class="iv-house" role="img" aria-label="A home at dusk, built from the money"></canvas>
+            <p class="iv-say" data-out="say"></p>
+            <dl class="iv-tags" data-tags></dl>
+          </div>
+        </div>
+        <div class="iv-tool-foot">
+          <a class="iv-talk" href="#consult" data-soon>Have a word with us about yours <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+          <details class="iv-avg">
+            <summary>Averages used in the estimate</summary>
+            <ul>
+              <li>Earnings grow each year by 8% for a salary, 11% for a business and 5% for rental income.</li>
+              <li>Prices rise 6% a year. Spending rises 7% a year, which adds a little lifestyle upgrade.</li>
+              <li>Saving and investing stay at the same share of earnings you set today. If spending leaves too little, both shrink to fit.</li>
+              <li>Safe savings earn 7%. Investments earn 8% (low risk), 11% (medium) or 14% (high), with a wider possible range as risk rises.</li>
+              <li>Each new child adds upkeep from birth and school fees from age three.</li>
+              <li>Unplanned money sits idle at 3.5%. A shortfall is drawn from wealth, then becomes debt at 12%.</li>
+              <li>The picture is drawn in today's rupees, so a bigger house means real progress and not just inflation.</li>
+            </ul>
+          </details>
+          <p class="iv-note">This is a rough reflection of a possible state of wealth, based on averages taken for each variable. Real incomes, prices and returns will differ, and nothing here is financial advice.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- the closing quote, the client's own -->
+    <section class="iv-quote " aria-label="A last word">
+      <div class="iv-wrap">
+        <blockquote data-read>Money is not the parameter of someone's success, but it does give the buffer and the opportunity to reach closer to that success, for you and your loved ones.</blockquote>
+      </div>
+    </section>
+    <!-- the end: the one thing to do -->
+    <section class="iv-end" aria-labelledby="iv-end-h">
+      <div class="iv-wrap">
+        <h2 class="iv-end-line" id="iv-end-h" data-turn data-kinetic>Turning money into wealth? <em>Talk to us.</em></h2>
+        <p class="actions"><a class="iv-talk" href="#consult" data-soon>Have a word with us <svg viewBox="0 0 22 12" aria-hidden="true"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a></p>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/CustomEase.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script type="module" src="js/investors-page.js"></script>
+</body>
+</html>

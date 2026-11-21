@@ -21,8 +21,9 @@
 // for a reason:
 //   data-chars    letter by letter, each letter rising and righting itself (data-chars="hero" on open);
 //                 in the hero its letters drift apart as the page leaves it
-//   data-engrave  the words first cut as an engraver's outline, then filled with ink, left to right
-//                 (Ink is engraving on paper); data-engrave="state" fills only when the page says so
+//   data-engrave  the words first printed faint, a pale proof, then the ink runs into them left to
+//                 right (never an outline: the user wants no bordered text, 17 Nov); data-engrave="state"
+//                 inks only when the page says so
 //   data-read     reading light: the words come up from faint to full ink as you scroll through them,
 //                 and footnotes light with the clause they belong to
 //   data-gather   the words scattered, finding their places as you scroll (a line in the middle of
@@ -138,7 +139,7 @@ export function inkMotion({ lenis, reduced, isTouch, local }) {
   // a clause marked with data-n lights its footnote (data-notes on the paragraph) once it is read
   const reads = reduced ? [] : $$('[data-read]').map((el) => {
     const ws = wordsIn(el, 'rw');
-    ws.forEach((w) => { w.style.opacity = '0.16'; });
+    ws.forEach((w) => { w.style.opacity = '0.26'; }); // (20 Nov: a legible pale proof, not missing words)
     const notes = el.dataset.notes ? $(el.dataset.notes) : null;
     const clauses = $$('[data-n]', el).map((c) => ({ last: ws.indexOf([...c.querySelectorAll('.rw')].pop()), note: notes && $(`[data-n="${c.dataset.n}"]`, notes), c }));
     clauses.forEach((c) => {
@@ -304,7 +305,7 @@ export function inkMotion({ lenis, reduced, isTouch, local }) {
   });
 
   // ---------------------------------------------------------------- one loop for all that follows the scroll
-  const hero = $('.ik-hero'), film = hero && $('.ik-film', hero), heroIn = hero && $('.ik-hero-in', hero), heroTitle = hero && $('.title', hero);
+  const hero = $('.ik-hero'), film = hero && ($('.ik-film-in', hero) || $('.ik-film', hero)), heroIn = hero && $('.ik-hero-in', hero), heroTitle = hero && $('.title', hero);
   const smooth01 = (t) => t * t * (3 - 2 * t);
   let last = performance.now();
   gsap.ticker.add(() => {
@@ -331,7 +332,8 @@ export function inkMotion({ lenis, reduced, isTouch, local }) {
       if (lit === R.lit) return;
       R.lit = lit;
       // (only the words whose light changed are touched)
-      R.ws.forEach((w, i) => { const o = 0.16 + 0.84 * clamp(lit - i, 0, 1); if (Math.abs(o - (w._o ?? -1)) > 0.004) { w._o = o; w.style.opacity = o.toFixed(3); } });
+      // (20 Nov: the light's front spread over three words, so the ink comes up across them like light, never a word at a time)
+      R.ws.forEach((w, i) => { const o = 0.26 + 0.74 * clamp((lit - i + 1.5) / 3, 0, 1); if (Math.abs(o - (w._o ?? -1)) > 0.004) { w._o = o; w.style.opacity = o.toFixed(3); } });
       R.clauses.forEach((c) => { const on = lit - c.last >= 1; c.c.classList.toggle('is-read', on); if (c.note) c.note.classList.toggle('is-read', on); });
     });
     // gathering: scattered while it comes up the screen, in place by the time it is two fifths up
