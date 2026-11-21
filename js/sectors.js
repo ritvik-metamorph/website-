@@ -67,6 +67,8 @@ export function setupSectors({ lenis, register, reduced, isTouch, local }) {
   const html = document.documentElement;
   const index = $('.sx-index'), article = $('.sx-sector');
   const plot = $('.sx-plot'), reading = $('.sx-reading'), card = $('.sx-card');
+  // (the knot's card is smoked glass since 21 Nov; ?card=solid keeps the dark card it was)
+  if (new URLSearchParams(location.search).get('card') === 'solid') document.documentElement.dataset.card = 'solid';
   const keyEl = $('.sx-key'), countEl = $('.sx-count');
 
   // the ground: the silk, night under the loom and paper under the reading
@@ -245,6 +247,8 @@ export function setupSectors({ lenis, register, reduced, isTouch, local }) {
   // ---- under the cursor: the two threads at the point lift, the sector's line, and a knot's card
   function showCard(m, e) {
     card.innerHTML = `<p class="sx-c-path">${esc(m.d.name)} <span>in</span> ${esc(m.s.name)}</p><p class="sx-c-f" style="--fc:${fvar(m.f)}"><i></i>${esc(cap(fl(m.f)))} it <span>${esc(fnote(m.f))}</span></p><p class="sx-c-k">What it is used for</p><p class="sx-c-t">${esc(m.use)}</p><p class="sx-c-k">What it changes</p><p class="sx-c-t">${esc(m.eff)}</p>`;
+    // (the glass takes a little of the knot's own ink: the force it names)
+    card.style.setProperty('--fc', fvar(m.f));
     card.classList.add('is-on');
     const w = card.offsetWidth, h = card.offsetHeight;
     let x = e.clientX + 22, y = e.clientY + 18;

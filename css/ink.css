@@ -132,6 +132,9 @@
    laptop (js/ink-home.js); the sentence, the ways in and the practice's line on the film's darker foot. Until the
    film exists, a reel of the way in's change of form (spun, closed, opening, open, flown) */
 .ik-hero { position: relative; display: flex; flex-direction: column; height: 100svh; min-height: 560px; background: var(--paper); }
+/* (21 Nov; the user: the simple hero was "still scrollable", with "a lot of elasticity") the simple home is one screen: while
+   the hero fits the window (js/ink-home.js sets ik-one) the page neither scrolls nor springs at its edges */
+html.ik-one, html.ik-one body { overflow: hidden; overscroll-behavior: none; }
 .ik-frame { position: relative; flex: 1 1 auto; min-height: 0; margin: 0 var(--gutter); overflow: hidden; border-radius: 0 0 clamp(10px, 1vw, 16px) clamp(10px, 1vw, 16px); /* (19 Nov: rounded at its foot, the user's ask with their reference; its top runs into the page's edge) */ background: #050709; color: #f2f3ef; --fg: #f2f3ef; --fg-soft: rgba(242, 243, 239, .76); --line-strong: rgba(242, 243, 239, .4); --ground: #050709; }
 .ik-film { position: absolute; inset: 0; }
 .ik-film-in { position: absolute; inset: 0; will-change: transform; }

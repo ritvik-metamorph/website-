@@ -62,7 +62,9 @@ if (frame) new ResizeObserver(fitHero).observe(frame);
       if (!base) return;
       const s = slot.getBoundingClientRect();
       const open = document.documentElement.classList.contains('menu-open');
-      const p = open ? 1 : Math.min(1, Math.max(0, (lenis?.scroll ?? scrollY) / (innerHeight * 0.45)));
+      // (21 Nov: while the page is held to one screen, ik-one below, the button stays in its seat)
+      const held = document.documentElement.classList.contains('ik-one');
+      const p = open ? 1 : held ? 0 : Math.min(1, Math.max(0, (lenis?.scroll ?? scrollY) / (innerHeight * 0.45)));
       const e = p * p * (3 - 2 * p);
       const dx = (s.left - base.x) * (1 - e), dy = (s.top - base.y) * (1 - e);
       const t = Math.abs(dx) + Math.abs(dy) < 0.5 ? '' : `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
@@ -73,6 +75,27 @@ if (frame) new ResizeObserver(fitHero).observe(frame);
     document.fonts?.ready.then(() => { measure(); dock(); });
     gsap.ticker.add(dock);
   }
+}
+
+// (21 Nov; the user: the simple hero was "still scrollable", with "a lot of elasticity") the page is one screen, so
+// nothing scrolls. The smooth scroll had kept an older height (67px of room on a laptop), so a wheel or a swipe lifted
+// the words and slid Enter Light out of its seat and back; while the hero fits the window it is stopped at the top and
+// the page is held (ik-one, css/ink.css). A window too short for the hero still scrolls, so nothing is out of reach.
+{
+  const root = document.documentElement;
+  const hold = () => {
+    lenis.resize?.();
+    const fits = root.scrollHeight <= innerHeight + 1;
+    root.classList.toggle('ik-one', fits);
+    if (fits) {
+      if (lenis.scroll) lenis.scrollTo(0, { immediate: true, force: true });
+      lenis.stop();
+    } else if (!root.classList.contains('menu-open')) lenis.start();
+  };
+  hold();
+  document.fonts?.ready.then(hold);
+  addEventListener('load', hold, { once: true });
+  addEventListener('resize', hold);
 }
 
 // (localhost only: a handle for checking the film)

@@ -37,6 +37,8 @@ import { ARTS, ARTISTS, ONE, PICKS, FOR_SALE } from './artists.js';
 import { portrait, workArt, ratioOf } from './corner-parts.js';
 import { write, unitsOf, at, inkOutline } from './hand.js';
 import { createWorks } from './corner-works.js';
+// (21 Nov) the corner, simply: one piece at a time for the picks and for every work, behind ?corner=viewer
+import { createViewer } from './corner-viewer.js';
 // (20 Nov) the opening since the galleries: the current, every piece drifting up past the three picks (js/corner-current.js)
 import { createCurrent } from './corner-current.js';
 // (20 Nov) the opening's galleries are gone (the user: remove every variant of the top; something new is to come):
@@ -1495,14 +1497,15 @@ pcImg.addEventListener('load', () => {
   // Until 20 Nov the picks (the art of the day, the week and the month, and the six days before) hung in four
   // galleries here for the client to choose from. The user removed them all; the opening's place, .cp-open-slot,
   // waits for what comes next. The picks are still worked out each day, for whatever shows them.
-  let picks = [], picked = [], wide = null, works = null, current = null, walk = null;
+  let picks = [], picked = [], wide = null, works = null, current = null, walk = null, viewer = null;
+  const walks = [], viewers = []; // (21 Nov) every walk and viewer on the page, for the client's review
   const hand = () => picks.slice(0, 3); // the day's, the week's, the month's
 
   // where a piece lives on the page, to fly from and back to: its place in the gallery, or its
   // tile on the wall, whichever is in view
   function homeOf(pc) {
     const t = tiles.get(pc.key);
-    const all = [walk?.home(pc), current?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
+    const all = [...walks.map((w) => w.home(pc)), ...viewers.map((v) => v.home(pc)), viewer?.home(pc), current?.home(pc), works?.home(pc), t?.on && view === 'wall' && { art: t.art, img: t.img, b: t.b }].filter(Boolean);
     return all.find((h) => onScreen(h.art)) || all[0] || null;
   }
   // a picture whose shape was not given (or not quite), once it is in: fitted by its own shape,
@@ -1564,7 +1567,18 @@ pcImg.addEventListener('load', () => {
   // the wall of every piece with a filter by domain, a domain zooming into its strip, on the night.
   // The shop wall before it stays for ?shop=rows.
   const worksEl = $('.cp-works', section);
-  if (worksEl && !/[?&]shop=rows\b/.test(location.search)) {
+  // (21 Nov) the corner, simply: "the viewer" (js/corner-viewer.js), behind ?corner=viewer. The user: a version with no
+  // environment, "mainly the art pieces", a gallery the way one explores visuals, "more of a layout thing only"; of three
+  // sketches, the first. One piece at a time, large, in crop marks: the three picks walked by the scroll in the opening's
+  // place, every work under it by domain with a strip along the foot. The walk and the wall stay the page without it.
+  if (worksEl && /[?&]corner=viewer\b/.test(location.search)) {
+    const slot = $('.cp-open-slot', section);
+    const opts = { ARTS, reduced, isTouch, lenis, art: (pc, w) => workArt(pc.p, pc.i, w), sigInto: (svg, p, xh) => sigInto(svg, p, xh), open: (pc, from, seq) => openPiece(pc, { seq, from }) };
+    works = createViewer(worksEl, { ...opts, mode: 'works', ofDomain });
+    if (slot) viewer = createViewer(slot, { ...opts, mode: 'picks', picks: hand() });
+    root.classList.add('cc-works-on', 'cc-viewer');
+    $('.cp-all', section).hidden = true;
+  } else if (worksEl && !/[?&]shop=rows\b/.test(location.search)) {
     works = createWorks(worksEl, {
       ARTS, COLOR, every: EVERY, ofDomain, reduced, isTouch, lenis, refresh: refreshSoon,
       total: `${ARTISTS.length} artists in ${ARTS.length === 9 ? 'nine' : ARTS.length} domains`,
@@ -1589,22 +1603,47 @@ pcImg.addEventListener('load', () => {
     // gloved hands in view, the art of the day, the week and the month on its walls, a door on into the gallery (the
     // wall below). Its room is three.js, so it is fetched only here; its place is held from the start so nothing
     // jumps. ?walk=off leaves the opening empty again.
-    if (slot && !current && !/[?&]walk=off\b/.test(location.search)) {
-      slot.classList.add('is-walk');
+    const startWalk = (into, extra = {}) => {
+      into.classList.add('is-walk');
       const seq = hand().map((k) => k.pc);
       import('./corner-walk.js').then(({ createWalk }) => {
-        walk = createWalk(slot, {
-          picks: hand(), reduced, isTouch, local, lenis,
-          art: (pc, w) => workArt(pc.p, pc.i, w),
+        const w = createWalk(into, {
+          picks: hand(), reduced, isTouch, local, lenis, ...extra,
+          art: (pc, wd) => workArt(pc.p, pc.i, wd),
           open: (pc, from) => openPiece(pc, { seq, from }),
           // (the thumbs up under a piece is the room's like, kept in this browser)
           react: { has: (pc) => liked.has(pc.key), toggle: (pc) => liked.toggle(pc.key), hireName: (pc) => first(pc.p) },
         });
-        if (!walk) slot.classList.remove('is-walk');
+        if (w) { walks.push(w); walk ||= w; } else into.classList.remove('is-walk');
         layoutOpen();
         refreshSoon();
-      }).catch(() => { slot.classList.remove('is-walk'); layoutOpen(); refreshSoon(); });
-    }
+      }).catch(() => { into.classList.remove('is-walk'); layoutOpen(); refreshSoon(); });
+    };
+    // (21 Nov) for the client's review (the user: "this has to be shown to the client… put both versions… when it is
+    // final we will make it one"), every version on the page, one under the other, each tagged at its top right: the walk
+    // with its light as it is, the walk in the dark, the viewer (the simple one); then the gallery as the wall, and as the
+    // viewer. Each walk's door leads on to the next section. ?corner=walk is the page as it was before (one walk, ?wklight=
+    // for its light, and the wall); ?corner=viewer the viewer alone.
+    const review = slot && !current && !/[?&](walk=off|corner=walk)\b/.test(location.search);
+    if (review) {
+      const opening = (id, label) => { const q = document.createElement('section'); q.className = 'cp-open cp-open-slot'; q.id = id; q.setAttribute('aria-label', label); return q; };
+      const slot2 = opening('opening-2', 'The walk, in the dark'), slot3 = opening('opening-3', 'The viewer');
+      slot.after(slot2, slot3);
+      const works2 = document.createElement('section');
+      works2.className = 'cp-works';
+      works2.id = 'works-2';
+      works2.setAttribute('aria-labelledby', 'vw-title');
+      worksEl.after(works2);
+      const tag = document.createElement('p');
+      tag.className = 'cp-vtag';
+      tag.textContent = 'Gallery 1 of 2 · The wall';
+      worksEl.append(tag);
+      const vo = { ARTS, reduced, isTouch, lenis, art: (pc, w) => workArt(pc.p, pc.i, w), sigInto: (svg, p, xh) => sigInto(svg, p, xh), open: (pc, from, seq) => openPiece(pc, { seq, from }) };
+      viewer = createViewer(slot3, { ...vo, mode: 'picks', picks: hand(), label: 'Opening 3 of 3 · The viewer' });
+      viewers.push(viewer, createViewer(works2, { ...vo, mode: 'works', ofDomain, label: 'Gallery 2 of 2 · The viewer' }));
+      startWalk(slot, { light: 'before', label: 'Opening 1 of 3 · The walk', gallery: worksEl });
+      startWalk(slot2, { light: 'dark', label: 'Opening 2 of 3 · The walk, in the dark', gallery: worksEl });
+    } else if (slot && !current && !/[?&]walk=off\b/.test(location.search)) startWalk(slot);
   } else worksEl?.remove();
   rewrite(!reduced); // written as the band comes into view
   // the opening begins once the type is in, so nothing it measures moves under it
@@ -1622,7 +1661,8 @@ pcImg.addEventListener('load', () => {
       layoutOpen();
       works?.layout();
       current?.layout();
-      walk?.layout();
+      walks.forEach((w) => w.layout());
+      (viewers.length ? viewers : [viewer]).forEach((v) => v?.layout());
       relayout();
       layoutInk();
       applyDraw();
@@ -1659,7 +1699,7 @@ pcImg.addEventListener('load', () => {
       // the Easter egg, every signature shown at once
       signAll: () => shown.map((pc) => tiles.get(pc.key)).forEach((t) => { gsap.set(t.sig, { opacity: 1 }); signNow(t.sig); }),
       // the opening (empty since 20 Nov): build() lays it out again
-      settleOpen, layoutOpen, build, get current() { return current; }, get walk() { return walk; },
+      settleOpen, layoutOpen, build, get current() { return current; }, get walk() { return walk; }, get viewer() { return viewer; }, walks, viewers,
       // the works (14 Nov; the wall 18 Nov): select(id or null), view, paintAll(), deal(), deck, chapters, tiles
       get works() { return works; },
       // a pick's picture swapped for another (a file, or a data address), as an upload would be

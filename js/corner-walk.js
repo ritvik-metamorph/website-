@@ -25,6 +25,12 @@
 import * as THREE from '../assets/vendor/three.module.min.js';
 import { makeHandGeometry, handMaterial, makeHand, poseHand, aim } from './walk-hand.js';
 import { person, PERSON_TOP, PERSON_H } from './walk-visitors.js';
+import { roomLight } from './walk-light.js';
+
+// the light (21 Nov, later): two directions to choose from, behind ?wklight= (js/walk-light.js): real (the white cube,
+// made real) and dark (framed in the dark); without it, the light as it was
+// (a walk may also be given its light, so the client's review can hang the two one under the other)
+const LIGHT_Q = (/[?&]wklight=(real|dark)\b/.exec(location.search) || [])[1] || 'before';
 
 const { gsap } = window;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -102,13 +108,15 @@ const VERT = 'varying vec3 vW; varying vec3 vN; void main() { vec4 w = modelMatr
 
 // ================================================================== the walk
 
-export function createWalk(host, { picks, art, open, react, lenis, reduced, isTouch, local }) {
+export function createWalk(host, { picks, art, open, react, lenis, reduced, isTouch, local, light, label, gallery }) {
+  const LIGHT = light || LIGHT_Q;
   const root = document.documentElement;
   const stage = el('div', 'wk-stage');
   const canvas = el('canvas', 'wk-gl');
   canvas.setAttribute('aria-hidden', 'true');
   const hits = el('div', 'wk-hits');
-  const tag = el('p', 'wk-tag', 'Test · The walk');
+  // (the tag names the variant: ?wklight=dark is the walk in the dark, the user's pick of the two samples)
+  const tag = el('p', 'wk-tag', label || (LIGHT === 'dark' ? 'Test · The walk, in the dark' : LIGHT === 'real' ? 'Test · The walk, lit' : 'Test · The walk'));
   const cue = el('p', 'wk-cue', 'Scroll to walk in · drag to look');
   const enter = el('button', 'wk-enter');
   enter.type = 'button';
@@ -164,7 +172,6 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
         gl_FragColor = vec4(c, 1.0);
       }`,
   });
-  const hallMat = litMat(0, 0.72), lobbyMat = litMat(1, 0.62);
   // the Easter egg (21 Nov, the user: "on the ceiling, a butterfly made of the lighting: whoever looks up sees it,
   // whoever does not, does not"): over the middle of the hall a laylight in the shape of a butterfly, its glass held in a
   // net like the way in's butterfly; seen only by looking up, and faintly in the polished floor
@@ -214,9 +221,12 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
   })();
   // the pieces, for the floor's reflection: their middles, normals, half sizes and colours
   const PC = { c: { value: [0, 1, 2].map(() => new THREE.Vector4()) }, n: { value: [0, 1, 2].map(() => new THREE.Vector4()) }, col: { value: [0, 1, 2].map(() => new THREE.Vector3(0.12, 0.12, 0.13)) } };
+  // (with ?wklight=, the room's materials and lamps come from js/walk-light.js)
+  const RL = LIGHT === 'before' ? null : roomLight(LIGHT, { HX, H, Z_IN, Z_END, Z_LOBBY, GATE, DOOR, SLOT, BF, PC, bflyTex });
+  const hallMat = RL ? RL.wall : litMat(0, 0.72), lobbyMat = RL ? RL.lobby : litMat(1, 0.62);
   // the floor: dark and polished, the lamps' light spilling on it near the walls, the light slots, the walls' light
   // and each piece's colour reflected in it, softer the further away; the first light from the open door
-  const floorMat = new THREE.ShaderMaterial({
+  const floorMat = RL?.floor || new THREE.ShaderMaterial({
     uniforms: { uPool: U.pool, uPoolN: U.poolN, uPc: PC.c, uPcN: PC.n, uPcCol: PC.col, uGlow: { value: 0 }, uRefl: { value: 1 }, uBfly: { value: bflyTex }, uBflyR: { value: new THREE.Vector4(BF.x, BF.z, BF.w, BF.d) } },
     vertexShader: VERT,
     fragmentShader: `${PAINT}
@@ -276,7 +286,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
       }`,
   });
   const flat = (c) => new THREE.MeshBasicMaterial({ color: new THREE.Color(c), toneMapped: false });
-  const ceilMat = flat('#07090e'), trimMat = flat('#0d1424'), fixMat = flat('#0b0d12');
+  const ceilMat = RL?.ceil || flat('#07090e'), trimMat = flat('#0d1424'), fixMat = flat('#0b0d12');
   const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); scene.add(m); return m; };
   const plane = (w, h, mat, x, y, z, ry = 0) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.position.set(x, y, z); m.rotation.y = ry; scene.add(m); return m; };
 
@@ -292,7 +302,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     ceil.position.set(-1.25, H, fz);
     scene.add(ceil);
     const len = Z_IN - Z_END - 0.6, zc = (Z_IN + Z_END) / 2;
-    const glowMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.97, 0.98, 1), toneMapped: false });
+    const glowMat = RL?.slot || new THREE.MeshBasicMaterial({ color: new THREE.Color(0.97, 0.98, 1), toneMapped: false });
     [-SLOT, SLOT].forEach((x) => {
       box(0.17, 0.04, len, fixMat, x, H - 0.005, zc);
       const g = new THREE.Mesh(new THREE.PlaneGeometry(0.075, len), glowMat);
@@ -302,7 +312,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     });
   }
   {
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(BF.w, BF.d), new THREE.MeshBasicMaterial({ map: bflyTex, color: new THREE.Color(0.93, 0.95, 1), transparent: true, toneMapped: false, depthWrite: false }));
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(BF.w, BF.d), RL?.glass || new THREE.MeshBasicMaterial({ map: bflyTex, color: new THREE.Color(0.93, 0.95, 1), transparent: true, toneMapped: false, depthWrite: false }));
     m.rotation.set(Math.PI / 2, 0, Math.PI);
     m.position.set(BF.x, H - 0.008, BF.z);
     scene.add(m);
@@ -320,7 +330,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     const T = 0.24;
     wall(T, 0, DOOR.h, -HX - T / 2, zA, Math.PI);
     wall(T, 0, DOOR.h, -HX - T / 2, zB, 0);
-    const hd = new THREE.Mesh(new THREE.PlaneGeometry(T, DOOR.w), flat('#c9cdd0'));
+    const hd = new THREE.Mesh(new THREE.PlaneGeometry(T, DOOR.w), RL ? hallMat : flat('#c9cdd0'));
     hd.rotation.set(Math.PI / 2, 0, Math.PI / 2);
     hd.position.set(-HX - T / 2, DOOR.h, DOOR.z);
     scene.add(hd);
@@ -351,13 +361,15 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     const c = document.createElement('canvas');
     c.width = c.height = 256;
     const x = c.getContext('2d'), g = x.createRadialGradient(128, 150, 6, 128, 150, 190);
-    g.addColorStop(0, '#f6f8fc'); g.addColorStop(0.4, '#dbe3f1'); g.addColorStop(0.8, '#a9b8d3'); g.addColorStop(1, '#7f92b6');
+    // (with the light made real, beyond the door is only white light: the crack reads as a blade of it)
+    if (RL) { g.addColorStop(0, '#ffffff'); g.addColorStop(1, '#eef1f5'); }
+    else { g.addColorStop(0, '#f6f8fc'); g.addColorStop(0.4, '#dbe3f1'); g.addColorStop(0.8, '#a9b8d3'); g.addColorStop(1, '#7f92b6'); }
     x.fillStyle = g;
     x.fillRect(0, 0, 256, 256);
     const t = new THREE.CanvasTexture(c);
     t.colorSpace = THREE.SRGBColorSpace;
     plane(3.2, H, new THREE.MeshBasicMaterial({ map: t, toneMapped: false }), -HX - 2.4, H / 2, DOOR.z, Math.PI / 2);
-    const sm = flat('#c3cee2');
+    const sm = flat(RL ? '#f3f5f8' : '#c3cee2');
     plane(2.4, H, sm, -HX - 1.2, H / 2, DOOR.z + 1.6, Math.PI);
     plane(2.4, H, sm, -HX - 1.2, H / 2, DOOR.z - 1.6, 0);
   }
@@ -366,9 +378,9 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
   door.position.set(-HX - 0.02, 0, zA);
   scene.add(door);
   const leaf = new THREE.Mesh(new THREE.BoxGeometry(0.045, DOOR.h - 0.02, DOOR.w - 0.02), hallMat);
-  leaf.position.set(0, (DOOR.h - 0.02) / 2, -DOOR.w / 2);
+  leaf.position.set(0, (DOOR.h - 0.02) / 2 + (RL ? 0.008 : 0), -DOOR.w / 2);
   door.add(leaf);
-  const plate = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.34, 0.11), flat('#b9bfc8'));
+  const plate = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.34, 0.11), flat(RL ? (RL.dark ? '#41464f' : '#a9afb8') : '#b9bfc8'));
   plate.position.set(0.026, 1.26, -DOOR.w * 0.64);
   door.add(plate);
 
@@ -402,12 +414,14 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
 
   // ---- the pools of light (the pieces' are set as they are hung, below)
   const heats = [];
-  const washes = { left: [0.8, -1.8, -7.0, -9.6], right: [0.8, -1.8, -4.4, -9.6, -12.2] };
-  washes.left.forEach((z) => pool([-HX, 2.5, z], [1, 0, 0], 0.2, 0.5));
-  washes.right.forEach((z) => pool([HX, 2.5, z], [-1, 0, 0], 0.2, 0.5));
-  [-2.6, 2.6].forEach((x) => pool([x, 2.5, Z_END], [0, 0, 1], 0.18, 0.5));
-  pool([-HX, 2.0, DOOR.z], [1, 0, 0], 0.26, 0.9);
-  pool([0, 3.25, Z_IN + 0.15], [0, 0, 1], 1.5, 1.7);
+  if (!RL) {
+    const washes = { left: [0.8, -1.8, -7.0, -9.6], right: [0.8, -1.8, -4.4, -9.6, -12.2] };
+    washes.left.forEach((z) => pool([-HX, 2.5, z], [1, 0, 0], 0.2, 0.5));
+    washes.right.forEach((z) => pool([HX, 2.5, z], [-1, 0, 0], 0.2, 0.5));
+    [-2.6, 2.6].forEach((x) => pool([x, 2.5, Z_END], [0, 0, 1], 0.18, 0.5));
+    pool([-HX, 2.0, DOOR.z], [1, 0, 0], 0.26, 0.9);
+    pool([0, 3.25, Z_IN + 0.15], [0, 0, 1], 1.5, 1.7);
+  }
   // the fittings: a small lamp in the slot over each piece
   const lensMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, 0.98, 0.94), toneMapped: false });
   function fitting(pos, at) {
@@ -421,6 +435,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     can.add(lens);
     scene.add(can);
   }
+  RL?.roomLamps(scene, fixMat, lensMat);
 
   // ---- the pieces: stretched canvases with a glass face, as the dawn gallery hung them
   const glassFace = new THREE.ShaderMaterial({
@@ -454,7 +469,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
   const LH = 300;
   function labelDraw(lines) {
     return (x) => {
-      x.fillStyle = INK;
+      x.fillStyle = RL?.dark ? '#e7e9e4' : INK;
       let y = 58;
       lines.forEach(([kind, text]) => {
         if (!text) return;
@@ -490,7 +505,10 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     uv.needsUpdate = true;
     const face = new THREE.MeshBasicMaterial({ color: 0x1b1814, toneMapped: false });
     const side = new THREE.MeshBasicMaterial({ color: new THREE.Color(0.5, 0.5, 0.52), toneMapped: false });
-    const mesh = new THREE.Mesh(geo, [side, side, side, side, face, canvasBack]);
+    // (with the light made real, the canvas's edges take it: the top edge lit, the bottom in its own shade)
+    const sideK = RL ? (RL.dark ? [0.42, 0.42, 0.92, 0.14] : [0.6, 0.6, 0.86, 0.3]) : [0.62, 0.62, 0.62, 0.62];
+    const sides = RL ? sideK.map(() => side.clone()) : [side, side, side, side];
+    const mesh = new THREE.Mesh(geo, [...sides, face, canvasBack]);
     mesh.position.z = d / 2 + 0.006;
     g.add(mesh);
     const gl = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.006), [glassEdge, glassEdge, glassEdge, glassEdge, glassFace, glassEdge]);
@@ -499,23 +517,31 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     mesh.add(gl);
     const sh = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.3, h + 0.3), new THREE.MeshBasicMaterial({ color: 0x000000, alphaMap: shadowTex, transparent: true, opacity: 0.42, depthWrite: false }));
     sh.position.set(0.02, -0.06, 0.003);
+    // (with the light made real, the canvas's shadow is worked out on the wall from its own lamp instead)
+    if (RL) sh.visible = false;
     g.add(sh);
-    // its label, right of it, level with its foot (under it on a phone: layout() moves it)
-    const lw = at.wall === 'end' ? 0.92 : 0.78, lh = lw * LH / 1024, lab = words(labelDraw(k.lines), 1024, LH);
-    const lm = new THREE.Mesh(new THREE.PlaneGeometry(lw, lh), new THREE.MeshBasicMaterial({ map: lab.t, transparent: true, toneMapped: false, depthWrite: false }));
-    g.add(lm);
-    const labelAt = (under) => (under ? lm.position.set(-w / 2 + lw / 2, -h / 2 - 0.09 - lh / 2, 0.004) : lm.position.set(w / 2 + 0.28 + lw / 2, -h / 2 + lh / 2, 0.004));
-    labelAt(false);
     // its pool of light and its lamp in the slot above
     const n = new THREE.Vector3(...Wl.n), c = new THREE.Vector3();
     g.getWorldPosition(c);
     const end = at.wall === 'end', base = end ? 0.36 : 0.3;
-    const pi = pool([c.x, c.y + 0.35, c.z], Wl.n, base, w * 0.55 + 0.45);
-    fitting(end ? new THREE.Vector3(0, H - 0.1, Z_END + 2.3) : new THREE.Vector3(Math.sign(c.x) * SLOT, H - 0.1, c.z), c);
+    const pi = RL ? -1 : pool([c.x, c.y + 0.35, c.z], Wl.n, base, w * 0.55 + 0.45);
+    const fp = end ? new THREE.Vector3(0, H - 0.1, Z_END + 2.3) : new THREE.Vector3(Math.sign(c.x) * SLOT, H - 0.1, c.z);
+    fitting(fp, c);
     const ix = pieces.length;
     PC.c.value[ix].set(c.x + n.x * 0.05, c.y, c.z + n.z * 0.05, w / 2);
     PC.n.value[ix].set(n.x, n.y, n.z, h / 2);
-    const P = { k, at, w, h, g, mesh, face, side, n, c, lab, labelAt, pi, base, heat: 0, b: null, img: null };
+    RL?.pieceLamp(ix, fp, c, n, w, h);
+    // its label, right of it, level with its foot (under it on a phone: layout() moves it; in the dark, its light follows)
+    const lw = at.wall === 'end' ? 0.92 : 0.78, lh = lw * LH / 1024, lab = words(labelDraw(k.lines), 1024, LH);
+    const lm = new THREE.Mesh(new THREE.PlaneGeometry(lw, lh), new THREE.MeshBasicMaterial({ map: lab.t, transparent: true, toneMapped: false, depthWrite: false }));
+    g.add(lm);
+    const labelAt = (under) => {
+      if (under) lm.position.set(-w / 2 + lw / 2, -h / 2 - 0.09 - lh / 2, 0.004);
+      else lm.position.set(w / 2 + 0.28 + lw / 2, -h / 2 + lh / 2, 0.004);
+      RL?.labelMoved(ix, lm, lw, lh);
+    };
+    labelAt(false);
+    const P = { k, at, w, h, g, mesh, face, side, sides, sideK, n, c, lab, labelAt, pi, ix, base, heat: 0, b: null, img: null };
     const b = el('button', 'wk-hit'), img = el('img');
     b.type = 'button';
     b.setAttribute('aria-label', `${k.honour ? `${k.honour}: ` : ''}${k.title} by ${k.maker}`);
@@ -528,9 +554,10 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
         t.colorSpace = THREE.SRGBColorSpace;
         t.anisotropy = maxAniso;
         face.map = t; face.color.set(0xffffff); face.needsUpdate = true;
-        side.map = t; side.color.setRGB(0.62, 0.62, 0.64); side.needsUpdate = true;
+        sides.forEach((s, i) => { s.map = t; s.color.setRGB(sideK[i], sideK[i], RL ? sideK[i] * 1.02 : 0.64); s.needsUpdate = true; });
         const a = avgOf(t.image);
-        if (a) PC.col.value[ix].set(...a);
+        if (a) { PC.col.value[ix].set(...a); RL?.pieceColour(ix, a); }
+        RL?.pieceArt(ix, t);
         img.src = url;
         dirty = 3;
       });
@@ -566,7 +593,8 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
   // ================================================================ the hands
   const handScene = new THREE.Scene();
   const handCam = new THREE.PerspectiveCamera(52, 1, 0.01, 4);
-  handScene.add(new THREE.HemisphereLight(0xe6ecf5, 0x1a1f2a, 1.15));
+  const hemi = new THREE.HemisphereLight(0xe6ecf5, 0x1a1f2a, 1.15);
+  handScene.add(hemi);
   const key = new THREE.DirectionalLight(0xfff7ee, 1.7);
   key.position.set(0.45, 0.85, 0.15);
   const rim = new THREE.DirectionalLight(0xe2eaff, 1.25);
@@ -673,7 +701,8 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     if (entering) return;
     entering = true;
     entered = true;
-    const works = host.nextElementSibling, head = works?.querySelector('.cw-head');
+    // (through the door: the next section; "Enter the gallery" goes to the gallery itself, past any other opening)
+    const works = (!atDoor && gallery) || host.nextElementSibling, head = works?.querySelector('.cw-head');
     const go = () => {
       const to = works ? works.getBoundingClientRect().top + scrollY : top + span + vh;
       works?.classList.add('is-cut', 'is-landing');
@@ -787,7 +816,8 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
       h.tube.scale.y = (len + 0.25) / h.root.scale.x;
     });
     // the light on them: the room's, dimmer in the lobby, brighter by a piece
-    key.intensity = lerp(1.0, 1.8, smooth(0.1, 0.7, at));
+    if (RL) RL.handLight({ hemi, key, rim }, at, camera.position.z);
+    else key.intensity = lerp(1.0, 1.8, smooth(0.1, 0.7, at));
     return hands.some((h) => h.pos.distanceToSquared(h.tp) > 1e-8);
   }
 
@@ -939,6 +969,10 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     // the door opens under the hand, the first light beyond it coming up; once it is open, into the gallery
     door.rotation.y = 1.45 * doorState.ajar;
     floorMat.uniforms.uGlow.value = doorState.ajar * 3;
+    RL?.doorAngle(door.rotation.y);
+    // (the eyes adjusting from the dark lobby to the lit hall)
+    const adapting = RL ? RL.adapt(camera.position.z, dt, reduced) : false;
+    if (RL) renderer.toneMappingExposure = RL.expo.value;
     // (the scroll at the door: once the hand is on the plate, in)
     if (Q.q >= 0.3 && forward && force == null && !entered) intoGallery(true);
     if (pv < WALK + 0.2 * (1 - WALK)) entered = false;
@@ -948,7 +982,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     pieces.forEach((P, i) => {
       const nr = 1 - smooth(0.15, 0.6, Math.abs(Q.s - (i + 1)));
       const h2 = P.heat + (((hover === P ? 1 : 0) * 0.5 + nr * 0.5) - P.heat) * ease(4, dt);
-      if (Math.abs(h2 - P.heat) > 1e-4) { P.heat = h2; U.pool.value[P.pi].w = P.base * (0.82 + 0.4 * P.heat); }
+      if (Math.abs(h2 - P.heat) > 1e-4) { P.heat = h2; if (RL) RL.heat(P.ix, P.heat); else U.pool.value[P.pi].w = P.base * (0.82 + 0.4 * P.heat); }
     });
     if (pointer.inside && !downAt && frames % 6 === 0 && moved > 0.0005) setHover(pickAt(pointer.cx, pointer.cy));
     visitors.forEach((V) => { V.m.position.x = V.x + Math.sin(t * 0.5 + V.ph) * 0.012; V.m.rotation.y = Math.atan2(camera.position.x - V.m.position.x, camera.position.z - V.z); });
@@ -956,7 +990,7 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
     // the way out: the room goes to black as you go through (when the scroll, not the fade, takes you)
     const fo = 0;
     // when nothing moves, draw half as often (the hands still breathe)
-    const moving = moved > 1e-5 || Math.abs(yv) > 1e-3 || Math.abs(pvv) > 1e-3 || handsMoving || lean > 0.001 && lean < 0.999 || dirty > 0;
+    const moving = moved > 1e-5 || adapting || Math.abs(yv) > 1e-3 || Math.abs(pvv) > 1e-3 || handsMoving || lean > 0.001 && lean < 0.999 || dirty > 0;
     still = moving ? 0 : still + dt;
     if (dirty > 0) dirty--;
     if (still > 0.5 && (skip = (skip + 1) % 2)) { frames++; return; }
@@ -1019,8 +1053,9 @@ export function createWalk(host, { picks, art, open, react, lenis, reduced, isTo
   };
   if (local) {
     // tuning by hand (localhost): p forces the walk to a point (null gives it back to the scroll); tick(n) draws n frames
+    (window.__walks ||= []).push(api);
     window.__walk = Object.defineProperties(api, Object.getOwnPropertyDescriptors({
-      scene, camera, renderer, handScene, handCam, hands, pieces, door, handMat, POSES, poseAt, U, PC, floorMat, hallMat, visitors, BF, pushDoor, drive, doorState,
+      scene, camera, renderer, handScene, handCam, hands, pieces, door, handMat, POSES, poseAt, U, PC, floorMat, hallMat, visitors, BF, pushDoor, drive, doorState, RL, LIGHT, hemi, key, rim,
       get handsReady() { return handsReady; },
       get stops() { return stops; },
       get p() { return pv; }, set p(v) { force = v; if (v != null) pv = v; },

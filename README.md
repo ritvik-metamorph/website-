@@ -24,7 +24,7 @@ content is placeholder (listed below).
 | Home | `index.html` | The way in, the hero options, services, the team on coins |
 | About | `about.html` | The firm's story, readable at three lengths, with one silver thread down the page |
 | Sectors | `sectors.html` | The founder's grid of 27 disciplines and 48 sectors, woven as a loom, with a page for each sector |
-| Creative corner | `creative.html` | A walk into a museum in first person, then the works: every piece on one wall, a filter to zoom into each creative domain (one page for both versions) |
+| Creative corner | `creative.html` | Three openings for the art of the day, the week and the month (a walk into a museum, the same walk in the dark, a simple viewer), then the gallery two ways (every piece on one wall, or one piece at a time); one page for both versions |
 | Investor corner | `investors.html` | Where money becomes wealth: the four rings of Earn, Spend, Invest and Save; things worth spending on; saving and investing on a line of risk, where to keep savings and a strategy finder; then the Family Wealth Picture, answered by a home that grows with the family's money, in a picture and a sentence, no figures |
 | Home, simple | `ink.html` | The film hero alone, one screen: who we are is on the simple About |
 | About, simple | `ink-about.html` | The name's meaning as a dictionary entry, then the firm's own words from the Notion page: vision, the four services, the deal, the practice, values, the founders and the team on coins |
@@ -51,14 +51,27 @@ Every page but the simple home ends with a suggestion of where to go next (the n
    orbits; point at a discipline or a sector to see what it moves); Hero 7, the ascent (a journey up through the seven
    orbits); Hero 8, the orbits, in grain (drag to turn them, hold to open them). To see one alone, as it would be once chosen, add
    `?hero=` and its number to the address (for example `index.html?hero=8`).
-2. **The creative corner's opening**: a first-person walk into a museum with your own hands in view (scroll to walk,
-   drag to look round); the art of the day, the week and the month on its walls; point at one and your hand points;
-   under each, a thumbs up (your hand gives one), Hire and See in detail; at the door, "Enter the gallery": your hand
-   pushes it, the room goes to black and the works arrive. "Enter the gallery" at the bottom right skips straight there.
-   Look up on the way. To see the hands in white cotton gloves instead, add `?hands=gloves` to the address.
-3. **The works**: every piece at once on one wall, in an order that changes each
-   day so no artist comes first. Choose a domain above it (Film making, Graphic design and the rest)
-   and the wall zooms into that domain's work; All goes back. Open any piece: it stands alone on black, with a white card beside it (below it on a phone) that has its maker, the ways to hire or enquire, more of the maker's work and more like it.
+2. **The creative corner's opening, three versions**, one under the other, each named at the top right:
+   - Opening 1, the walk: a first-person walk into a museum with your own hands in view (scroll to walk, drag to look
+     round); the art of the day, the week and the month on its walls; point at one and your hand points; under each, a
+     thumbs up (your hand gives one), Hire and See in detail; at the door your hand pushes it and the room goes to black.
+     Look up on the way. To see the hands in white cotton gloves instead, add `?hands=gloves` to the address.
+   - Opening 2, the walk in the dark: the same walk with the room in darkness, each piece lit by a light cut exactly to
+     its edges, its label in a small light of its own, the art reflected in a black polished floor.
+   - Opening 3, the viewer: no room at all; one piece at a time, large, in printer's crop marks; scroll to go from the
+     day's to the week's to the month's, the maker signing their name under the title.
+   Each walk's door takes you on to the next opening; "Enter the gallery" at the bottom right goes straight to the
+   gallery. Once one is chosen, the others go.
+3. **The gallery, two versions**:
+   - Gallery 1, the wall: every piece at once on one wall, in an order that changes each day so no artist comes first.
+     Choose a domain above it (Film making, Graphic design and the rest) and the wall zooms into that domain's work;
+     All goes back.
+   - Gallery 2, the viewer: one piece at a time with the domains as a list beside it and a strip of the domain's work
+     along the foot; the arrows, a click on the strip or a swipe move on.
+   Open any piece in either: it stands alone on black, with a white card beside it (below it on a phone) that has its
+   maker, the ways to hire or enquire, more of the maker's work and more like it.
+   To see one version alone: `creative.html?corner=viewer` (opening 3 with gallery 2), `creative.html?corner=walk`
+   (opening 1 with gallery 1; add `&wklight=dark` for opening 2).
 
 ## What is placeholder
 
